@@ -9,11 +9,11 @@ https://docs.djangoproject.com/en/6.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
-import os
-from dotenv import load_dotenv
+# import os
+# from dotenv import load_dotenv
 from pathlib import Path
 
-load_dotenv()
+# load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,23 +40,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.usuarios',
-    'app.sreportes',
-    'apps.recetas',
-    'apps.pagos',
-    'apps.pacientes',
-    'apps.notificaciones',
-    'apps.medicos',
-    'apps.medicamentos',
-    'apps.expediente_clinico',
-    'apps.especialidades',
-    'apps.documentos',
-    'apps.dashboard',
-    'apps.consultas',
-    'apps.configuracion',
-    'apps.citas',
-    'apps.autenticacion',
-    'apps.auditoria'
+    'apps.usuarios.apps.UsuariosConfig',
+    'apps.reportes.apps.ReportesConfig',
+    'apps.recetas.apps.RecetasConfig',
+    'apps.pagos.apps.PagosConfig',
+    'apps.pacientes.apps.PacientesConfig',
+    'apps.notificaciones.apps.NotificacionesConfig',
+    'apps.médicos.apps.MédicosConfig',
+    'apps.medicamentos.apps.MedicamentosConfig',
+    'apps.expediente_clínico.apps.ExpedienteClínicoConfig',
+    'apps.especialidades.apps.EspecialidadesConfig',
+    'apps.documentos.apps.DocumentosConfig',
+    'apps.dashboard.apps.DashboardConfig',
+    'apps.consultas.apps.ConsultasConfig',
+    'apps.configuración.apps.ConfiguraciónConfig',
+    'apps.citas.apps.CitasConfig',
+    'apps.autenticación.apps.AutenticaciónConfig',
+    'apps.auditoría.apps.AuditoríaConfig',
 ]
 
 MIDDLEWARE = [
@@ -94,12 +94,8 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv("DB_Name"),
-        'USER': os.getenv("DB_User"),
-        'PASSWORD': os.getenv("DB_Password"),
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
