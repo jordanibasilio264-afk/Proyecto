@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class MédicosConfig(AppConfig):
-    name = 'médicos'
+    name = 'apps.médicos'

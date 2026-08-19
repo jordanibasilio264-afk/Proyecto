@@ -40,6 +40,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'apps.usuarios',
+    'app.sreportes',
+    'apps.recetas',
+    'apps.pagos',
+    'apps.pacientes',
+    'apps.notificaciones',
+    'apps.medicos',
+    'apps.medicamentos',
+    'apps.expediente_clinico',
+    'apps.especialidades',
+    'apps.documentos',
+    'apps.dashboard',
+    'apps.consultas',
+    'apps.configuracion',
+    'apps.citas',
+    'apps.autenticacion',
+    'apps.auditoria'
 ]
 
 MIDDLEWARE = [
