@@ -44,9 +44,7 @@ INSTALLED_APPS = [
     'apps.reportes.apps.ReportesConfig',
     'apps.recetas.apps.RecetasConfig',
     'apps.pagos.apps.PagosConfig',
-    'apps.pacientes.apps.PacientesConfig',
     'apps.notificaciones.apps.NotificacionesConfig',
-    'apps.médicos.apps.MédicosConfig',
     'apps.medicamentos.apps.MedicamentosConfig',
     'apps.expediente_clínico.apps.ExpedienteClínicoConfig',
     'apps.especialidades.apps.EspecialidadesConfig',
@@ -55,7 +53,6 @@ INSTALLED_APPS = [
     'apps.consultas.apps.ConsultasConfig',
     'apps.configuración.apps.ConfiguraciónConfig',
     'apps.citas.apps.CitasConfig',
-    'apps.autenticación.apps.AutenticaciónConfig',
     'apps.auditoría.apps.AuditoríaConfig',
 ]
 
