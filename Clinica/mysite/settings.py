@@ -40,20 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.usuarios.apps.UsuariosConfig',
-    'apps.reportes.apps.ReportesConfig',
-    'apps.recetas.apps.RecetasConfig',
-    'apps.pagos.apps.PagosConfig',
-    'apps.notificaciones.apps.NotificacionesConfig',
-    'apps.medicamentos.apps.MedicamentosConfig',
-    'apps.expediente_clínico.apps.ExpedienteClínicoConfig',
-    'apps.especialidades.apps.EspecialidadesConfig',
-    'apps.documentos.apps.DocumentosConfig',
-    'apps.dashboard.apps.DashboardConfig',
-    'apps.consultas.apps.ConsultasConfig',
-    'apps.configuración.apps.ConfiguraciónConfig',
-    'apps.citas.apps.CitasConfig',
-    'apps.auditoría.apps.AuditoríaConfig',
+    'apps.Usuarios.apps.UsuariosConfig'
 ]
 
 MIDDLEWARE = [
