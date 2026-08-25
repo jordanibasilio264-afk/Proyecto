@@ -1,0 +1,247 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body.page-body {
+    background-color: #f9fafb;
+    color: #1f2937;
+    font-family: system-ui,sans-serif;
+}
+
+.layout-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+.menu{
+    width: 10rem;
+    background: linear-gradient(#087f88,#075875);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 0;
+}
+
+
+.main-content {
+    flex: 1;
+    padding: 2rem;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.logo-img {
+    height: 10rem;
+    width: 10rem;
+    position: relative;
+    bottom: 25px;
+}
+
+.header-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.notification-btn {
+    position: relative;
+    padding: 0.5rem;
+    color: #0d9488;
+    background: transparent;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    font-size: 1.25rem;
+}
+
+.notification-btn:hover {
+    background-color: #f0fdfa;
+}
+
+.notification-badge {
+    position: absolute;
+    top: 0.25rem;
+    right: 0.25rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: #14b8a6;
+    border-radius: 9999px;
+}
+
+.user-avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    object-fit: cover;
+}
+
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .card-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.shortcut-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background-color: #ffffff;
+    border-radius: 0.75rem;
+    border: 1px solid #e5e7eb;
+    text-decoration: none;
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.shortcut-card:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.card-icon {
+    font-size: 2.25rem;
+    color: #0d9488;
+    margin-bottom: 0.75rem;
+}
+
+.card-text {
+    font-weight: 500;
+    color: #374151;
+}
+
+
+.table-container {
+    background-color: #ffffff;
+    border-radius: 1rem;
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.table-header {
+    padding: 1rem;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.table-title {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #374151;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+}
+
+.table-head-row {
+    background-color: #e5e7eb;
+    color: #374151;
+    font-size: 0.875rem;
+}
+
+.table-th {
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+}
+
+.th-center, .td-center {
+    text-align: center;
+}
+
+.table-body {
+    font-size: 0.875rem;
+}
+
+.table-row {
+    border-top: 1px solid #f3f4f6;
+}
+
+.table-row:hover {
+    background-color: #f9fafb;
+}
+
+.table-td {
+    padding: 0.75rem 1rem;
+}
+
+.td-muted {
+    color: #4b5563;
+}
+
+.td-highlight {
+    font-weight: 500;
+    color: #1f2937;
+}
+
+.table-td-empty {
+    text-align: center;
+    padding: 1.5rem;
+    color: #6b7280;
+}
+
+
+.status-badge {
+    font-weight: 500;
+}
+
+.status-confirmada { color: #10b981; }
+.status-pendiente  { color: #fbbf24; }
+.status-reprogramada { color: #fb923c; }
+.status-cancelada  { color: #ef4444; }
+
+.action-btn {
+    background: transparent;
+    border: none;
+    color: #6b7280;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.action-btn:hover {
+    color: #374151;
+}
+
+.table-footer {
+    padding: 1rem;
+    border-top: 1px solid #f3f4f6;
+    text-align: center;
+}
+
+.link-view-all {
+    color: #14b8a6;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.link-view-all:hover {
+    color: #0d9488;}

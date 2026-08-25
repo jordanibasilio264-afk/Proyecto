@@ -1,24 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <link rel="stylesheet" href="style.css">
-    <title>My amazing blog</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de citas y Especialidades</title>
+    <link rel="stylesheet" href="/Clinica/static/style.css">
 </head>
+<body class="page-body">
 
-<body>
-    <div id="sidebar">
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/blog/">Blog</a></li>
-        </ul>
+    <div class="layout-container">
+       
+        <aside class="menu">
+            <div class="header-logo-container">
+                    <img src="/Clinica/static/images/logo xd.png" alt="Clínica Médica" class="logo-img">
+            </div>
+            <div class="sidebar-logo"></div>
+        </aside>
+
+     
+        <main class="main-content">
+            
+            <header class="main-header">
+
+                <h1 class="header-title">Gestión de citas.</h1>
+
+                <div class="header-actions">
+                    <button class="notification-btn">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="notification-badge"></span>
+                    </button>
+                    <img src="" alt="Usuario" class="user-avatar">
+                </div>
+            </header>
+
+            <section class="card-grid">
+                <a href="" class="shortcut-card">
+                    <img src="/Clinica/static/images/calendario 2.png" alt="Icono_de_citas">
+                    <span class="card-text">Registrar Citas</span>
+                </a>
+
+                <a href="" class="shortcut-card">
+                    <i class="card-icon"></i>
+                    <span class="card-text">Consultar Agenda</span>
+                </a>
+
+                <a href="" class="shortcut-card">
+                    <i class="card-icon"></i>
+                    <span class="card-text">.</span>
+                </a>
+            </section>
+           
+            <section class="table-container">
+                <div class="table-header">
+                    <h2 class="table-title">Citas Recientes</h2>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr class="table-head-row">
+                                <th class="table-th">ID Pagos</th>
+                                <th class="table-th">Paciente</th>
+                                <th class="table-th">Doctor</th>
+                                <th class="table-th">Especialidades</th>
+                                <th class="table-th">Fecha</th>
+                                <th class="table-th">Hora</th>
+                                <th class="table-th">Estado</th>
+                                <th class="table-th th-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-body">
+                           
+                            <tr class="table-row">
+                                <td class="table-td td-muted">h</td>
+                                <td class="table-td td-highlight">h</td>
+                                <td class="table-td td-muted">h</td>
+                                <td class="table-td td-muted">h</td>
+                                <td class="table-td td-muted">h</td>
+                                <td class="table-td td-muted">h</td>
+                                <td class="table-td">
+                                    
+                                        <!-- <span class="status-badge status-confirmada">Confirmada</span>
+                                    
+                                        <span class="status-badge status-pendiente">Pendiente</span>
+                                    
+                                        <span class="status-badge status-reprogramada">Reprogramada</span>
+                                    
+                                        <span class="status-badge status-cancelada">Cancelada</span> -->
+                                    
+                                </td>
+                                <td class="table-td td-center">
+                                    <button class="action-btn">:</button>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td colspan="8" class="table-td-empty">No hay citas registradas.</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-footer">
+                    <a href="" class="link-view-all">Ver mas.</a>
+                </div>
+            </section>
+        </main>
     </div>
 
-    <div id="content">
-        <h2>Entry one</h2>
-        <p>This is my first entry.</p>
-
-        <h2>Entry two</h2>
-        <p>This is my second entry.</p>
-    </div>
 </body>
 </html>
