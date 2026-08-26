@@ -5,28 +5,18 @@
 <head>
 
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Reportes</title>
-
-
-    <link rel="stylesheet" href="{% static 'reportes.css' %}">
+    <link rel="stylesheet"href="{% static '/reportes.css' %}">
 
 </head>
 
-
 <body>
-
-
 
 <div class="pagina">
 
-
     <aside class="menu-lateral">
-
-
 
         <div class="logo">
 
@@ -34,117 +24,68 @@
                 +
             </div>
 
-            <h2>
-                CLÍNICA MÉDICA
-            </h2>
+            <h2>CLÍNICA MÉDICA</h2>
 
-            <h3>
-                GENERAL Y FAMILIAR
-            </h3>
+            <h3>GENERAL Y FAMILIAR</h3>
 
-            <p>
-                SALUD Y BIENESTAR PARA TODA LA FAMILIA
-            </p>
+            <p>SALUD Y BIENESTAR</p>
 
         </div>
-
 
 
         <nav class="menu">
 
-
             <a href="#" class="opcion">
-
                 <span>⌂</span>
-
                 Dashboard
-
             </a>
 
-
             <a href="#" class="opcion">
-
                 <span>♟</span>
-
                 Pacientes
-
             </a>
 
-
             <a href="#" class="opcion">
-
                 <span>▣</span>
-
                 Citas
-
             </a>
 
-
             <a href="#" class="opcion">
-
                 <span>▤</span>
-
                 Pagos
-
             </a>
-
 
             <a href="#" class="opcion">
-
                 <span>▧</span>
-
                 Recibos
-
             </a>
-
-
 
             <a href="#" class="opcion activa">
-
                 <span>▥</span>
-
                 Reportes
-
             </a>
-
 
             <a href="#" class="opcion">
-
                 <span>⚙</span>
-
                 Configuración
-
             </a>
-
 
         </nav>
 
 
-
         <div class="cerrar">
-
-            <span>↪</span>
-
-            Cerrar sesión
-
+            ↪ Cerrar sesión
         </div>
-
 
     </aside>
 
-
-
     <main class="contenido">
-
 
         <header class="encabezado">
 
-
             <div>
 
-                <h1>
-                 Reportes
-                </h1>
+                <h1>Reportes</h1>
 
                 <p>
                     Genera y consulta reportes de la clínica.
@@ -155,16 +96,13 @@
 
             <div class="usuario">
 
-
                 <div class="notificacion">
                     🔔
                 </div>
 
-
                 <div class="usuario-icono">
                     👤
                 </div>
-
 
                 <div class="usuario-texto">
 
@@ -178,18 +116,11 @@
 
                 </div>
 
-
             </div>
-
 
         </header>
 
-
-
-
-
         <section class="filtros">
-
 
             <div class="titulo">
 
@@ -207,7 +138,6 @@
             <div class="filtros-form">
 
 
-
                 <div class="campo">
 
                     <label>
@@ -217,33 +147,32 @@
                     <select>
 
                         <option>
-                            Reporte de Pacientes
+                            Pacientes
                         </option>
 
                         <option>
-                            Reporte de Citas
+                            Citas
                         </option>
 
                         <option>
-                            Reporte de Consultas
+                            Consultas
                         </option>
 
                         <option>
-                            Reporte de Pagos
+                            Pagos
                         </option>
 
                         <option>
-                            Reporte de Diagnósticos
+                            Diagnósticos
                         </option>
 
                         <option>
-                            Reporte de Médicos
+                            Médicos
                         </option>
 
                     </select>
 
                 </div>
-
 
 
                 <div class="campo">
@@ -252,13 +181,9 @@
                         Desde
                     </label>
 
-                    <input
-                        type="date"
-                        value="2025-07-01"
-                    >
+                    <input type="date">
 
                 </div>
-
 
 
                 <div class="campo">
@@ -267,32 +192,20 @@
                         Hasta
                     </label>
 
-                    <input
-                        type="date"
-                        value="2025-07-20"
-                    >
+                    <input type="date">
 
                 </div>
 
 
                 <button class="boton-consultar">
-
                     🔎 Consultar
-
                 </button>
-
 
             </div>
 
-
         </section>
 
-
-
-       
-
         <section class="zona-reportes">
-
 
             <div class="titulo">
 
@@ -307,94 +220,72 @@
             </div>
 
 
-
             <div class="tarjetas">
 
-
                 <div class="tarjeta">
-
 
                     <div class="icono-reporte">
                         ♟
                     </div>
 
-
                     <div class="informacion">
-
 
                         <h3>
                             Reporte de Pacientes
                         </h3>
-
 
                         <p>
                             Lista de pacientes registrados
                             en el sistema.
                         </p>
 
-
                         <div class="parte-inferior">
-
 
                             <span>
                                 {{ pacientes }} registros
                             </span>
 
-
                             <div class="botones">
-
 
                                 <button class="pdf">
                                     PDF
                                 </button>
 
-
                                 <button class="excel">
                                     Excel
                                 </button>
 
-
                             </div>
-
 
                         </div>
 
-
                     </div>
-
 
                 </div>
 
                 <div class="tarjeta">
 
-
                     <div class="icono-reporte">
                         ▣
                     </div>
 
-
                     <div class="informacion">
-
 
                         <h3>
                             Reporte de Citas
                         </h3>
-
 
                         <p>
                             Lista de citas médicas
                             registradas.
                         </p>
 
-
                         <div class="parte-inferior">
-
 
                             <span>
                                 {{ citas }} registros
                             </span>
 
-
                             <div class="botones">
 
                                 <button class="pdf">
@@ -407,49 +298,34 @@
 
                             </div>
 
-
                         </div>
-
 
                     </div>
 
-
                 </div>
 
-
-
-     
-
                 <div class="tarjeta">
-
 
                     <div class="icono-reporte">
                         ♡
                     </div>
 
-
                     <div class="informacion">
-
 
                         <h3>
                             Reporte de Consultas
                         </h3>
 
-
                         <p>
-                            Información de las consultas
-                            médicas realizadas.
+                            Consultas médicas realizadas.
                         </p>
 
-
                         <div class="parte-inferior">
-
 
                             <span>
                                 {{ consultas }} registros
                             </span>
 
-
                             <div class="botones">
 
                                 <button class="pdf">
@@ -462,48 +338,34 @@
 
                             </div>
 
-
                         </div>
-
 
                     </div>
 
-
                 </div>
 
-
-
-
                 <div class="tarjeta">
-
 
                     <div class="icono-reporte">
                         $
                     </div>
 
-
                     <div class="informacion">
-
 
                         <h3>
                             Reporte de Pagos
                         </h3>
 
-
                         <p>
-                            Pagos realizados y pendientes
-                            de los pacientes.
+                            Pagos realizados por pacientes.
                         </p>
 
-
                         <div class="parte-inferior">
-
 
                             <span>
                                 {{ pagos }} registros
                             </span>
 
-
                             <div class="botones">
 
                                 <button class="pdf">
@@ -516,46 +378,34 @@
 
                             </div>
 
-
                         </div>
-
 
                     </div>
 
-
                 </div>
 
-
                 <div class="tarjeta">
-
 
                     <div class="icono-reporte">
                         +
                     </div>
 
-
                     <div class="informacion">
-
 
                         <h3>
                             Reporte de Diagnósticos
                         </h3>
 
-
                         <p>
-                            Diagnósticos registrados
-                            en las consultas.
+                            Diagnósticos registrados.
                         </p>
 
-
                         <div class="parte-inferior">
-
 
                             <span>
                                 {{ diagnosticos }} registros
                             </span>
 
-
                             <div class="botones">
 
                                 <button class="pdf">
@@ -568,47 +418,33 @@
 
                             </div>
 
-
                         </div>
-
 
                     </div>
 
-
                 </div>
 
-
-
-
                 <div class="tarjeta">
-
 
                     <div class="icono-reporte">
                         ⚕
                     </div>
 
-
                     <div class="informacion">
-
 
                         <h3>
                             Reporte de Médicos
                         </h3>
 
-
                         <p>
-                            Médicos registrados y sus
-                            especialidades.
+                            Médicos y especialidades.
                         </p>
 
-
                         <div class="parte-inferior">
-
 
                             <span>
                                 {{ medicos }} registros
                             </span>
-
 
                             <div class="botones">
 
@@ -622,24 +458,18 @@
 
                             </div>
 
-
                         </div>
 
-
                     </div>
-
 
                 </div>
 
 
             </div>
 
-
         </section>
 
-
         <section class="resumen">
-
 
 
             <div class="resumen-card">
@@ -663,7 +493,6 @@
             </div>
 
 
-
             <div class="resumen-card">
 
                 <div class="resumen-icono">
@@ -683,7 +512,6 @@
                 </div>
 
             </div>
-
 
 
             <div class="resumen-card">
@@ -707,7 +535,6 @@
             </div>
 
 
-
             <div class="resumen-card">
 
                 <div class="resumen-icono">
@@ -728,20 +555,13 @@
 
             </div>
 
-
         </section>
 
-
-
-        
-
         <section class="exportar">
-
 
             <div class="exportar-icono">
                 ⇩
             </div>
-
 
             <div class="exportar-texto">
 
@@ -750,38 +570,26 @@
                 </h2>
 
                 <p>
-                    Descarga los reportes en formato PDF
-                    o Excel.
+                    Descarga los reportes en PDF o Excel.
                 </p>
 
             </div>
 
-
             <div class="exportar-botones">
 
                 <button class="boton-pdf">
-
                     📄 Descargar PDF
-
                 </button>
 
-
                 <button class="boton-excel">
-
                     📊 Descargar Excel
-
                 </button>
 
             </div>
 
-
         </section>
 
-
-
-
         <footer>
-
 
             <div>
 
@@ -795,7 +603,6 @@
 
             </div>
 
-
             <div>
 
                 <strong>
@@ -803,11 +610,10 @@
                 </strong>
 
                 <span>
-                    Tus datos protegidos
+                    Datos protegidos
                 </span>
 
             </div>
-
 
             <div>
 
@@ -816,11 +622,10 @@
                 </strong>
 
                 <span>
-                    Visualiza tu información
+                    Información fácil de consultar
                 </span>
 
             </div>
-
 
             <div>
 
@@ -829,20 +634,16 @@
                 </strong>
 
                 <span>
-                    Accede desde cualquier dispositivo
+                    Acceso desde cualquier dispositivo
                 </span>
 
             </div>
 
-
         </footer>
-
-
+        
     </main>
 
-
 </div>
-
 
 </body>
 
