@@ -1,0 +1,358 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f7f9fa;
+    color: #202020;
+}
+.dashboard {
+    min-height: 100vh;
+}
+.topbar {
+    height: 82px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: #e8f5f6;
+    border-bottom: 1px solid #dce7e8;
+}
+.logo {
+    width: 150px;
+    height: auto;
+}
+.menu-btn,
+.logout-btn {
+    position: absolute;
+    border: none;
+    cursor: pointer;
+}
+.menu-btn {
+    left: 35px;
+    background: transparent;
+    color: #43a995;
+    font-size: 34px;
+}
+.logout-btn {
+    right: 35px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: #31a9c9;
+    color: white;
+    font-size: 24px;
+}
+.content {
+    width: min(1350px, 94%);
+    margin: 30px auto;
+}
+.content h1 {
+    margin-bottom: 30px;
+    font-size: 25px;
+    font-weight: 500;
+}
+.filters {
+    display: flex;
+    align-items: end;
+    gap: 25px;
+    margin-bottom: 18px;
+}
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.filter-group label {
+    font-size: 14px;
+    font-weight: 500;
+}
+.search-group {
+    flex: 1.6;
+}
+.search-box {
+    height: 42px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #dddddd;
+    border-radius: 7px;
+    background-color: white;
+}
+.search-box span {
+    padding-left: 13px;
+    font-size: 23px;
+}
+.search-box input {
+    width: 100%;
+    height: 100%;
+    padding: 0 12px;
+    border: none;
+    outline: none;
+    font-size: 13px;
+}
+.search-icon{
+    width: 25px;
+    height: 25px;
+    margin-left: 10px;
+}
+.filter-group select {
+    width: 175px;
+    height: 42px;
+    padding: 0 12px;
+    border: 1px solid #dddddd;
+    border-radius: 7px;
+    background-color: white;
+    outline: none;
+    font-size: 13px;
+}
+.new-user-btn {
+    height: 42px;
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: none;
+    border-radius: 7px;
+    background-color: #149c89;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.new-user-btn span {
+    font-size: 21px;
+}
+.new-user-btn:hover {
+    background-color: #108574;
+}
+.table-container {
+    padding: 20px 25px 25px;
+    background-color: white;
+    border: 1px solid #eeeeee;
+    border-radius: 9px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+table {
+    width: 100%;
+    min-width: 1050px;
+    border-collapse: collapse;
+}
+thead {
+    background-color: #eaf5f5;
+}
+th {
+    padding: 14px 12px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+td {
+    padding: 17px 12px;
+    border-bottom: 1px solid #eeeeee;
+    font-size: 13px;
+    white-space: nowrap;
+}
+.user-name {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.avatar {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #d5eeee;
+    color: #333;
+    font-size: 14px;
+    font-weight: bold;
+}
+td a {
+    color: #222;
+    text-decoration: underline;
+}
+.role {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 7px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+.admin {
+    background-color: #f0e6ff;
+    color: #8c43d1;
+}
+.receptionist {
+    background-color: #e0efff;
+    color: #4284c4;
+}
+.doctor {
+    background-color: #e0f6e7;
+    color: #45a35d;
+}
+.laboratory {
+    background-color: #fff1d8;
+    color: #bd9852;
+}
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 7px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+.status span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+.active {
+    background-color: #e0f3e5;
+    color: #2b9b47;
+}
+.active span {
+    background-color: #19d847;
+}
+.inactive {
+    background-color: #ffe4e4;
+    color: #d64141;
+}
+.inactive span {
+    background-color: #d72828;
+}
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+.actions button {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid #dddddd;
+    border-radius: 6px;
+    background-color: white;
+    cursor: pointer;
+    transition: background-color 0.2s,
+                transform 0.1s;
+}
+.actions button:hover {
+    background-color: #f3f3f3;
+}
+.actions button:active {
+    transform: scale(0.94);
+}
+.actions button img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    display: block;
+}
+.actions .delete:hover {
+    background-color: #fff0f0;
+}
+.pagination {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    margin-top: 28px;
+}
+.pagination button {
+    width: 38px;
+    height: 35px;
+    border: 1px solid #dddddd;
+    border-radius: 6px;
+    background-color: white;
+    cursor: pointer;
+    font-size: 13px;
+}
+.pagination button:hover {
+    background-color: #f4f4f4;
+}
+.pagination .current {
+    background-color: #149c89;
+    color: white;
+    border-color: #149c89;
+}
+.pagination span {
+    padding: 0 6px;
+}
+@media (max-width: 1000px) {
+    .content {
+        width: 94%;
+    }
+    .filters {
+        flex-wrap: wrap;
+    }
+    .search-group {
+        flex: 1 1 100%;
+    }
+    .new-user-btn {
+        margin-left: auto;
+    }
+}
+@media (max-width: 600px) {
+    .topbar {
+        height: 65px;
+    }
+    .logo {
+        width: 65px;
+    }
+    .menu-btn {
+        left: 15px;
+        font-size: 28px;
+    }
+    .logout-btn {
+        right: 15px;
+        width: 37px;
+        height: 37px;
+        font-size: 20px;
+    }
+    .content {
+        width: 94%;
+        margin: 22px auto;
+    }
+    .content h1 {
+        margin-bottom: 22px;
+        font-size: 21px;
+    }
+    .filters {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+    .filter-group select {
+        width: 100%;
+    }
+    .new-user-btn {
+        width: 100%;
+        margin: 0;
+    }
+    .table-container {
+        padding: 12px;
+    }
+    .table-wrapper {
+        overflow-x: auto;
+    }
+    .pagination {
+        justify-content: center;
+        margin-top: 20px;
+    }
+}
