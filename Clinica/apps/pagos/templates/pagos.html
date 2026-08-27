@@ -1,0 +1,579 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Gestión de Pagos</title>
+
+    <link rel="stylesheet"
+          href="{% static 'pagos.css' %}">
+
+</head>
+
+<body>
+
+<div class="pagina">
+
+    <aside class="menu-lateral">
+
+        <div class="logo">
+
+            <div class="logo-icono">
+                +
+            </div>
+
+            <h2>CLÍNICA MÉDICA</h2>
+
+            <h3>GENERAL Y FAMILIAR</h3>
+
+            <p>SALUD Y BIENESTAR</p>
+
+        </div>
+
+        <nav class="menu">
+
+            <a href="#" class="opcion">
+                <span>⌂</span>
+                Dashboard
+            </a>
+
+            <a href="#" class="opcion">
+                <span>♟</span>
+                Pacientes
+            </a>
+
+            <a href="#" class="opcion">
+                <span>▣</span>
+                Citas
+            </a>
+
+            <a href="#" class="opcion activa">
+                <span>$</span>
+                Pagos
+            </a>
+
+            <a href="#" class="opcion">
+                <span>▧</span>
+                Recibos
+            </a>
+
+            <a href="#" class="opcion">
+                <span>▥</span>
+                Reportes
+            </a>
+
+            <a href="#" class="opcion">
+                <span>⚙</span>
+                Configuración
+            </a>
+
+        </nav>
+
+        <div class="cerrar">
+            ↪ Cerrar sesión
+        </div>
+
+    </aside>
+
+    <main class="contenido">
+
+        <header class="encabezado">
+
+            <div>
+
+                <h1>
+                    Gestión de Pagos
+                </h1>
+
+                <p>
+                    Registra y consulta los pagos de los pacientes.
+                </p>
+
+            </div>
+
+            <div class="usuario">
+
+                <div class="notificacion">
+                    🔔
+                </div>
+
+                <div class="usuario-icono">
+                    👤
+                </div>
+
+                <div class="usuario-texto">
+
+                    <strong>
+                        Dr. Alejandro
+                    </strong>
+
+                    <small>
+                        Administrador
+                    </small>
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <section class="formulario">
+
+            <div class="titulo">
+
+                <h2>
+                    Registrar Pago
+                </h2>
+
+                <p>
+                    Ingresa los datos del pago del paciente.
+                </p>
+
+            </div>
+
+            <div class="formulario-grid">
+
+                <div class="campo">
+
+                    <label>
+                        Paciente
+                    </label>
+
+                    <select>
+
+                        <option>
+                            Seleccionar paciente
+                        </option>
+
+                        <option>
+                            Juan Pérez
+                        </option>
+
+                        <option>
+                            María Rodríguez
+                        </option>
+
+                        <option>
+                            Carlos Martínez
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="campo">
+
+                    <label>
+                        Monto
+                    </label>
+
+                    <input
+                        type="number"
+                        placeholder="RD$ 0.00"
+                    >
+
+                </div>
+
+                <div class="campo">
+
+                    <label>
+                        Fecha
+                    </label>
+
+                    <input
+                        type="date"
+                    >
+
+                </div>
+
+                <div class="campo">
+
+                    <label>
+                        Método de Pago
+                    </label>
+
+                    <select>
+
+                        <option>
+                            Seleccionar
+                        </option>
+
+                        <option>
+                            Efectivo
+                        </option>
+
+                        <option>
+                            Tarjeta
+                        </option>
+
+                        <option>
+                            Transferencia
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <button class="boton-guardar">
+
+                    + Registrar Pago
+
+                </button>
+
+            </div>
+
+        </section>
+
+        <section class="filtros">
+
+            <div class="titulo">
+
+                <h2>
+                    Consultar Ingresos
+                </h2>
+
+                <p>
+                    Consulta los ingresos según la fecha.
+                </p>
+
+            </div>
+
+            <div class="filtros-form">
+
+                <div class="campo">
+
+                    <label>
+                        Desde
+                    </label>
+
+                    <input type="date">
+
+                </div>
+
+                <div class="campo">
+
+                    <label>
+                        Hasta
+                    </label>
+
+                    <input type="date">
+
+                </div>
+
+                <button class="boton-consultar">
+
+                    🔎 Consultar
+
+                </button>
+
+            </div>
+
+        </section>
+
+        <section class="resumen">
+
+            <div class="resumen-card">
+
+                <div class="resumen-icono">
+                    $
+                </div>
+
+                <div>
+
+                    <span>
+                        Total de Pagos
+                    </span>
+
+                    <strong>
+                        {{ total_pagos }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+            <div class="resumen-card">
+
+                <div class="resumen-icono">
+                    ✓
+                </div>
+
+                <div>
+
+                    <span>
+                        Pagos de Hoy
+                    </span>
+
+                    <strong>
+                        {{ pagos_hoy }}
+                    </strong>
+
+                </div>
+
+            </div>
+            
+            <div class="resumen-card">
+
+                <div class="resumen-icono">
+                    $
+                </div>
+
+                <div>
+
+                    <span>
+                        Ingresos
+                    </span>
+
+                    <strong>
+                        {{ ingresos }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+            <div class="resumen-card">
+
+                <div class="resumen-icono">
+                    !
+                </div>
+
+                <div>
+
+                    <span>
+                        Pendientes
+                    </span>
+
+                    <strong>
+                        {{ pendientes }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="pagos">
+
+            <div class="titulo">
+
+                <h2>
+                    Pagos Registrados
+                </h2>
+
+                <p>
+                    Consulta los pagos realizados por los pacientes.
+                </p>
+
+            </div>
+
+            <div class="tabla">
+
+                <div class="fila encabezado-tabla">
+
+                    <span>
+                        Paciente
+                    </span>
+
+                    <span>
+                        Fecha
+                    </span>
+
+                    <span>
+                        Método
+                    </span>
+
+                    <span>
+                        Monto
+                    </span>
+
+                    <span>
+                        Estado
+                    </span>
+
+                    <span>
+                        Recibo
+                    </span>
+
+                </div>
+
+                <div class="fila">
+
+                    <span>
+                        Juan Pérez
+                    </span>
+
+                    <span>
+                        20/08/2026
+                    </span>
+
+                    <span>
+                        Efectivo
+                    </span>
+
+                    <span>
+                        RD$1,500.00
+                    </span>
+
+                    <span class="estado">
+                        Pagado
+                    </span>
+
+                    <button class="recibo">
+                        PDF
+                    </button>
+
+                </div>
+
+                <div class="fila">
+
+                    <span>
+                        María Rodríguez
+                    </span>
+
+                    <span>
+                        21/08/2026
+                    </span>
+
+                    <span>
+                        Tarjeta
+                    </span>
+
+                    <span>
+                        RD$2,000.00
+                    </span>
+
+                    <span class="estado">
+                        Pagado
+                    </span>
+
+                    <button class="recibo">
+                        PDF
+                    </button>
+
+                </div>
+
+                <div class="fila">
+
+                    <span>
+                        Carlos Martínez
+                    </span>
+
+                    <span>
+                        22/08/2026
+                    </span>
+
+                    <span>
+                        Transferencia
+                    </span>
+
+                    <span>
+                        RD$1,250.00
+                    </span>
+
+                    <span class="pendiente">
+                        Pendiente
+                    </span>
+
+                    <button class="recibo">
+                        PDF
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="exportar">
+
+            <div class="exportar-icono">
+                ⇩
+            </div>
+
+            <div class="exportar-texto">
+
+                <h2>
+                    Generar Recibos
+                </h2>
+
+                <p>
+                    Descarga los recibos de pago en formato PDF.
+                </p>
+
+            </div>
+
+
+            <button class="boton-pdf">
+                📄 Descargar Recibo PDF
+            </button>
+
+        </section>
+
+        <footer>
+
+            <div>
+
+                <strong>
+                    Pagos Seguros
+                </strong>
+
+                <span>
+                    Información protegida
+                </span>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Recibos Digitales
+                </strong>
+
+                <span>
+                    Descarga tus recibos
+                </span>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Control de Ingresos
+                </strong>
+
+                <span>
+                    Consulta por fecha
+                </span>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Información Clara
+                </strong>
+
+                <span>
+                    Pagos organizados
+                </span>
+
+            </div>
+
+        </footer>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>
