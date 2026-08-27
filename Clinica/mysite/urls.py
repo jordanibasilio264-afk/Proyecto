@@ -23,6 +23,6 @@ urlpatterns = [
     path('usuarios/', include('apps.usuarios.urls')),
     path('', views.login_view, name='home'),
     path("reportes/",include("apps.Reportes.urls")),
-    path("pagos/",include("apps.pagos.urls"))
-  
+    path("pagos/",include("apps.pagos.urls")),
+    path("citas/",include("apps.Citas.urls")),
   ]   

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'apps.usuarios.apps.UsuariosConfig',
     'apps.Reportes.apps.ReportesConfig',
     'apps.pagos.apps.PagosConfig',
+    'apps.Citas.apps.CitasConfig',
 ]
 
 MIDDLEWARE = [

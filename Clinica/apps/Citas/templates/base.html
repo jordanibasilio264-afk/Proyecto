@@ -1,20 +1,31 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de citas y Especialidades</title>
-    <link rel="stylesheet" href="/Clinica/static/style.css">
+    <link rel="stylesheet" href="{% static '/style.css' %}">
 </head>
 <body class="page-body">
 
     <div class="layout-container">
        
-        <aside class="menu">
-            <div class="header-logo-container">
-                    <img src="/Clinica/static/images/logo xd.png" alt="Clínica Médica" class="logo-img">
+        <aside class="menu-lateral">
+            <div class="">
+                <img src="{% static 'images/logo xd.png' %}" alt="Clínica Médica" class="logo-img">
+                <nav class="menu">
+                    <a href="#" class="opcion"> <span>⌂</span> Dashboard</a>
+                    <a href="#" class="opcion"> <span>♟</span> Pacientes</a>
+                    <a href="#" class="opcion activa"> <span>▣</span> Citas</a>
+                    <a href="#" class="opcion"> <span>▤</span> Pagos</a>
+                    <a href="#" class="opcion"> <span>▧</span> Recibos</a>
+                    <a href="#" class="opcion"> <span>▥</span> Reportes</a>
+                    <a href="#" class="opcion"> <span>⚙</span> Configuración</a>
+                </nav>    
+
             </div>
-            <div class="sidebar-logo"></div>
+            <a href="#" class="cerrar">↪ Cerrar sesión</a>
         </aside>
 
      
@@ -35,18 +46,13 @@
 
             <section class="card-grid">
                 <a href="" class="shortcut-card">
-                    <img src="/Clinica/static/images/calendario 2.png" alt="Icono_de_citas">
+                    <img src="{% static 'images/registro_citas.png' %}" alt="Icono_de_citas">
                     <span class="card-text">Registrar Citas</span>
                 </a>
 
                 <a href="" class="shortcut-card">
-                    <i class="card-icon"></i>
+                    <img src="{% static 'images/Agenda_imagen.png' %}" alt="Icono_de_agenda">
                     <span class="card-text">Consultar Agenda</span>
-                </a>
-
-                <a href="" class="shortcut-card">
-                    <i class="card-icon"></i>
-                    <span class="card-text">.</span>
                 </a>
             </section>
            
@@ -59,7 +65,7 @@
                     <table class="data-table">
                         <thead>
                             <tr class="table-head-row">
-                                <th class="table-th">ID Pagos</th>
+                                <th class="table-th">ID</th>
                                 <th class="table-th">Paciente</th>
                                 <th class="table-th">Doctor</th>
                                 <th class="table-th">Especialidades</th>
