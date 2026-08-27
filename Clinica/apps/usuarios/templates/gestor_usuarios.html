@@ -1,0 +1,389 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de usuarios</title>
+    <link rel="stylesheet" href="{% static 'css/gestor_usuarios.css' %}">
+</head>
+
+<body>
+
+    <div class="dashboard">
+        <header class="topbar">
+            <button class="menu-btn" id="menuBtn">
+                ☰
+            </button>
+            <img src="{% static 'images/logo sinfondo.png' %}" alt="Clínica Médica" class="logo">
+            <button class="logout-btn">
+                ⇥
+            </button>
+        </header>
+        <main class="content">
+            <h1>Gestor de usuarios</h1>
+            <section class="filters">
+                <div class="filter-group search-group">
+                    <label for="search">
+                        Buscar usuario
+                    </label>
+                    <div class="search-box">
+                       <img src="{% static 'icons/buscar icono.png' %}"  alt="Buscar" class="search-icon">
+                        <input type="text" id="search" placeholder="Buscar por nombre, usuario o correo...">
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <label for="role">
+                        Rol
+                    </label>
+                    <select id="role">
+                        <option value="">
+                            Todos los roles
+                        </option>
+                        <option value="administrador">
+                            Administrador
+                        </option>
+                        <option value="recepcionista">
+                            Recepcionista
+                        </option>
+                        <option value="medico">
+                            Médico
+                        </option>
+                        <option value="laboratorio">
+                            Laboratorio
+                        </option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="status">
+                        Estado
+                    </label>
+                    <select id="status">
+                        <option value="">
+                            Todos
+                        </option>
+                        <option value="activo">
+                            Activo
+                        </option>
+                        <option value="inactivo">
+                            Inactivo
+                        </option>
+                    </select>
+                </div>
+                <button class="new-user-btn">
+                    <span>+</span>
+                    Nuevo Usuario
+                </button>
+            </section>
+            <section class="table-container">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Usuario</th>
+                                <th>Correo</th>
+                                <th>Rol</th>
+                                <th>Estado</th>
+                                <th>Fecha registro</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>
+                                    <div class="user-name">
+                                        <span class="avatar">
+                                            J
+                                        </span>
+                                        <strong>Jhon</strong>
+                                    </div>
+                                </td>
+                                <td>
+                                    <strong>Jhon doe</strong>
+                                </td>
+                                <td>
+                                    <a href="mailto:usuario@gmail.com">
+                                        usuario@gmail.com
+                                    </a>
+                                </td>
+                                <td>
+                                    <span class="role admin">
+                                        Administrador
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status active">
+                                        <span></span>
+                                        Activo
+                                    </span>
+                                </td>
+                                <td>
+                                    12/03/2025
+                                </td>
+                                <td>
+
+                                   <div class="actions">
+
+    <button type="button" title="Ver usuario">
+        <img src="{% static 'icons/ver icono.png' %}" alt="Ver">
+    </button>
+
+    <button type="button" title="Editar usuario">
+        <img src="{% static 'icons/editar icono.png' %}" alt="Editar">
+    </button>
+
+    <button type="button" title="Eliminar usuario" class="delete"> 
+        <img src="{% static 'icons/icono borrar.png' %}"alt="Eliminar">
+    </button>
+
+    <button type="button" title="Bloquear usuario">
+        <img src="{% static 'icons/candado.png' %}" alt="Bloquear">
+    </button>
+
+</div>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>
+                                    <div class="user-name">
+                                        <span class="avatar">
+                                            J
+                                        </span>
+                                        <strong>Jhon</strong>
+                                    </div>
+                                </td>
+                                <td>
+                                    <strong>Jhon doe</strong>
+                                </td>
+                                <td>
+                                    <a href="mailto:usuario@gmail.com">
+                                        usuario@gmail.com
+                                    </a>
+                                </td>
+                                <td>
+                                    <span class="role receptionist">
+                                        Recepcionista
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status active">
+                                        <span></span>
+                                        Activo
+                                    </span>
+                                </td>
+                                <td>
+                                    30/03/2026
+                                </td>
+                                <td>
+                                                                    <div class="actions">
+
+    <button type="button" title="Ver usuario">
+         <img src="{% static 'icons/ver icono.png' %}" alt="Ver">
+    </button>
+
+    <button type="button" title="Editar usuario">
+       <img src="{% static 'icons/editar icono.png' %}" alt="Editar">
+    </button>
+
+    <button type="button" title="Eliminar usuario" class="delete"> 
+        <img src="{% static 'icons/icono borrar.png' %}"alt="Eliminar">
+    </button>
+
+    <button type="button" title="Bloquear usuario">
+        <img src="{% static 'icons/candado.png' %}" alt="Bloquear">
+    </button>
+
+</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>
+                                    <div class="user-name">
+                                        <span class="avatar">
+                                            J
+                                        </span>
+                                        <strong>Jhon</strong>
+                                    </div>
+                                </td>
+                                <td>
+                                    <strong>Jhon doe</strong>
+                                </td>
+                                <td>
+                                    <a href="mailto:usuario@gmail.com">
+                                        usuario@gmail.com
+                                    </a>
+                                </td>
+                                <td>
+                                    <span class="role doctor">
+                                        Médico
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status active">
+                                        <span></span>
+                                        Activo
+                                    </span>
+                                </td>
+                                <td>
+                                    24/05/2023
+                                </td>
+                                <td>
+                                                                    <div class="actions">
+
+    <button type="button" title="Ver usuario">
+         <img src="{% static 'icons/ver icono.png' %}" alt="Ver">
+    </button>
+
+    <button type="button" title="Editar usuario">
+       <img src="{% static 'icons/editar icono.png' %}" alt="Editar">
+    </button>
+
+    <button type="button" title="Eliminar usuario" class="delete"> 
+       <img src="{% static 'icons/icono borrar.png' %}"alt="Eliminar">
+    </button>
+
+    <button type="button" title="Bloquear usuario">
+        <img src="{% static 'icons/candado.png' %}" alt="Bloquear">
+    </button>
+
+</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>
+                                    <div class="user-name">
+                                        <span class="avatar">
+                                            J
+                                        </span>
+                                        <strong>Jhon</strong>
+                                    </div>
+                                </td>
+                                <td>
+                                    <strong>Jhon doe</strong>
+                                </td>
+                                <td>
+                                    <a href="mailto:usuario@gmail.com">
+                                        usuario@gmail.com
+                                    </a>
+                                </td>
+                                <td>
+                                    <span class="role doctor">
+                                        Médico
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status active">
+                                        <span></span>
+                                        Activo
+                                    </span>
+                                </td>
+                                <td>
+                                    12/04/2023
+                                </td>
+                                <td>
+                                                                    <div class="actions">
+
+    <button type="button" title="Ver usuario">
+        <img src="{% static 'icons/ver icono.png' %}" alt="Ver">
+    </button>
+
+    <button type="button" title="Editar usuario">
+       <img src="{% static 'icons/editar icono.png' %}" alt="Editar">
+    </button>
+
+    <button type="button" title="Eliminar usuario" class="delete"> 
+        <img src="{% static 'icons/icono borrar.png' %}"alt="Eliminar">
+    </button>
+
+    <button type="button" title="Bloquear usuario">
+        <img src="{% static 'icons/candado.png' %}" alt="Bloquear">
+    </button>
+
+</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>
+                                    <div class="user-name">
+                                        <span class="avatar">
+                                            J
+                                        </span>
+                                        <strong>Jhon</strong>
+                                    </div>
+                                </td>
+                                <td>
+                                    <strong>Jhon doe</strong>
+                                </td>
+                                <td>
+                                    <a href="mailto:usuario@gmail.com">
+                                        usuario@gmail.com
+                                    </a>
+                                </td>
+                                <td>
+                                    <span class="role laboratory">
+                                        Laboratorio
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status inactive">
+                                        <span></span>
+                                        Inactivo
+                                    </span>
+                                </td>
+                                <td>
+                                    10/01/2020
+                                </td>
+                                <td>
+<div class="actions">
+    <button type="button" title="Ver usuario">
+         <img src="{% static 'icons/ver icono.png' %}" id="ver" alt="Ver">
+    </button>
+
+    <button type="button" title="Editar usuario">
+        <img src="{% static 'icons/editar icono.png' %}"  alt="Editar">
+    </button>
+
+    <button type="button" title="Eliminar usuario" class="delete"> 
+        <img src="{% static 'icons/icono borrar.png' %}" class="eliminar" alt="Eliminar">
+    </button>
+
+    <button type="button" title="Bloquear usuario">
+        <img src="{% static 'icons/candado.png' %}" alt="Bloquear">
+    </button>
+
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination">
+                    <button>‹</button>
+                    <button class="current">
+                        1
+                    </button>
+                    <button>
+                        2
+                    </button>
+                    <button>
+                        3
+                    </button>
+                    <span>...</span>
+                    <button>
+                        5
+                    </button>
+                    <button>›</button>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
