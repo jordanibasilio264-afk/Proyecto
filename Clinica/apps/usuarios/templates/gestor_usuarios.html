@@ -70,9 +70,8 @@
                         </option>
                     </select>
                 </div>
-                <button class="new-user-btn">
-                    <span>+</span>
-                    Nuevo Usuario
+                <button type="button" class="new-user-btn" id="openUserModal">
+                + Nuevo Usuario
                 </button>
             </section>
             <section class="table-container">
@@ -385,5 +384,217 @@
             </section>
         </main>
     </div>
+<div class="modal-overlay" id="userModal">
+
+    <div class="user-modal">
+
+
+        <div class="modal-header">
+
+            <h2>Nuevo Usuario</h2>
+
+            <button type="button" class="close-modal" id="closeUserModal" aria-label="Cerrar">×</button>
+
+        </div>
+
+
+        <form id="createUserForm" method="POST" action="">
+
+            {% csrf_token %}
+
+            <div class="form-section">
+
+                <div class="section-heading">
+                    Información personal
+                </div>
+
+
+                <div class="form-grid">
+                    <div class="form-group">
+
+                        <label for="nombre">
+                            Nombre
+                        </label>
+
+                        <input
+                            type="text"
+                            id="nombre"
+                            name="nombre"
+                            placeholder="Ingrese el nombre"
+                            required
+                        >
+
+                    </div>
+                    <div class="form-group">
+
+                        <label for="correo">
+                            Correo
+                        </label>
+
+                        <input
+                            type="email"
+                            id="correo"
+                            name="correo"
+                            placeholder="Ingrese el correo"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="form-section">
+
+                <div class="section-heading">
+                    Información de Acceso
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+
+                        <label for="usuario">
+                            Nombre de usuario
+                        </label>
+
+                        <input
+                            type="text"
+                            id="usuario"
+                            name="usuario"
+                            placeholder="Ingrese el nombre de usuario"
+                            required
+                        >
+
+                    </div>
+                    <div class="form-group">
+
+                        <label for="password">
+                            Contraseña
+                        </label>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Mínimo 8 caracteres"
+                            minlength="8"
+                            required
+                        >
+
+                    </div>
+                    <div class="form-group">
+
+                        <label for="password_confirm">
+                            Confirmar contraseña
+                        </label>
+
+                        <input
+                            type="password"
+                            id="password_confirm"
+                            name="password_confirm"
+                            placeholder="Mínimo 8 caracteres"
+                            minlength="8"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="form-section">
+
+                <div class="section-heading">
+                    Rol y Estado
+                </div>
+
+
+                <div class="form-grid">
+                    <div class="form-group">
+
+                        <label for="rol">
+                            Rol
+                        </label>
+
+                        <select
+                            id="rol"
+                            name="rol"
+                            required
+                        >
+
+                            <option value="" selected disabled>
+                                Seleccione un rol
+                            </option>
+
+                            <option value="administrador">
+                                Administrador
+                            </option>
+
+                            <option value="recepcionista">
+                                Recepcionista
+                            </option>
+
+                            <option value="medico">
+                                Médico
+                            </option>
+
+                            <option value="cajero">
+                                Administrativo / Caja
+                            </option>
+
+                        </select>
+
+                    </div>
+                    <div class="form-group">
+
+                        <label for="estado">
+                            Estado
+                        </label>
+
+                        <select
+                            id="estado"
+                            name="estado"
+                        >
+
+                            <option value="activo" selected>
+                                ● Activo
+                            </option>
+
+                            <option value="inactivo">
+                                ● Inactivo
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    id="cancelUserModal"
+                >
+                    Cancelar
+                </button>
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+                    Guardar Usuario
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+<script src="{% static 'js/gestor_usuarios.js' %}"></script>
 </body>
 </html>
