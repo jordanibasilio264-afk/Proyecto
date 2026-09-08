@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="{% static 'css/gestor_usuarios.css' %}">
 </head>
 
+<!-- Codigo del apartado principal del gestor de usuarios-->
+
 <body>
 
     <div class="dashboard">
@@ -22,6 +24,7 @@
         </header>
         <main class="content">
             <h1>Gestor de usuarios</h1>
+
             <section class="filters">
                 <div class="filter-group search-group">
                     <label for="search">
@@ -32,6 +35,7 @@
                         <input type="text" id="search" placeholder="Buscar por nombre, usuario o correo...">
                     </div>
                 </div>
+
                 <div class="filter-group">
                     <label for="role">
                         Rol
@@ -54,6 +58,7 @@
                         </option>
                     </select>
                 </div>
+
                 <div class="filter-group">
                     <label for="status">
                         Estado
@@ -70,10 +75,13 @@
                         </option>
                     </select>
                 </div>
+
                 <button type="button" class="new-user-btn" id="openUserModal">
                 + Nuevo Usuario
                 </button>
+
             </section>
+
             <section class="table-container">
                 <div class="table-wrapper">
                     <table>
@@ -365,7 +373,7 @@
                     </table>
                 </div>
                 <div class="pagination">
-                    <button>‹</button>
+                    <button></button>
                     <button class="current">
                         1
                     </button>
@@ -379,11 +387,18 @@
                     <button>
                         5
                     </button>
-                    <button>›</button>
+                    <button></button>
                 </div>
             </section>
         </main>
     </div>
+
+
+
+<!-- A continuacion apartado del modal para crear usuarios nuevos-->
+
+
+
 <div class="modal-overlay" id="userModal">
 
     <div class="user-modal">
@@ -393,7 +408,7 @@
 
             <h2>Nuevo Usuario</h2>
 
-            <button type="button" class="close-modal" id="closeUserModal" aria-label="Cerrar">×</button>
+            <button type="button" class="close-modal" id="closeUserModal" aria-label="Cerrar"></button>
 
         </div>
 
@@ -415,15 +430,7 @@
                         <label for="nombre">
                             Nombre
                         </label>
-
-                        <input
-                            type="text"
-                            id="nombre"
-                            name="nombre"
-                            placeholder="Ingrese el nombre"
-                            required
-                        >
-
+                        <input type="text" id="nombre" name="nombre" placeholder="Ingrese el nombre" required>
                     </div>
                     <div class="form-group">
 
@@ -431,13 +438,7 @@
                             Correo
                         </label>
 
-                        <input
-                            type="email"
-                            id="correo"
-                            name="correo"
-                            placeholder="Ingrese el correo"
-                            required
-                        >
+                        <input type="email" id="correo" name="correo" placeholder="Ingrese el correo" required>
 
                     </div>
 
@@ -456,14 +457,7 @@
                             Nombre de usuario
                         </label>
 
-                        <input
-                            type="text"
-                            id="usuario"
-                            name="usuario"
-                            placeholder="Ingrese el nombre de usuario"
-                            required
-                        >
-
+                        <input type="text" id="usuario" name="usuario" placeholder="Ingrese el nombre de usuario" required>
                     </div>
                     <div class="form-group">
 
@@ -471,14 +465,7 @@
                             Contraseña
                         </label>
 
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            placeholder="Mínimo 8 caracteres"
-                            minlength="8"
-                            required
-                        >
+                        <input type="password" id="password" name="password" placeholder="Mínimo 8 caracteres" minlength="8" required>
 
                     </div>
                     <div class="form-group">
@@ -487,14 +474,7 @@
                             Confirmar contraseña
                         </label>
 
-                        <input
-                            type="password"
-                            id="password_confirm"
-                            name="password_confirm"
-                            placeholder="Mínimo 8 caracteres"
-                            minlength="8"
-                            required
-                        >
+                        <input type="password" id="password_confirm" name="password_confirm" placeholder="Mínimo 8 caracteres" minlength="8" required>
 
                     </div>
 
@@ -515,11 +495,7 @@
                             Rol
                         </label>
 
-                        <select
-                            id="rol"
-                            name="rol"
-                            required
-                        >
+                        <select id="rol" name="rol" required>
 
                             <option value="" selected disabled>
                                 Seleccione un rol
@@ -550,10 +526,7 @@
                             Estado
                         </label>
 
-                        <select
-                            id="estado"
-                            name="estado"
-                        >
+                        <select id="estado" name="estado">
 
                             <option value="activo" selected>
                                 ● Activo
@@ -573,18 +546,11 @@
 
             <div class="modal-actions">
 
-                <button
-                    type="button"
-                    class="cancel-btn"
-                    id="cancelUserModal"
-                >
+                <button type="button" class="cancel-btn" id="cancelUserModal">
                     Cancelar
                 </button>
 
-                <button
-                    type="submit"
-                    class="save-btn"
-                >
+                <button type="submit" class="save-btn">
                     Guardar Usuario
                 </button>
 

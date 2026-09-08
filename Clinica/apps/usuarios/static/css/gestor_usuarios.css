@@ -294,6 +294,9 @@ td a {
 .pagination span {
     padding: 0 6px;
 }
+
+/* css del modal del gestor de usuarios mas especificamente del apartado de la creacion de los mismos */
+
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -333,6 +336,7 @@ td a {
     animation: modalAppear 0.2s ease;
 }
 
+/* Estos Keyframes pertenence al apartado del modal del gestor de usuarios */
 
 @keyframes modalAppear {
 
@@ -497,6 +501,9 @@ td a {
     background: #108b83;
 
 }
+
+/*  keyframes de la pagina principal del gestor de usuarios  */
+
 @media (max-width: 650px) {
     .modal-overlay {
         padding: 12px;
