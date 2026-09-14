@@ -6,31 +6,18 @@ const closeUserModal = document.getElementById("closeUserModal");
 
 const cancelUserModal = document.getElementById("cancelUserModal");
 
-
-openUserModal.addEventListener("click", function () {
-
-    userModal.classList.add("active");
-
-});
-closeUserModal.addEventListener("click", function () {
-
-    userModal.classList.remove("active");
-
-});
-cancelUserModal.addEventListener("click", function () {
-
-    userModal.classList.remove("active");
-
-});
-userModal.addEventListener("click", function (event) {
-    if (event.target === userModal) {
-
-        userModal.classList.remove("active");
+const toggleModal = (show) => {
+    if (userModal) {
+        userModal.classList.toggle("active", show);
     }
-});
-document.addEventListener("keydown", function (event) {
-    
-    if (event.key === "Escape") {
-        userModal.classList.remove("active");
+}
+
+openUserModal?.addEventListener("click", ()=> toggleModal(true));
+closeUserModal?.addEventListener("click", ()=> toggleModal(false));
+cancelUserModal?.addEventListener("click", ()=> toggleModal(false));
+
+document.addEventListener("keydown", (event)=>{
+    if(event.key == "Escape" && userModal?.classList.contains("active")){
+    toggleModal(false);
     }
-});
+})
