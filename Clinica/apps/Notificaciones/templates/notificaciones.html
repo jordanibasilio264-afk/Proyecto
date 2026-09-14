@@ -1,0 +1,548 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Notificaciones</title>
+
+    <link rel="stylesheet" href="{% static 'notificaciones.css' %}">
+
+</head>
+
+<body>
+
+<div class="pagina">
+
+    <aside class="menu-lateral">
+
+        <div class="logo">
+
+            <div class="logo-icono">
+                +
+            </div>
+
+            <h2>CLÍNICA MÉDICA</h2>
+
+            <h3>GENERAL Y FAMILIAR</h3>
+
+            <p>SALUD Y BIENESTAR</p>
+
+        </div>
+
+        <nav class="menu">
+
+            <a href="#" class="opcion">
+                <span>⌂</span>
+                Dashboard
+            </a>
+
+            <a href="#" class="opcion">
+                <span>♟</span>
+                Pacientes
+            </a>
+
+            <a href="#" class="opcion">
+                <span>▣</span>
+                Citas
+            </a>
+
+            <a href="#" class="opcion">
+                <span>$</span>
+                Pagos
+            </a>
+
+            <a href="#" class="opcion">
+                <span>▧</span>
+                Recibos
+            </a>
+
+            <a href="#" class="opcion">
+                <span>▥</span>
+                Reportes
+            </a>
+
+            <a href="#" class="opcion activa">
+                <span>🔔</span>
+                Notificaciones
+            </a>
+
+        </nav>
+
+
+        <div class="cerrar">
+            ↪ Cerrar sesión
+        </div>
+
+    </aside>
+
+    <main class="contenido">
+
+        <header class="encabezado">
+
+            <div>
+
+                <h1>
+                    Notificaciones
+                </h1>
+
+                <p>
+                    Gestiona recordatorios y alertas de la clínica.
+                </p>
+
+            </div>
+
+            <div class="usuario">
+
+                <div class="notificacion">
+                    🔔
+                </div>
+
+                <div class="usuario-icono">
+                    👤
+                </div>
+
+                <div class="usuario-texto">
+
+                    <strong>
+                        Dr. Alejandro
+                    </strong>
+
+                    <small>
+                        Administrador
+                    </small>
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <section class="resumen">
+
+            <div class="resumen-card">
+
+                <div class="resumen-icono">
+                    🔔
+                </div>
+
+                <div>
+
+                    <span>
+                        Total Notificaciones
+                    </span>
+
+                    <strong>
+                        {{ total }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="resumen-card">
+
+                <div class="resumen-icono">
+                    📅
+                </div>
+
+                <div>
+
+                    <span>
+                        Recordatorios
+                    </span>
+
+                    <strong>
+                        {{ recordatorios }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="resumen-card">
+
+                <div class="resumen-icono">
+                    ⚠
+                </div>
+
+                <div>
+
+                    <span>
+                        Alertas Médicas
+                    </span>
+
+                    <strong>
+                        {{ alertas }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="resumen-card">
+
+                <div class="resumen-icono">
+                    !
+                </div>
+
+                <div>
+
+                    <span>
+                        Cambios de Citas
+                    </span>
+
+                    <strong>
+                        {{ cancelaciones }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+        <section class="formulario">
+
+            <div class="titulo">
+
+                <h2>
+                    Enviar Recordatorio
+                </h2>
+
+                <p>
+                    Envía un recordatorio de cita a un paciente.
+                </p>
+
+            </div>
+
+            <div class="formulario-grid">
+
+
+                <div class="campo">
+
+                    <label>
+                        Paciente
+                    </label>
+
+                    <select>
+
+                        <option>
+                            Seleccionar paciente
+                        </option>
+
+                        <option>
+                            Juan Pérez
+                        </option>
+
+                        <option>
+                            María Rodríguez
+                        </option>
+
+                        <option>
+                            Carlos Martínez
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Fecha de cita
+                    </label>
+
+                    <input type="date">
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Hora
+                    </label>
+
+                    <input type="time">
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Medio
+                    </label>
+
+                    <select>
+
+                        <option>
+                            Notificación
+                        </option>
+
+                        <option>
+                            Correo
+                        </option>
+
+                        <option>
+                            SMS
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button class="boton-guardar">
+                    🔔 Enviar
+                </button>
+
+
+            </div>
+
+        </section>
+
+        <section class="notificaciones">
+
+
+            <div class="titulo">
+
+                <h2>
+                    Notificaciones Recientes
+                </h2>
+
+                <p>
+                    Consulta las últimas notificaciones del sistema.
+                </p>
+
+            </div>
+
+
+            <div class="lista">
+
+                <div class="notificacion-card">
+
+                    <div class="notificacion-icono">
+                        📅
+                    </div>
+
+                    <div class="notificacion-info">
+
+                        <h3>
+                            Recordatorio de cita
+                        </h3>
+
+                        <p>
+                            Juan Pérez tiene una cita mañana
+                            a las 10:00 AM.
+                        </p>
+
+                        <small>
+                            Hace 10 minutos
+                        </small>
+
+                    </div>
+
+                    <span class="tipo">
+                        Recordatorio
+                    </span>
+
+                </div>
+
+                <div class="notificacion-card">
+
+                    <div class="notificacion-icono alerta">
+                        ⚠
+                    </div>
+
+                    <div class="notificacion-info">
+
+                        <h3>
+                            Alerta médica
+                        </h3>
+
+                        <p>
+                            Se registró una alerta médica
+                            para María Rodríguez.
+                        </p>
+
+                        <small>
+                            Hace 30 minutos
+                        </small>
+
+                    </div>
+
+                    <span class="tipo alerta-texto">
+                        Alerta
+                    </span>
+
+                </div>
+
+                <div class="notificacion-card">
+
+                    <div class="notificacion-icono cancelado">
+                        !
+                    </div>
+
+                    <div class="notificacion-info">
+
+                        <h3>
+                            Cita cancelada
+                        </h3>
+
+                        <p>
+                            La cita de Carlos Martínez
+                            fue cancelada.
+                        </p>
+
+                        <small>
+                            Hace 1 hora
+                        </small>
+
+                    </div>
+
+                    <span class="tipo cancelado-texto">
+                        Cancelación
+                    </span>
+
+                </div>
+
+                <div class="notificacion-card">
+
+                    <div class="notificacion-icono">
+                        🔄
+                    </div>
+
+                    <div class="notificacion-info">
+
+                        <h3>
+                            Cita reprogramada
+                        </h3>
+
+                        <p>
+                            La cita de Ana Gómez fue
+                            reprogramada para el viernes.
+                        </p>
+
+                        <small>
+                            Hace 2 horas
+                        </small>
+
+                    </div>
+
+                    <span class="tipo">
+                        Reprogramación
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+        <section class="automaticas">
+
+
+            <div class="automaticas-icono">
+                ⚙
+            </div>
+
+
+            <div class="automaticas-texto">
+
+                <h2>
+                    Notificaciones Automáticas
+                </h2>
+
+                <p>
+                    El sistema enviará automáticamente
+                    recordatorios antes de las citas.
+                </p>
+
+            </div>
+
+
+            <button class="boton-activar">
+                ✓ Activadas
+            </button>
+
+
+        </section>
+
+        <footer>
+
+            <div>
+
+                <strong>
+                    Recordatorios
+                </strong>
+
+                <span>
+                    Avisos de próximas citas
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Alertas Médicas
+                </strong>
+
+                <span>
+                    Avisos importantes
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Cambios
+                </strong>
+
+                <span>
+                    Cancelaciones y cambios
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Automático
+                </strong>
+
+                <span>
+                    Notificaciones programadas
+                </span>
+
+            </div>
+
+        </footer>
+
+
+    </main>
+
+</div>
+
+
+</body>
+
+</html>
