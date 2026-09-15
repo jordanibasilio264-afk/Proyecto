@@ -5,39 +5,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de citas y Especialidades</title>
-    <link rel="stylesheet" href="{% static '/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
+
 <body class="page-body">
 
     <div class="layout-container">
-       
+
         <aside class="menu-lateral">
             <div class="">
-                <img src="{% static 'images/logo xd.png' %}" alt="Clínica Médica" class="logo-img">
+                <img src="{% static 'images/image 26.svg' %}" alt="Clínica Médica" class="logo-img">
                 <nav class="menu">
                     <a href="#" class="opcion"> <span>⌂</span> Dashboard</a>
                     <a href="#" class="opcion"> <span>♟</span> Pacientes</a>
                     <a href="#" class="opcion activa"> <span>▣</span> Citas</a>
+                    <a href="#" class="opcion">Recetas</a>
+                    <a href="#" class="opcion">Medicamentos</a>
                     <a href="#" class="opcion"> <span>▤</span> Pagos</a>
-                    <a href="#" class="opcion"> <span>▧</span> Recibos</a>
                     <a href="#" class="opcion"> <span>▥</span> Reportes</a>
                     <a href="#" class="opcion"> <span>⚙</span> Configuración</a>
-                </nav>    
+                </nav>
 
             </div>
             <a href="#" class="cerrar">↪ Cerrar sesión</a>
         </aside>
 
-     
         <main class="main-content">
-            
+
             <header class="main-header">
 
                 <h1 class="header-title">Gestión de citas.</h1>
 
                 <div class="header-actions">
                     <button class="notification-btn">
-                        <i class="fa-regular fa-bell"></i>
+                        <i class=""></i>
                         <span class="notification-badge"></span>
                     </button>
                     <img src="" alt="Usuario" class="user-avatar">
@@ -45,17 +46,17 @@
             </header>
 
             <section class="card-grid">
-                <a href="" class="shortcut-card">
+                <button class="shortcut-card" id="openRegistro">
                     <img src="{% static 'images/registro_citas.png' %}" alt="Icono_de_citas">
                     <span class="card-text">Registrar Citas</span>
-                </a>
+                </button>
 
-                <a href="" class="shortcut-card">
+                <button href="" class="shortcut-card">
                     <img src="{% static 'images/Agenda_imagen.png' %}" alt="Icono_de_agenda">
                     <span class="card-text">Consultar Agenda</span>
-                </a>
+                </button>
             </section>
-           
+
             <section class="table-container">
                 <div class="table-header">
                     <h2 class="table-title">Citas Recientes</h2>
@@ -76,34 +77,34 @@
                             </tr>
                         </thead>
                         <tbody class="table-body">
-                           
+
                             <tr class="table-row">
-                                <td class="table-td td-muted">h</td>
-                                <td class="table-td td-highlight">h</td>
-                                <td class="table-td td-muted">h</td>
-                                <td class="table-td td-muted">h</td>
-                                <td class="table-td td-muted">h</td>
-                                <td class="table-td td-muted">h</td>
+                                <td class="table-td td-muted">usuario@gmail.com</td>
+                                <td class="table-td td-highlight">usuario@gmail.com</td>
+                                <td class="table-td td-muted">usuario@gmail.com</td>
+                                <td class="table-td td-muted">usuario@gmail.com</td>
+                                <td class="table-td td-muted">usuario@gmail.com</td>
+                                <td class="table-td td-muted">usuario@gmail.com</td>
                                 <td class="table-td">
-                                    
-                                        <!-- <span class="status-badge status-confirmada">Confirmada</span>
+
+                                    <!-- <span class="status-badge status-confirmada">Confirmada</span>
                                     
                                         <span class="status-badge status-pendiente">Pendiente</span>
                                     
                                         <span class="status-badge status-reprogramada">Reprogramada</span>
                                     
                                         <span class="status-badge status-cancelada">Cancelada</span> -->
-                                    
+
                                 </td>
                                 <td class="table-td td-center">
                                     <button class="action-btn">:</button>
                                 </td>
                             </tr>
-                            
+
                             <tr>
                                 <td colspan="8" class="table-td-empty">No hay citas registradas.</td>
                             </tr>
-                            
+
                         </tbody>
                     </table>
                 </div>
@@ -115,5 +116,80 @@
         </main>
     </div>
 
+    <div class="modal-overlay" id="resgistroModal">
+
+        <div class="user-modal">
+            <div class="modal-header">
+
+                <h2>Resgistrar cita</h2>
+
+
+            </div>
+
+            <form id="createCitaForm" method="POST" action="">
+
+                {% csrf_token %}
+
+                <div class="form-section">
+
+                    <div class="form-grid">
+                        <div class="form-group">
+
+                            <label for="Pacientes-citas">
+                                Pacientes
+                            </label>
+
+                            <input type="text" id="Pacientes-citas" name="Pacientes-citas"
+                                placeholder="Ingrese el nombre del Paciente" required>
+
+                        </div>
+                        <div class="form-group">
+
+                            <label for="Medico-cita">
+                                Medico
+                            </label>
+
+                            <input type="text" id="Medico-cita" name="Medico-cita"
+                                placeholder="Ingrese el nombre del medico" required>
+
+                        </div>
+                        <div class="form-group">
+
+                            <label for="Especialidades-citas">
+                                Especialidades
+                            </label>
+
+                            <input type="text" id="Especialidades-citas" name="Especialidades-citas"
+                                placeholder="Ingrese el nombre del la especialidad" required>
+
+                        </div>
+                        <div class="form-group">
+
+                            <label for="fecha-citas">
+                                Fecha y Hora
+                            </label>
+
+                            <input type="datetime-local" id="fecha-citas" name="fecha-citas" required>
+
+                        </div>
+
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="cancel-btn" id="cancelRegistModal">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="save-btn">
+                            Guardar Cita
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <script src="{% static 'js/base.js' %}"></script>
+
 </body>
+
 </html>
