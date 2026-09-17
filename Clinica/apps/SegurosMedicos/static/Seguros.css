@@ -1,0 +1,1030 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    font-family: Arial, sans-serif;
+    background: #f4f7f8;
+    color: #123d5c;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+}
+
+.pagina {
+    width: 100%;
+    min-height: 100vh;
+}
+
+
+.menu-lateral {
+    position: fixed;
+
+    top: 10px;
+    bottom: 10px;
+    left: 7px;
+
+    width: 160px;
+
+    background: linear-gradient(
+        #087f88,
+        #075875
+    );
+
+    border-radius: 18px;
+
+    padding: 15px 10px;
+
+    display: flex;
+    flex-direction: column;
+
+    z-index: 10;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+.logo {
+    background: transparent;
+    padding: 0 0 16px 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.logo-icono {
+    width: calc(122% - 10px);
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-top: -15px;
+    aspect-ratio: 4 / 3;
+    
+
+    border-radius: 18px 18px 0px 0px;
+
+    background: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    overflow: hidden;
+
+    border: 2px solid white;
+}
+
+.logo-icono img {
+    width: 150%;
+    height: 128%;
+
+    object-fit: contain;
+    display: block;
+}
+
+.logo h2 {
+    font-size: 15px;
+    color: white;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+.opcion {
+    width: 100%;
+
+    padding: 10px 8px;
+
+    border-radius: 9px;
+
+    color: white;
+
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    font-size: 12px;
+
+    transition: 0.2s;
+}
+
+.opcion:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.opcion.activa {
+    background: #42b7ae;
+
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+.opcion span {
+    white-space: nowrap;
+}
+
+
+/* ================================
+   CERRAR SESIÓN
+================================ */
+
+.cerrar {
+    margin-top: auto;
+
+    background: rgba(255, 255, 255, 0.08);
+}
+
+
+/* ================================
+   CONTENIDO
+================================ */
+
+.contenido {
+    margin-left: 180px;
+
+    width: calc(100% - 195px);
+
+    padding: 25px 20px 20px;
+}
+
+
+/* ================================
+   ENCABEZADO
+================================ */
+
+.encabezado {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 22px;
+}
+
+.encabezado h1 {
+    font-size: 25px;
+
+    color: #123d5c;
+
+    margin-bottom: 5px;
+}
+
+.encabezado p {
+    font-size: 13px;
+
+    color: #71858c;
+}
+
+
+/* ================================
+   BOTÓN NUEVO
+================================ */
+
+.btn-nuevo {
+    border: none;
+
+    background: #07838a;
+
+    color: white;
+
+    padding: 11px 17px;
+
+    border-radius: 9px;
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.btn-nuevo:hover {
+    background: #075875;
+}
+
+
+/* ================================
+   RESUMEN
+================================ */
+
+.resumen {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+.tarjeta {
+    background: white;
+
+    border-radius: 13px;
+
+    padding: 16px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+}
+
+.tarjeta-icono {
+    width: 42px;
+    height: 42px;
+
+    background: #e3f5f4;
+
+    color: #07838a;
+
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 20px;
+}
+
+.tarjeta span {
+    display: block;
+
+    color: #71858c;
+
+    font-size: 11px;
+
+    margin-bottom: 5px;
+}
+
+.tarjeta strong {
+    display: block;
+
+    font-size: 22px;
+
+    color: #123d5c;
+}
+
+
+/* ================================
+   BUSCADOR
+================================ */
+
+.buscar {
+    background: white;
+
+    border-radius: 13px;
+
+    padding: 17px 18px;
+
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 15px;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+}
+
+.buscar h2 {
+    font-size: 17px;
+
+    margin-bottom: 4px;
+}
+
+.buscar p {
+    color: #71858c;
+
+    font-size: 11px;
+}
+
+.buscar form {
+    display: flex;
+
+    gap: 5px;
+}
+
+.buscar input {
+    width: 230px;
+
+    padding: 9px 11px;
+
+    border: 1px solid #d9e4e6;
+
+    border-radius: 8px;
+
+    outline: none;
+
+    font-size: 12px;
+}
+
+.buscar input:focus {
+    border-color: #07838a;
+}
+
+.buscar button {
+    width: 38px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #07838a;
+
+    color: white;
+
+    cursor: pointer;
+}
+
+
+/* ================================
+   TABLA
+================================ */
+
+.tabla-contenedor {
+    width: 100%;
+
+    background: white;
+
+    border-radius: 13px;
+
+    overflow-x: auto;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+
+    min-width: 700px;
+
+    border-collapse: collapse;
+}
+
+thead {
+    background: #f1f7f7;
+}
+
+th {
+    text-align: left;
+
+    padding: 13px;
+
+    font-size: 11px;
+
+    color: #56717b;
+
+    font-weight: bold;
+}
+
+td {
+    padding: 13px;
+
+    border-top: 1px solid #edf1f2;
+
+    font-size: 12px;
+
+    color: #526b74;
+}
+
+
+/* ================================
+   NOMBRE DEL SEGURO
+================================ */
+
+.nombre-seguro {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.seguro-icono {
+    width: 35px;
+    height: 35px;
+
+    border-radius: 9px;
+
+    background: #e3f5f4;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 17px;
+}
+
+.nombre-seguro strong {
+    display: block;
+
+    color: #123d5c;
+
+    font-size: 12px;
+
+    margin-bottom: 3px;
+}
+
+.nombre-seguro small {
+    display: block;
+
+    color: #8a9aa0;
+
+    font-size: 10px;
+}
+
+
+/* ================================
+   ESTADO
+================================ */
+
+.estado {
+    display: inline-block;
+
+    padding: 5px 9px;
+
+    border-radius: 20px;
+
+    font-size: 10px;
+
+    font-weight: bold;
+}
+
+.estado.activo {
+    background: #e2f6ee;
+
+    color: #23805e;
+}
+
+.estado.inactivo {
+    background: #fbe7e7;
+
+    color: #a54c4c;
+}
+
+
+/* ================================
+   ACCIONES
+================================ */
+
+.acciones {
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+}
+
+.btn-editar {
+    background: #eaf6f5;
+
+    color: #07838a;
+
+    padding: 6px 9px;
+
+    border-radius: 7px;
+
+    font-size: 10px;
+}
+
+.btn-editar:hover {
+    background: #d8efed;
+}
+
+.btn-eliminar {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 7px;
+
+    background: #fdeaea;
+
+    color: #b54e4e;
+
+    font-size: 12px;
+}
+
+.btn-eliminar:hover {
+    background: #f8d6d6;
+}
+
+
+/* ================================
+   SIN DATOS
+================================ */
+
+.sin-datos {
+    text-align: center;
+
+    padding: 35px !important;
+
+    color: #8a9aa0;
+}
+
+.sin-datos-icono {
+    font-size: 28px;
+
+    margin-bottom: 8px;
+}
+
+.sin-datos p {
+    font-size: 12px;
+}
+
+
+/* ================================
+   FORMULARIO
+================================ */
+
+.form-card {
+    background: white;
+
+    border-radius: 13px;
+
+    padding: 20px;
+
+    margin-bottom: 20px;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+}
+
+
+/* TÍTULO DEL FORMULARIO */
+
+.form-titulo {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 20px;
+}
+
+.form-icono {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 10px;
+
+    background: #e3f5f4;
+
+    color: #07838a;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    font-size: 18px;
+}
+
+.form-titulo h2 {
+    font-size: 17px;
+
+    margin-bottom: 4px;
+}
+
+.form-titulo p {
+    font-size: 11px;
+
+    color: #71858c;
+}
+
+
+/* ================================
+   CAMPOS
+================================ */
+
+.form-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 16px;
+}
+
+.campo {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+.campo label {
+    font-size: 11px;
+
+    color: #526b74;
+
+    font-weight: bold;
+}
+
+.campo input,
+.campo select {
+    width: 100%;
+
+    padding: 10px 11px;
+
+    border: 1px solid #d9e4e6;
+
+    border-radius: 8px;
+
+    outline: none;
+
+    font-size: 12px;
+
+    background: white;
+}
+
+.campo input:focus,
+.campo select:focus {
+    border-color: #07838a;
+
+    box-shadow: 0 0 0 2px rgba(7, 131, 138, 0.08);
+}
+
+
+/* ================================
+   BOTONES FORMULARIO
+================================ */
+
+.form-botones {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 8px;
+
+    margin-top: 20px;
+}
+
+.btn-guardar,
+.btn-cancelar {
+    border: none;
+
+    padding: 10px 15px;
+
+    border-radius: 8px;
+
+    font-size: 11px;
+
+    cursor: pointer;
+}
+
+.btn-guardar {
+    background: #07838a;
+
+    color: white;
+}
+
+.btn-guardar:hover {
+    background: #075875;
+}
+
+.btn-cancelar {
+    background: #eef2f3;
+
+    color: #526b74;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-cancelar:hover {
+    background: #e2e7e8;
+}
+
+
+/* ================================
+   ASOCIAR SEGURO
+================================ */
+
+.asociar-card {
+    background: #e3f5f4;
+
+    border: 1px solid #c9e9e7;
+
+    border-radius: 13px;
+
+    padding: 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    margin-bottom: 20px;
+}
+
+.asociar-icono {
+    width: 43px;
+    height: 43px;
+
+    flex-shrink: 0;
+
+    background: white;
+
+    border-radius: 10px;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    font-size: 19px;
+}
+
+.asociar-info {
+    flex: 1;
+}
+
+.asociar-info h2 {
+    font-size: 15px;
+
+    margin-bottom: 4px;
+
+    color: #123d5c;
+}
+
+.asociar-info p {
+    font-size: 11px;
+
+    color: #71858c;
+}
+
+.btn-asociar {
+    border: none;
+
+    background: #07838a;
+
+    color: white;
+
+    padding: 10px 14px;
+
+    border-radius: 8px;
+
+    font-size: 11px;
+
+    cursor: pointer;
+}
+
+.btn-asociar:hover {
+    background: #075875;
+}
+
+
+/* ================================
+   PIE
+================================ */
+
+.pie {
+    display: flex;
+
+    justify-content: space-between;
+
+    padding: 5px 3px 15px;
+
+    color: #8a9aa0;
+
+    font-size: 10px;
+}
+
+
+/* ================================
+   RESPONSIVE - TABLET
+================================ */
+
+@media (max-width: 900px) {
+
+    .resumen {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .resumen .tarjeta:last-child {
+        grid-column: span 2;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* ================================
+   RESPONSIVE - CELULAR
+================================ */
+
+@media (max-width: 700px) {
+
+    html,
+    body {
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+
+    /* MENÚ */
+
+    .menu-lateral {
+        position: relative;
+
+        top: auto;
+        bottom: auto;
+        left: auto;
+
+        width: calc(100% - 14px);
+
+        margin: 7px;
+
+        border-radius: 15px;
+
+        padding: 10px;
+    }
+
+    .logo {
+        width: 150px;
+
+        margin-bottom: 10px;
+    }
+
+    .menu {
+        display: flex;
+
+        flex-direction: row;
+
+        overflow-x: auto;
+
+        gap: 5px;
+
+        padding-bottom: 3px;
+    }
+
+    .opcion {
+        flex-shrink: 0;
+
+        width: auto;
+
+        white-space: nowrap;
+
+        padding: 9px 11px;
+    }
+
+    .cerrar {
+        margin-top: 8px;
+
+        width: max-content;
+    }
+
+
+    /* CONTENIDO */
+
+    .contenido {
+        width: 100%;
+
+        margin-left: 0;
+
+        padding: 15px 12px;
+    }
+
+
+    /* ENCABEZADO */
+
+    .encabezado {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 12px;
+    }
+
+    .encabezado h1 {
+        font-size: 22px;
+    }
+
+    .btn-nuevo {
+        width: 100%;
+    }
+
+
+    /* RESUMEN */
+
+    .resumen {
+        grid-template-columns: 1fr;
+    }
+
+    .resumen .tarjeta:last-child {
+        grid-column: auto;
+    }
+
+
+    /* BUSCADOR */
+
+    .buscar {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .buscar form {
+        width: 100%;
+    }
+
+    .buscar input {
+        width: 100%;
+    }
+
+
+    /* TABLA */
+
+    .tabla-contenedor {
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 700px;
+    }
+
+
+    /* FORMULARIO */
+
+    .form-card {
+        padding: 15px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-botones {
+        flex-direction: column;
+    }
+
+    .btn-guardar,
+    .btn-cancelar {
+        width: 100%;
+    }
+
+
+    /* ASOCIAR */
+
+    .asociar-card {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .btn-asociar {
+        width: 100%;
+    }
+
+
+    /* PIE */
+
+    .pie {
+        flex-direction: column;
+
+        gap: 5px;
+
+        text-align: center;
+    }
+
+}
