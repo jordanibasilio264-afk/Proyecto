@@ -1,0 +1,256 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Medicamentos</title>
+    <link rel="stylesheet" href="{% static 'css/medicamentos.css' %}">
+</head>
+
+<body>
+    <div class="dashboard">
+        <header class="topbar">
+    <button type="button" class="menu-card-btn" aria-label="Abrir menú">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+    </button>
+
+    <div class="logo-container">
+       <img src="{% static 'images/logo sinfondo.png' %}" alt="Clínica Médica" class="logo">
+    </div>
+
+    <button type="button" class="circle-action-btn" aria-label="Acción o salir">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="7" y1="17" x2="17" y2="7"></line>
+            <polyline points="7 7 17 7 17 17"></polyline>
+        </svg>
+    </button>
+</header>
+
+        <main class="content">
+            <div class="page-header">
+                <div>
+                    <h1>Gestión de medicamentos</h1>
+                    <p>Administra los medicamentos disponibles en el consultorio.</p>
+                </div>
+
+                <button type="button" class="btn btn-primary" id="openMedicineModal">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    <span>Nuevo medicamento</span>
+                </button>
+            </div>
+
+            <section class="filters-card">
+                <form method="GET" class="search-box">
+                    <div class="search-input-container">
+                        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        <input type="text" name="buscar" id="buscar" placeholder="Buscar medicamento por nombre o principio activo...">
+                    </div>
+
+                    <select name="presentacion" class="filter-select">
+                        <option value="">Todas las presentaciones</option>
+                        <option value="tabletas">Tabletas</option>
+                        <option value="capsulas">Cápsulas</option>
+                        <option value="jarabe">Jarabe</option>
+                        <option value="inyectable">Inyectable</option>
+                    </select>
+
+                    <button type="submit" class="btn btn-primary search-btn">Buscar</button>
+                </form>
+            </section>
+
+            <section class="table-card">
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Medicamento</th>
+                                <th>Principio activo</th>
+                                <th>Presentación</th>
+                                <th>Concentración</th>
+                                <th>Estado</th>
+                                <th class="text-right">Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td class="td-id">#001</td>
+                                <td>
+                                    <div class="med-item">
+                                        <div class="med-avatar">P</div>
+                                        <strong>Paracetamol</strong>
+                                    </div>
+                                </td>
+                                <td>Paracetamol</td>
+                                <td><span class="badge badge-pill">Tabletas</span></td>
+                                <td>500 mg</td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <span class="dot"></span> Activo
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="actions">
+                                        <button type="button" class="action-btn" title="Ver medicamento">
+                                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                        </button>
+                                        <button type="button" class="action-btn" title="Editar medicamento">
+                                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                        </button>
+                                        <button type="button" class="action-btn action-danger" title="Eliminar medicamento">
+                                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                        </button>
+                                        <button type="button" class="action-btn action-accent" title="Asociar a receta">
+                                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="td-id">#002</td>
+                                <td>
+                                    <div class="med-item">
+                                        <div class="med-avatar">A</div>
+                                        <strong>Amoxicilina</strong>
+                                    </div>
+                                </td>
+                                <td>Amoxicilina</td>
+                                <td><span class="badge badge-pill">Cápsulas</span></td>
+                                <td>500 mg</td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <span class="dot"></span> Activo
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="actions">
+                                        <button type="button" class="action-btn" title="Ver medicamento">
+                                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                        </button>
+                                        <button type="button" class="action-btn" title="Editar medicamento">
+                                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                        </button>
+                                        <button type="button" class="action-btn action-danger" title="Eliminar medicamento">
+                                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                        </button>
+                                        <button type="button" class="action-btn action-accent" title="Asociar a receta">
+                                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination-container">
+                    <span class="pagination-info">Mostrando 1-2 de 24 registros</span>
+                    <div class="pagination">
+                        <button type="button" class="page-btn" aria-label="Página anterior">‹</button>
+                        <button type="button" class="page-btn active">1</button>
+                        <button type="button" class="page-btn">2</button>
+                        <button type="button" class="page-btn">3</button>
+                        <span class="page-dots">...</span>
+                        <button type="button" class="page-btn">5</button>
+                        <button type="button" class="page-btn" aria-label="Página siguiente">›</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!--Apartdo MODAL -->
+    <div class="modal-overlay" id="medicineModal">
+        <div class="medicine-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <div class="modal-header">
+                <div>
+                    <h2 id="modalTitle">Nuevo medicamento</h2>
+                    <p class="modal-subtitle">Agrega un nuevo registro al inventario del consultorio.</p>
+                </div>
+                <button type="button" class="close-modal" id="closeMedicineModal" aria-label="Cerrar modal">&times;</button>
+            </div>
+
+            <form method="POST" id="medicineForm">
+                {% csrf_token %}
+
+                <div class="form-section">
+                    <div class="section-heading">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        Información general
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="nombre">Nombre del medicamento</label>
+                            <input type="text" id="nombre" name="nombre" placeholder="Ej. Paracetamol" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="principio_activo">Principio activo</label>
+                            <input type="text" id="principio_activo" name="principio_activo" placeholder="Ej. Paracetamol" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="presentacion">Presentación</label>
+                            <select id="presentacion" name="presentacion" required>
+                                <option value="" disabled selected>Seleccione una presentación</option>
+                                <option value="tabletas">Tabletas</option>
+                                <option value="capsulas">Cápsulas</option>
+                                <option value="jarabe">Jarabe</option>
+                                <option value="inyectable">Inyectable</option>
+                                <option value="crema">Crema</option>
+                                <option value="suspension">Suspensión</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="concentracion">Concentración</label>
+                            <input type="text" id="concentracion" name="concentracion" placeholder="Ej. 500 mg" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="section-heading">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="10" x2="3" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="21" y1="18" x2="3" y2="18"></line></svg>
+                        Información adicional
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descripcion">Descripción / Notas</label>
+                        <textarea id="descripcion" name="descripcion" placeholder="Ingrese detalles de almacenamiento, indicaciones rápidas u observaciones..." rows="3"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-section no-border">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="estado">Estado inicial</label>
+                            <select id="estado" name="estado">
+                                <option value="activo" selected>Activo</option>
+                                <option value="inactivo">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelMedicineModal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar medicamento</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="{% static 'js/medicamentos.js' %}"></script>
+</body>
+
+</html>

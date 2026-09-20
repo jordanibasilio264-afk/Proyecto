@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'apps.Citas.apps.CitasConfig',
     'apps.Notificaciones.apps.NotificacionesConfig',
     'apps.SegurosMedicos.apps.SegurosMedicosConfig',
+    'apps.Medicamentos.apps.MedicamentosConfig',
 ]
 
 MIDDLEWARE = [
