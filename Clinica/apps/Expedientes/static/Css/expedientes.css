@@ -456,6 +456,11 @@ body.app-container {
   flex-direction: column;
 }
 
+.iconos{
+  width: 2rem;
+  height: 2rem;
+}
+
 .form-label {
   display: block;
   font-size: 0.75rem;

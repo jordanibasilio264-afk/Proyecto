@@ -1,21 +1,23 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Expediente Clínico Digital - Django</title>
   <link rel="stylesheet" href="{% static 'CSS/expedientes.css' %}">
 </head>
+
 <body class="app-container">
 
   <div id="sidebar-overlay" class="sidebar-overlay"></div>
   <aside id="sidebar" class="sidebar">
+    
     <div>
       <div class="brand-header">
         <img src="{% static 'images/image26.svg' %}" alt="Clínica Médica" class="logo-img">
       </div>
-
       <nav class="nav-menu">
         <a href="#" class="nav-item">
           <i class="nav-icon">⌂</i> Dashboard
@@ -37,20 +39,19 @@
         </a>
       </nav>
     </div>
-
     <div class="sidebar-bottom">
       <a href="#" class="btn-logout">
         <i class="icon-logout"></i> Cerrar sesión
       </a>
     </div>
-  </aside>
 
+  </aside>
 
   <main class="main-content">
     <header class="main-header">
       <div class="header-left">
         <button id="btn-toggle-sidebar" class="btn-hamburger">☰</button>
-      <h2 class="header-title">Expediente Clínico Digital</h2>
+        <h2 class="header-title">Expediente Clínico Digital</h2>
       </div>
       <div class="user-status-container">
         <span class="status-indicator"></span>
@@ -62,25 +63,25 @@
     </header>
 
     <div class="content-body">
-      
       <div class="actions-grid">
         <button id="btn-abrir-modal" class="action-card-btn group">
           <div class="action-icon-wrapper">
-            <i class=" text-3xl"></i>
+            <i class=" text-3xl"><img src="{% static 'icons/icono_carpeta.svg' %}" alt="icono_carpeta"
+                class="iconos"></i>
           </div>
           <span class="action-title">Crear Expediente Clínico</span>
         </button>
 
-    
         <form method="GET" action="#" class="search-card-form">
           <div class="search-header">
             <div class="search-icon-wrapper">
-              <i class="text-xl"></i>
+              <i class="text-xl"><img src="{% static 'icons/icono_Lupa.svg' %}" alt="icono_Lupa"></i>
             </div>
             <span class="search-title">Consultar Expediente</span>
           </div>
           <div class="input-search-wrapper">
-            <input type="text" name="q" value="{{ query }}" placeholder="Buscar por Nombre o Código..." class="form-input">
+            <input type="text" name="q" value="{{ query }}" placeholder="Buscar por Nombre o Código..."
+              class="form-input">
             <button type="submit" class="btn-search-submit">
               <i class=""></i>
             </button>
@@ -169,7 +170,8 @@
 
         <div class="form-group">
           <label class="form-label">Antecedentes Médicos / Alergias</label>
-          <textarea name="antecedentes" rows="3" placeholder="Alergias a medicamentos, cirugías previas..." class="form-textarea"></textarea>
+          <textarea name="antecedentes" rows="3" placeholder="Alergias a medicamentos, cirugías previas..."
+            class="form-textarea"></textarea>
         </div>
 
         <div class="form-group">
@@ -185,7 +187,7 @@
     </div>
   </div>
 
-
   <script src="{% static 'JS/expedientes.js' %}"></script>
 </body>
+
 </html>

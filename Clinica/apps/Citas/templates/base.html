@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,8 +12,8 @@
 <body class="page-body">
 
     <div class="layout-container">
-
-        <aside class="menu-lateral">
+        <div id="menu-overlay" class="menu-overlay"></div>
+        <aside id="menu-lateral" class="menu-lateral">
             <div class="">
                 <img src="{% static 'images/image26.svg' %}" alt="Clínica Médica" class="logo-img">
                 <nav class="menu">
@@ -33,8 +34,10 @@
         <main class="main-content">
 
             <header class="main-header">
-
-                <h1 class="header-title">Gestión de citas.</h1>
+                <div class="header-left">
+                    <button id="btn-toggle-sidebar" class="btn-hamburger">☰</button>
+                    <h1 class="header-title">Gestión de citas.</h1>
+                </div>
 
                 <div class="header-actions">
                     <button class="notification-btn">
