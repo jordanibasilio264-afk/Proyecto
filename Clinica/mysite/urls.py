@@ -27,5 +27,7 @@ urlpatterns = [
     path("citas/",include("apps.Citas.urls")),
     path("notificaciones/",include("apps.Notificaciones.urls")),
     path("seguros/",include("apps.SegurosMedicos.urls")),
-    path("medicamentos/", include("apps.Medicamentos.urls"))
+    path("medicamentos/", include("apps.Medicamentos.urls")),
+    path("expedientes/",include("apps.Expedientes.urls")),
+    
   ]   

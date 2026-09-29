@@ -1,0 +1,191 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expediente Clínico Digital - Django</title>
+  <link rel="stylesheet" href="{% static 'CSS/expedientes.css' %}">
+</head>
+<body class="app-container">
+
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+  <aside id="sidebar" class="sidebar">
+    <div>
+      <div class="brand-header">
+        <img src="{% static 'images/image26.svg' %}" alt="Clínica Médica" class="logo-img">
+      </div>
+
+      <nav class="nav-menu">
+        <a href="#" class="nav-item">
+          <i class="nav-icon">⌂</i> Dashboard
+        </a>
+        <a href="#" class="nav-item">
+          <i class="nav-icon">♟</i> Pacientes
+        </a>
+        <a href="#" class="nav-item">
+          <i class="nav-icon">▣</i> Citas
+        </a>
+        <a href="#" class="nav-item active">
+          <i class="nav-icon"></i> Expediente Digital
+        </a>
+        <a href="#" class="nav-item">
+          <i class="nav-icon"></i> Recetas
+        </a>
+        <a href="#" class="nav-item">
+          <i class="nav-icon">⚙</i> Configuración
+        </a>
+      </nav>
+    </div>
+
+    <div class="sidebar-bottom">
+      <a href="#" class="btn-logout">
+        <i class="icon-logout"></i> Cerrar sesión
+      </a>
+    </div>
+  </aside>
+
+
+  <main class="main-content">
+    <header class="main-header">
+      <div class="header-left">
+        <button id="btn-toggle-sidebar" class="btn-hamburger">☰</button>
+      <h2 class="header-title">Expediente Clínico Digital</h2>
+      </div>
+      <div class="user-status-container">
+        <span class="status-indicator"></span>
+        <div class="user-profile">
+          <span>{{ request.user.username|default:"Usuario" }}</span>
+          <i class="user-avatar"></i>
+        </div>
+      </div>
+    </header>
+
+    <div class="content-body">
+      
+      <div class="actions-grid">
+        <button id="btn-abrir-modal" class="action-card-btn group">
+          <div class="action-icon-wrapper">
+            <i class=" text-3xl"></i>
+          </div>
+          <span class="action-title">Crear Expediente Clínico</span>
+        </button>
+
+    
+        <form method="GET" action="#" class="search-card-form">
+          <div class="search-header">
+            <div class="search-icon-wrapper">
+              <i class="text-xl"></i>
+            </div>
+            <span class="search-title">Consultar Expediente</span>
+          </div>
+          <div class="input-search-wrapper">
+            <input type="text" name="q" value="{{ query }}" placeholder="Buscar por Nombre o Código..." class="form-input">
+            <button type="submit" class="btn-search-submit">
+              <i class=""></i>
+            </button>
+          </div>
+        </form>
+      </div>
+
+
+      <section class="table-container">
+        <div class="table-header">
+          <h3 class="table-title">Expedientes Registrados</h3>
+        </div>
+
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Paciente</th>
+                <th>Tipo Sangre</th>
+                <th>Última Actualización</th>
+                <th class="text-center">Documentos</th>
+                <th class="text-right">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for exp in expedientes %}
+              <tr>
+                <td class="font-medium text-dark">{{ exp.codigo }}</td>
+                <td class="font-bold text-darker">{{ exp.paciente_nombre }}</td>
+                <td>
+                  <span class="badge-blood-type">{{ exp.tipo_sangre }}</span>
+                </td>
+                <td>{{ exp.fecha_actualizacion|date:"d/m/Y H:i" }}</td>
+                <td class="text-center">
+                  <span class="badge-files">
+                    <i class="icon-clip"></i> {{ exp.documentos.count }} archivos
+                  </span>
+                </td>
+                <td class="text-right">
+                  <a href="{% url 'descargar_pdf' exp.pk %}" title="Descargar PDF" class="btn-pdf-action">
+                    <i class=""></i>
+                  </a>
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="6" class="empty-table-msg">No se encontraron expedientes registrados.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+
+  <div id="modal-crear" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="icon-modal"></i> Crear Nuevo Expediente</h3>
+      </div>
+
+      <form action="#" method="POST" enctype="multipart/form-data" class="modal-body">
+        {% csrf_token %}
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Nombre Completo del Paciente</label>
+            <input type="text" name="paciente_nombre" required placeholder="Ej. María Gómez" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tipo de Sangre</label>
+            <select name="tipo_sangre" class="form-select">
+              <option value="O+">O Rh (+)</option>
+              <option value="A+">A Rh (+)</option>
+              <option value="B+">B Rh (+)</option>
+              <option value="AB+">AB Rh (+)</option>
+              <option value="O-">O Rh (-)</option>
+              <option value="A-">A Rh (-)</option>
+              <option value="B-">B Rh (-)</option>
+              <option value="AB-">AB Rh (-)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Antecedentes Médicos / Alergias</label>
+          <textarea name="antecedentes" rows="3" placeholder="Alergias a medicamentos, cirugías previas..." class="form-textarea"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Adjuntar Archivos / Estudios (PDF, PNG, JPG)</label>
+          <input type="file" name="archivos" multiple class="form-file-input">
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="btn-cancelar-modal" class="btn-secondary">Cancelar</button>
+          <button type="submit" class="btn-primary">Guardar Expediente</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <script src="{% static 'JS/expedientes.js' %}"></script>
+</body>
+</html>
