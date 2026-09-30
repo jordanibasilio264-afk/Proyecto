@@ -1,0 +1,159 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: #123d5c;
+    background: linear-gradient(135deg, #e3f5f4, #f4f8f8);
+    min-height: 100vh;
+}
+
+/* Fondo y centrado (con scroll si la pantalla es baja) */
+
+.registro-pagina {
+    min-height: 100vh;
+    width: 100%;
+    padding: 24px 16px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Tarjeta: la altura se ajusta sola al contenido */
+
+.registro-card {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+
+    background: white;
+    border-radius: 18px;
+    padding: 28px 30px;
+
+    text-align: center;
+    box-shadow: 0 10px 35px rgba(7, 88, 117, 0.15);
+}
+
+/* Logo */
+
+.logo-img {
+    display: block;
+    height: 90px;
+    width: auto;
+    max-width: 100%;
+    margin: 0 auto 12px;
+}
+
+h1 {
+    color: #075875;
+    font-size: 26px;
+    margin-bottom: 6px;
+}
+
+.registro-card > p {
+    color: #71858c;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+/* Campos */
+
+.campo {
+    text-align: left;
+    margin-bottom: 14px;
+}
+
+.campo label {
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.campo input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cfdde0;
+    border-radius: 9px;
+    font-size: 13px;
+    outline: none;
+}
+
+.campo input:focus {
+    border-color: #07838a;
+    box-shadow: 0 0 0 3px rgba(7, 131, 138, 0.15);
+}
+
+/* Botón */
+
+.btn-registro {
+    width: 100%;
+    padding: 13px;
+    margin-top: 6px;
+
+    border: none;
+    border-radius: 9px;
+    background: #07838a;
+    color: white;
+
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-registro:hover {
+    background: #075875;
+}
+
+/* Enlaces */
+
+.login-texto {
+    font-size: 12px;
+    color: #71858c;
+    margin-top: 16px;
+}
+
+a {
+    color: #07838a;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.volver {
+    display: inline-block;
+    margin-top: 14px;
+    font-size: 12px;
+}
+
+/* ¿Olvidaste tu contraseña? (opcional) */
+
+.olvido {
+    text-align: right;
+    margin: -4px 0 14px;
+    font-size: 12px;
+}
+
+/* Pantallas bajas (laptops chicas) */
+
+@media (max-height: 700px) {
+    .logo-img { height: 70px; }
+    .registro-card { padding: 22px 26px; }
+    .campo { margin-bottom: 10px; }
+}
+
+/* Celular */
+
+@media (max-width: 480px) {
+    .registro-pagina { padding: 16px 12px; align-items: flex-start; }
+    .registro-card { padding: 24px 20px; }
+    .logo-img { height: 80px; }
+}

@@ -1,0 +1,110 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Iniciar sesión</title>
+
+    <link rel="stylesheet" href="{% static 'login.css' %}">
+
+</head>
+
+<body>
+
+    <div class="login-pagina">
+
+        <div class="login-card">
+
+            <img
+                src="{% static 'images/logo-clinica.png' %}"
+                alt="Clínica Médica General y Familiar"
+                class="logo-img"
+                style="display:block; height:90px; width:auto; max-width:100%; margin:0 auto 12px;"
+            >
+
+            <h1>
+                Iniciar sesión
+            </h1>
+
+            <p>
+                Ingresa a tu cuenta de la clínica
+            </p>
+
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="campo">
+
+                    <label>
+                        Correo electrónico
+                    </label>
+
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="correo@gmail.com"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Contraseña
+                    </label>
+
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Contraseña"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn-login"
+                >
+                    Iniciar sesión
+                </button>
+
+            </form>
+
+
+            <p class="registrar-texto">
+
+                ¿No tienes una cuenta?
+
+                <a href="{% url 'registro' %}">
+                    Registrarse
+                </a>
+
+            </p>
+
+
+            <a
+                href="{% url 'inicio' %}"
+                class="volver"
+            >
+                ← Volver al inicio
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

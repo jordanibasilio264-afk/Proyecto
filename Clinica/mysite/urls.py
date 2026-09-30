@@ -21,7 +21,7 @@ from apps.usuarios import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('usuarios/', include('apps.usuarios.urls')),
-    path('', views.login_view, name='home'),
+    path("", include("apps.Inicio.urls")),
     path("reportes/",include("apps.Reportes.urls")),
     path("pagos/",include("apps.pagos.urls")),
     path("citas/",include("apps.Citas.urls")),

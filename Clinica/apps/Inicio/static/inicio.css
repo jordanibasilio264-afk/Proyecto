@@ -1,0 +1,364 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f8f8;
+    color: #123d5c;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+/* HERO */
+
+.hero {
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+
+    background-image:
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,0.75) 0%,
+            rgba(255,255,255,0.35) 35%,
+            rgba(255,255,255,0) 60%
+        ),
+        url("images/hero.png");
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center right;
+}
+
+
+/* NAVBAR */
+
+.navbar {
+    max-width: 1250px;
+    margin: 14px auto 0;
+    padding: 2px 28px;
+
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    border-radius: 30px;
+    box-shadow: 0 6px 24px rgba(7,88,117,0.15);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+/* LOGO */
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 52px;
+    width: auto;
+    display: block;
+}
+
+
+/* NAV */
+
+nav {
+    display: flex;
+    gap: 30px;
+}
+
+nav a {
+    color: #123d5c;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #07838a;
+}
+
+
+/* CONTENIDO */
+
+.hero-contenido {
+    max-width: 1250px;
+    min-height: calc(100vh - 85px);
+    margin: auto;
+    padding: 50px 30px;
+    display: flex;
+    align-items: center;
+}
+
+.texto {
+    width: 55%;
+    max-width: 620px;
+}
+
+
+/* ETIQUETA */
+
+.etiqueta {
+    display: inline-block;
+    background: #e3f5f4;
+    color: #07838a;
+    padding: 9px 14px;
+    border-radius: 30px;
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+
+/* TITULO */
+
+h1 {
+    font-size: 58px;
+    line-height: 1.05;
+    color: #075875;
+    margin-bottom: 22px;
+}
+
+h1 span {
+    display: block;
+    color: #07838a;
+}
+
+
+/* TEXTO */
+
+.texto > p {
+    max-width: 500px;
+    color: #3d5560;
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+
+/* BOTONES */
+
+.botones {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.btn {
+    padding: 14px 23px;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+
+/* LOGIN */
+
+.iniciar {
+    background: #07838a;
+    color: white;
+}
+
+.iniciar:hover {
+    background: #075875;
+    transform: translateY(-2px);
+}
+
+
+/* REGISTRO */
+
+.registrar {
+    background: white;
+    color: #07838a;
+    border: 2px solid #07838a;
+}
+
+.registrar:hover {
+    background: #e3f5f4;
+    transform: translateY(-2px);
+}
+
+
+/* BENEFICIOS */
+
+.beneficios {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    color: #2f4852;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.beneficios div {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.beneficios b {
+    width: 19px;
+    height: 19px;
+    border-radius: 50%;
+    background: #e3f5f4;
+    color: #07838a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* SERVICIOS */
+
+.servicios {
+    padding: 80px 25px;
+    background: #f4f8f8;
+    text-align: center;
+}
+
+.titulo span {
+    color: #07838a;
+    font-size: 11px;
+    letter-spacing: 2px;
+}
+
+.titulo h2 {
+    color: #123d5c;
+    font-size: 30px;
+    margin: 10px 0;
+}
+
+.titulo p {
+    color: #71858c;
+    font-size: 13px;
+}
+
+
+/* TARJETAS */
+
+.servicios-contenedor {
+    max-width: 950px;
+    margin: 40px auto 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.servicio {
+    background: white;
+    border-radius: 15px;
+    padding: 30px 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+.icono {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 15px;
+    background: #e3f5f4;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+}
+
+.servicio h3 {
+    color: #123d5c;
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+.servicio p {
+    color: #71858c;
+    font-size: 11px;
+}
+
+
+/* CELULAR */
+
+@media (max-width: 700px) {
+
+    .navbar {
+        margin: 12px 12px 0;
+        padding: 2px 16px;
+    }
+
+    .logo img {
+        height: 46px;
+    }
+
+    nav {
+        display: none;
+    }
+
+    .hero {
+        background-image:
+            linear-gradient(
+                180deg,
+                rgba(255,255,255,0.92),
+                rgba(255,255,255,0.80)
+            ),
+            url("images/hero.png");
+
+        background-position: 75% center;
+    }
+
+    .hero-contenido {
+        min-height: calc(100vh - 80px);
+        padding: 30px 18px;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .texto {
+        width: 100%;
+    }
+
+    h1 {
+        font-size: 39px;
+    }
+
+    .texto > p {
+        font-size: 14px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .botones {
+        flex-direction: column;
+        max-width: 350px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .btn {
+        display: block;
+        width: 100%;
+    }
+
+    .beneficios {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .servicios-contenedor {
+        grid-template-columns: 1fr;
+    }
+
+}

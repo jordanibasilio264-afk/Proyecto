@@ -1,0 +1,205 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Clínica Médica</title>
+
+    <link rel="stylesheet" href="{% static 'inicio.css' %}">
+
+</head>
+
+<body>
+
+    <section class="hero">
+
+        <!-- MENÚ -->
+
+        <header class="navbar">
+
+           <a href="{% url 'inicio' %}" class="logo">
+    <img
+        src="{% static 'images/logo-clinica.png' %}"
+        alt="Clínica Médica General y Familiar"
+    >
+</a>
+
+
+            <nav>
+
+                <a href="{% url 'inicio' %}">
+                    Inicio
+                </a>
+
+                <a href="#servicios">
+                    Servicios
+                </a>
+
+                <a href="#nosotros">
+                    Nosotros
+                </a>
+
+                <a href="#contacto">
+                    Contacto
+                </a>
+
+            </nav>
+
+        </header>
+
+
+        <!-- HERO -->
+
+        <div class="hero-contenido">
+
+            <div class="texto">
+
+                <div class="etiqueta">
+                    ✦ Atención médica de calidad
+                </div>
+
+                <h1>
+                    Tu salud,
+                    <span>nuestra prioridad</span>
+                </h1>
+
+                <p>
+                    Brindamos atención médica de calidad,
+                    con un equipo profesional y la tecnología
+                    que necesitas.
+                </p>
+
+
+                <!-- BOTONES -->
+
+                <div class="botones">
+
+                    <a
+                        href="{% url 'login' %}"
+                        class="btn iniciar"
+                    >
+                        👤 Iniciar sesión
+                    </a>
+
+
+                    <a
+                        href="{% url 'registro' %}"
+                        class="btn registrar"
+                    >
+                        👤 Registrarse
+                    </a>
+
+                </div>
+
+
+                <div class="beneficios">
+
+                    <div>
+                        <b>✓</b>
+                        Atención segura
+                    </div>
+
+                    <div>
+                        <b>✓</b>
+                        Profesionales especializados
+                    </div>
+
+                    <div>
+                        <b>✓</b>
+                        Citas en línea
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SERVICIOS -->
+
+    <section class="servicios" id="servicios">
+
+        <div class="titulo">
+
+            <span>NUESTROS SERVICIOS</span>
+
+            <h2>
+                Todo lo que necesitas
+            </h2>
+
+            <p>
+                Gestiona tu atención médica de manera
+                sencilla y segura.
+            </p>
+
+        </div>
+
+
+        <div class="servicios-contenedor">
+
+            <div class="servicio">
+
+                <div class="icono">
+                    📅
+                </div>
+
+                <h3>
+                    Citas médicas
+                </h3>
+
+                <p>
+                    Programa y consulta tus citas médicas.
+                </p>
+
+            </div>
+
+
+            <div class="servicio">
+
+                <div class="icono">
+                    📋
+                </div>
+
+                <h3>
+                    Expediente médico
+                </h3>
+
+                <p>
+                    Consulta tu información médica.
+                </p>
+
+            </div>
+
+
+            <div class="servicio">
+
+                <div class="icono">
+                    💊
+                </div>
+
+                <h3>
+                    Recetas
+                </h3>
+
+                <p>
+                    Consulta tus recetas y tratamientos.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</body>
+
+</html>
