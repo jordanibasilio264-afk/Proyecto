@@ -31,7 +31,17 @@
 </a>
 
 
-            <nav>
+            <button
+                class="menu-btn"
+                id="menu-btn"
+                type="button"
+                aria-label="Abrir menú"
+            >
+                ☰
+            </button>
+
+
+            <nav id="menu">
 
                 <a href="{% url 'inicio' %}">
                     Inicio
@@ -199,6 +209,210 @@
         </div>
 
     </section>
+
+
+    <!-- NOSOTROS -->
+
+    <section class="nosotros" id="nosotros">
+
+        <div class="titulo">
+
+            <span>SOBRE NOSOTROS</span>
+
+            <h2>
+                Cuidamos de ti y de tu familia
+            </h2>
+
+            <p>
+                Somos una clínica comprometida con tu bienestar,
+                con atención cercana y profesional.
+            </p>
+
+        </div>
+
+
+        <div class="valores">
+
+            <div class="valor">
+
+                <div class="icono">
+                    🎯
+                </div>
+
+                <h3>
+                    Misión
+                </h3>
+
+                <p>
+                    Brindar atención médica integral, humana y
+                    accesible para toda la familia.
+                </p>
+
+            </div>
+
+
+            <div class="valor">
+
+                <div class="icono">
+                    👁️
+                </div>
+
+                <h3>
+                    Visión
+                </h3>
+
+                <p>
+                    Ser la clínica de confianza de nuestra comunidad,
+                    reconocida por su calidad y calidez.
+                </p>
+
+            </div>
+
+
+            <div class="valor">
+
+                <div class="icono">
+                    🤝
+                </div>
+
+                <h3>
+                    Valores
+                </h3>
+
+                <p>
+                    Respeto, compromiso, ética profesional y
+                    empatía con cada paciente.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CONTACTO -->
+
+    <section class="contacto" id="contacto">
+
+        <div class="titulo">
+
+            <span>CONTACTO</span>
+
+            <h2>
+                Estamos para ayudarte
+            </h2>
+
+            <p>
+                Comunícate con nosotros o visítanos.
+            </p>
+
+        </div>
+
+
+        <div class="contacto-contenedor">
+
+            <div class="contacto-item">
+
+                <div class="icono">
+                    📍
+                </div>
+
+                <h3>
+                    Ubicación
+                </h3>
+
+                <p>
+                    Calle Principal #123<br>
+                    Tu ciudad
+                </p>
+
+            </div>
+
+
+            <div class="contacto-item">
+
+                <div class="icono">
+                    📞
+                </div>
+
+                <h3>
+                    Teléfono
+                </h3>
+
+                <p>
+                    (000) 000-0000
+                </p>
+
+            </div>
+
+
+            <div class="contacto-item">
+
+                <div class="icono">
+                    ✉️
+                </div>
+
+                <h3>
+                    Correo
+                </h3>
+
+                <p>
+                    contacto@tuclinica.com
+                </p>
+
+            </div>
+
+
+            <div class="contacto-item">
+
+                <div class="icono">
+                    🕒
+                </div>
+
+                <h3>
+                    Horario
+                </h3>
+
+                <p>
+                    Lun - Vie: 8:00 am - 6:00 pm<br>
+                    Sáb: 8:00 am - 1:00 pm
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PIE DE PÁGINA -->
+
+    <footer class="pie">
+
+        © 2026 Clínica Médica General y Familiar.
+        Todos los derechos reservados.
+
+    </footer>
+
+
+
+    <script>
+        const boton = document.getElementById("menu-btn");
+        const menu = document.getElementById("menu");
+
+        boton.addEventListener("click", function () {
+            const abierto = menu.classList.toggle("abierto");
+            boton.textContent = abierto ? "✕" : "☰";
+        });
+
+        menu.querySelectorAll("a").forEach(function (enlace) {
+            enlace.addEventListener("click", function () {
+                menu.classList.remove("abierto");
+                boton.textContent = "☰";
+            });
+        });
+    </script>
 
 </body>
 

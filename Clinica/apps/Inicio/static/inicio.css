@@ -44,20 +44,28 @@ a {
 /* NAVBAR */
 
 .navbar {
+    position: relative;
     max-width: 1250px;
-    margin: 14px auto 0;
-    padding: 2px 28px;
+    margin: 12px auto 0;
+    padding: 0 26px;
 
     background: rgba(255,255,255,0.88);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
 
-    border-radius: 30px;
+    border-radius: 26px;
     box-shadow: 0 6px 24px rgba(7,88,117,0.15);
 
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+
+/* BOTÓN DEL MENÚ (solo celular) */
+
+.menu-btn {
+    display: none;
 }
 
 
@@ -69,7 +77,7 @@ a {
 }
 
 .logo img {
-    height: 52px;
+    height: 42px;
     width: auto;
     display: block;
 }
@@ -290,21 +298,149 @@ h1 span {
 }
 
 
+/* NOSOTROS */
+
+.nosotros {
+    padding: 80px 25px;
+    background: white;
+    text-align: center;
+}
+
+.valores {
+    max-width: 950px;
+    margin: 40px auto 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.valor {
+    background: #f4f8f8;
+    border-radius: 15px;
+    padding: 30px 20px;
+}
+
+.valor h3 {
+    color: #123d5c;
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+.valor p {
+    color: #5d737a;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+
+/* CONTACTO */
+
+.contacto {
+    padding: 80px 25px;
+    background: #f4f8f8;
+    text-align: center;
+}
+
+.contacto-contenedor {
+    max-width: 1050px;
+    margin: 40px auto 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.contacto-item {
+    background: white;
+    border-radius: 15px;
+    padding: 30px 18px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+.contacto-item h3 {
+    color: #123d5c;
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+.contacto-item p {
+    color: #5d737a;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+
+/* PIE DE PÁGINA */
+
+.pie {
+    background: #075875;
+    color: #d6eef0;
+    text-align: center;
+    font-size: 12px;
+    padding: 22px 15px;
+}
+
+
+/* Que el menú no tape el título al bajar */
+
+#servicios,
+#nosotros,
+#contacto {
+    scroll-margin-top: 20px;
+}
+
+
 /* CELULAR */
 
 @media (max-width: 700px) {
 
     .navbar {
         margin: 12px 12px 0;
-        padding: 2px 16px;
+        padding: 0 16px;
     }
 
     .logo img {
-        height: 46px;
+        height: 38px;
+    }
+
+    .menu-btn {
+        display: block;
+        background: none;
+        border: none;
+        font-size: 26px;
+        line-height: 1;
+        color: #075875;
+        cursor: pointer;
+        padding: 6px 4px;
     }
 
     nav {
         display: none;
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        right: 0;
+        z-index: 10;
+
+        flex-direction: column;
+        gap: 0;
+
+        background: white;
+        border-radius: 18px;
+        padding: 8px;
+        box-shadow: 0 10px 30px rgba(7,88,117,0.2);
+    }
+
+    nav.abierto {
+        display: flex;
+    }
+
+    nav a {
+        padding: 13px 16px;
+        border-radius: 10px;
+    }
+
+    nav a:hover {
+        background: #e3f5f4;
     }
 
     .hero {
@@ -357,8 +493,21 @@ h1 span {
         align-items: center;
     }
 
-    .servicios-contenedor {
+    .servicios-contenedor,
+    .valores,
+    .contacto-contenedor {
         grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* TABLET */
+
+@media (max-width: 950px) and (min-width: 701px) {
+
+    .contacto-contenedor {
+        grid-template-columns: repeat(2, 1fr);
     }
 
 }
