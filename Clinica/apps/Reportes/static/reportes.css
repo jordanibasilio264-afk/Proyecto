@@ -205,6 +205,7 @@ footer span {
     grid-template-columns: 2fr 1fr 1fr auto;
     gap: 12px;
     margin-top: 18px;
+    align-items: end;
 }
 
 .campo {
