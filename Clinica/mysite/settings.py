@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'apps.SegurosMedicos.apps.SegurosMedicosConfig',
     'apps.Medicamentos.apps.MedicamentosConfig',
     'apps.Expedientes.apps.ExpedientesConfig',
+    "apps.Dashboard.apps.DashboardConfig",
 ]
 
 MIDDLEWARE = [

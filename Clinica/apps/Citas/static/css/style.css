@@ -12,7 +12,6 @@ body.page-body {
 
 .layout-container{
     display: flex;
-    width: 100%;
 }
 
 .menu-lateral {
@@ -433,10 +432,10 @@ body.page-body {
   background-color: var(--brand-subtle);
 }
 
-@media (max-width: 1338px){
+@media (max-width: 1338px) {
     .main-content {
-    width: 81%;
-}
+        width: 79%;
+    } 
 }
 @media (max-width: 768px) {
     .layout-container{
@@ -485,4 +484,7 @@ body.page-body {
   .header-title {
     font-size: 1rem;
   }
+  .main-content {
+        width: 100%;
+    } 
 }

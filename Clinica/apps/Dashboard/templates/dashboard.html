@@ -1,0 +1,180 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Clínica Médica</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="{% static 'CSS/dashboard.css' %}">
+</head>
+<body class="app-container">
+
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div class="brand-header">
+        <div class="brand-logo-container">
+          <i class="icon-brand"></i>
+        </div>
+        <img src="{% static 'images/image26.svg' %}" alt="Clínica Médica" class="logo-img">
+      </div>
+
+      <nav class="nav-menu">
+        <a href="" class="nav-item active">
+          <i class="nav-icon">⌂</i> Dashboard
+        </a>
+        <a href="#" class="nav-item">
+          <i class="nav-icon">♟</i> Pacientes
+        </a>
+        <a href="#" class="nav-item">
+          <i class="nav-icon">▣</i> Citas
+        </a>
+        <a href="" class="nav-item">
+          <i class="nav-icon"></i> Expediente Digital
+        </a>
+        <a href="#" class="nav-item">
+          <i class="nav-icon"></i> Recetas
+        </a>
+        <a href="#" class="nav-item">
+          <i class="nav-icon">⚙</i> Configuración
+        </a>
+      </nav>
+
+    <div class="sidebar-bottom">
+      <a href="#" class="btn-logout">
+        <i class="icon-logout"></i> Cerrar sesión
+      </a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="main-header">
+      <div class="header-left">
+        <button id="btn-toggle-sidebar" class="btn-hamburger">☰</button>
+        <h2 class="header-title">Panel de Control (Dashboard)</h2>
+      </div>
+
+      <div class="user-status-container">
+        <span class="status-indicator"></span>
+        <div class="user-profile">
+          <span>{{ request.user.username|default:"Usuario" }}</span>
+          <i class="user-avatar"></i>
+        </div>
+      </div>
+    </header>
+
+    <div class="content-body">
+      
+      <section class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-icon-wrapper icon-teal">
+              <i class=""></i>
+            </div>
+            <span class="kpi-tag tag-positive">+12% este mes</span>
+          </div>
+          <div class="kpi-content">
+            <h3 class="kpi-value">{{ total_pacientes|default:"1,284" }}</h3>
+            <p class="kpi-label">Pacientes Registrados</p>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-icon-wrapper icon-blue">
+              <i class=""></i>
+            </div>
+            <span class="kpi-tag tag-neutral">Hoy</span>
+          </div>
+          <div class="kpi-content">
+            <h3 class="kpi-value">{{ citas_programadas|default:"42" }}</h3>
+            <p class="kpi-label">Citas Programadas</p>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-icon-wrapper icon-green">
+              <i class=""></i>
+            </div>
+            <span class="kpi-tag tag-positive">88% tasa</span>
+          </div>
+          <div class="kpi-content">
+            <h3 class="kpi-value">{{ citas_atendidas|default:"156" }}</h3>
+            <p class="kpi-label">Citas Atendidas</p>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-icon-wrapper icon-red">
+              <i class=""></i>
+            </div>
+            <span class="kpi-tag tag-negative">-4% esta semana</span>
+          </div>
+          <div class="kpi-content">
+            <h3 class="kpi-value">{{ citas_canceladas|default:"8" }}</h3>
+            <p class="kpi-label">Citas Canceladas</p>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-icon-wrapper icon-purple">
+              <i class=""></i>
+            </div>
+            <span class="kpi-tag tag-neutral">Total acumulado</span>
+          </div>
+          <div class="kpi-content">
+            <h3 class="kpi-value">{{ consultas_realizadas|default:"310" }}</h3>
+            <p class="kpi-label">Consultas Realizadas</p>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-icon-wrapper icon-amber">
+              <i class=""></i>
+            </div>
+            <span class="kpi-tag tag-positive">+18% vs mes ant.</span>
+          </div>
+          <div class="kpi-content">
+            <h3 class="kpi-value">${{ ingresos_generados|default:"14,250.00" }}</h3>
+            <p class="kpi-label">Ingresos Generados</p>
+          </div>
+        </div>
+
+      </section>
+
+      <section class="charts-grid">
+
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Estadísticas Médicas: Consultas Mensuales</h3>
+            <span class="chart-subtitle">Resumen del último semestre</span>
+          </div>
+          <div class="chart-container">
+            <canvas id="chartConsultas"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Estado de Citas Médicas</h3>
+            <span class="chart-subtitle">Proporción general</span>
+          </div>
+          <div class="chart-container chart-pie-container">
+            <canvas id="chartEstadoCitas"></canvas>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <script src="{% static 'JS/scripts.js' %}"></script>
+</body>
+</html>
