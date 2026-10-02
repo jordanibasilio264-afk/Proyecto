@@ -35,6 +35,14 @@ body {
     padding: 18px 8px;
 }
 
+.logo img {
+    display: block;
+    width: 120px;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+
 .logo-icono {
     width: 60px;
     height: 60px;
@@ -446,6 +454,66 @@ footer span {
     font-size: 9px;
 }
 
+/* MENÚ LATERAL EN PANTALLAS BAJAS (computadora con zoom o ventana chica) */
+
+.menu-lateral {
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.menu-lateral::-webkit-scrollbar {
+    display: none;
+}
+
+@media (max-height: 700px) and (min-width: 701px) {
+
+    .logo {
+        padding: 10px 8px;
+    }
+
+    .logo img {
+        width: 85px;
+    }
+
+    .menu {
+        padding: 8px 7px;
+    }
+
+    .opcion {
+        padding: 9px 8px;
+        margin-bottom: 3px;
+    }
+
+    .cerrar {
+        padding: 12px 15px;
+    }
+
+}
+
+@media (max-height: 540px) and (min-width: 701px) {
+
+    .logo img {
+        width: 70px;
+    }
+
+    .opcion {
+        padding: 7px 8px;
+        margin-bottom: 2px;
+    }
+
+}
+
+
+/* MENÚ HAMBURGUESA (solo se ve en celular) */
+
+.menu-check,
+.menu-btn,
+.logo-movil,
+.fondo-oscuro {
+    display: none;
+}
+
+
 @media (max-width: 1000px) {
 
     .tarjetas {
@@ -468,12 +536,83 @@ footer span {
         display: block;
     }
 
+    /* La barra lateral sale de la pantalla y entra al tocar ☰ */
     .menu-lateral {
-        position: relative;
-        width: 100%;
-        left: 0;
+        position: fixed;
         top: 0;
         bottom: auto;
+        left: 0;
+        z-index: 30;
+
+        height: 100vh;
+        height: 100dvh;
+        overflow-y: auto;
+
+        width: 230px;
+        max-width: 80vw;
+
+        transform: translateX(-105%);
+        transition: transform 0.3s ease;
+    }
+
+    .menu-check:checked ~ .pagina .menu-lateral {
+        transform: translateX(0);
+    }
+
+    /* Fondo oscuro detrás del menú abierto */
+    .menu-check:checked ~ .pagina .fondo-oscuro {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 20;
+        background: rgba(7, 40, 60, 0.5);
+    }
+
+    /* Botón ☰ en el encabezado */
+    .menu-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+
+        background: #e3f5f4;
+        color: #075875;
+        font-size: 22px;
+        cursor: pointer;
+    }
+
+    /* Logo más pequeño dentro del menú deslizable */
+    .logo {
+        padding: 10px 8px;
+    }
+
+    .logo img {
+        width: 65px;
+    }
+
+    .menu {
+        padding: 8px 7px;
+    }
+
+    .opcion {
+        padding: 10px 8px;
+        margin-bottom: 3px;
+    }
+
+    .cerrar {
+        padding: 12px 15px;
+    }
+
+    /* Logo visible en el encabezado cuando el menú está cerrado */
+    .logo-movil {
+        display: block;
+        flex-shrink: 0;
+        height: 40px;
+        width: auto;
     }
 
     .contenido {
@@ -482,19 +621,23 @@ footer span {
         padding: 15px;
     }
 
-    .menu {
-        display: flex;
-        overflow-x: auto;
-    }
-
-    .cerrar {
-        display: none;
-    }
-
     .encabezado {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
+        gap: 12px;
+        padding: 14px 16px;
+    }
+
+    .encabezado-titulo {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .encabezado h1 {
+        font-size: 19px;
+    }
+
+    .usuario-texto,
+    .notificacion {
+        display: none;
     }
 
     .filtros-form,
