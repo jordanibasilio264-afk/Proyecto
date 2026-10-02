@@ -13,63 +13,73 @@
 
 <body>
 
+<!-- Interruptor del menú en celular (sin JavaScript) -->
+<input type="checkbox" id="menu-toggle" class="menu-check">
+
 <div class="pagina">
+
+    <label for="menu-toggle" class="fondo-oscuro"></label>
+
     <aside class="menu-lateral">
 
-  <div class="logo">
-    <div class="logo-icono">
-        <img src="{% static 'images/image26.svg' %}" alt="Logo Clínica" class="logo-imagen">
-    </div>
-</div>
-        
+<div class="logo">
+
+            <img
+                src="{% static 'images/logo-clinica.png' %}"
+                alt="Clínica Médica General y Familiar"
+                width="120"
+                style="display:block; height:auto; max-width:100%; margin:0 auto;"
+            >
+
+        </div>
+
 
         <nav class="menu">
 
             <a href="#" class="opcion">
-                ⌂
+                <span class="ico">⌂</span>
                 <span>Dashboard</span>
             </a>
 
             <a href="#" class="opcion">
-                ♟
+                <span class="ico">♟</span>
                 <span>Pacientes</span>
             </a>
 
             <a href="#" class="opcion">
-                ▣
+                <span class="ico">▣</span>
                 <span>Citas</span>
             </a>
 
             <a href="#" class="opcion">
-                ⚕
+                <span class="ico">⚕</span>
                 <span>Médicos</span>
             </a>
 
             <a href="#" class="opcion activa">
-                🛡
+                <span class="ico">🛡</span>
                 <span>Seguros</span>
             </a>
 
             <a href="#" class="opcion">
-                ▧
+                <span class="ico">▧</span>
                 <span>Pagos</span>
             </a>
 
             <a href="#" class="opcion">
-                ▥
+                <span class="ico">▥</span>
                 <span>Reportes</span>
             </a>
 
             <a href="#" class="opcion">
-                🔔
+                <span class="ico">🔔</span>
                 <span>Notificaciones</span>
             </a>
 
         </nav>
 
-        <a href="#" class="opcion cerrar">
-            ↪️
-            <span>Cerrar sesión</span>
+        <a href="#" class="cerrar">
+            ↪ Cerrar sesión
         </a>
 
     </aside>
@@ -81,7 +91,16 @@
         <!-- ENCABEZADO -->
         <section class="encabezado">
 
-            <div>
+            <label for="menu-toggle" class="menu-btn" aria-label="Abrir menú">☰</label>
+
+            <img
+                class="logo-movil"
+                src="{% static 'images/logo-clinica.png' %}"
+                alt="Clínica Médica General y Familiar"
+                style="height:40px; width:auto;"
+            >
+
+            <div class="encabezado-titulo">
                 <h1>Seguros Médicos</h1>
 
                 <p>

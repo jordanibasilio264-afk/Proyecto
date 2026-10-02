@@ -27,13 +27,11 @@ a {
 }
 
 
+/* ================================
+   MENÚ LATERAL
+================================ */
+
 .menu-lateral {
-    position: fixed;
-
-    top: 10px;
-    bottom: 10px;
-    left: 7px;
-
     width: 160px;
 
     background: linear-gradient(
@@ -41,117 +39,144 @@ a {
         #075875
     );
 
-    border-radius: 18px;
+    color: white;
 
-    padding: 15px 10px;
+    position: fixed;
+
+    top: 10px;
+    bottom: 10px;
+    left: 7px;
 
     display: flex;
     flex-direction: column;
+
+    overflow-y: auto;
+    scrollbar-width: none;
 
     z-index: 10;
-
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
+
+.menu-lateral::-webkit-scrollbar {
+    display: none;
+}
+
 .logo {
-    background: transparent;
-    padding: 0 0 16px 0;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    gap: 8px;
-
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.logo-icono {
-    width: calc(122% - 10px);
-    margin-left: -10px;
-    margin-right: -10px;
-    margin-top: -15px;
-    aspect-ratio: 4 / 3;
-    
-
-    border-radius: 18px 18px 0px 0px;
-
     background: white;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    overflow: hidden;
-
-    border: 2px solid white;
+    color: #075273;
+    text-align: center;
+    padding: 18px 8px;
 }
 
-.logo-icono img {
-    width: 150%;
-    height: 128%;
-
-    object-fit: contain;
+.logo img {
     display: block;
-}
-
-.logo h2 {
-    font-size: 15px;
-    color: white;
-    font-weight: bold;
-    line-height: 1.2;
+    width: 120px;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
 }
 
 .menu {
-    display: flex;
-    flex-direction: column;
-
-    gap: 5px;
+    padding: 12px 7px;
 }
 
 .opcion {
-    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 
-    padding: 10px 8px;
+    padding: 11px 8px;
+    margin-bottom: 5px;
 
     border-radius: 9px;
 
     color: white;
 
-    display: flex;
-    align-items: center;
-
-    gap: 9px;
-
-    font-size: 12px;
+    font-size: 11px;
 
     transition: 0.2s;
 }
 
-.opcion:hover {
-    background: rgba(255, 255, 255, 0.12);
-}
-
-.opcion.activa {
-    background: #42b7ae;
-
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+.opcion .ico {
+    width: 20px;
+    text-align: center;
+    font-size: 16px;
 }
 
 .opcion span {
     white-space: nowrap;
 }
 
-
-/* ================================
-   CERRAR SESIÓN
-================================ */
+.opcion:hover,
+.opcion.activa {
+    background: #42b7ae;
+}
 
 .cerrar {
-    margin-top: auto;
+    display: block;
 
-    background: rgba(255, 255, 255, 0.08);
+    margin-top: auto;
+    padding: 15px;
+
+    border-top: 1px solid #ffffff33;
+
+    color: white;
+    font-size: 10px;
+}
+
+
+/* ================================
+   MENÚ EN PANTALLAS BAJAS
+   (computadora con zoom o ventana chica)
+================================ */
+
+@media (max-height: 700px) and (min-width: 701px) {
+
+    .logo {
+        padding: 10px 8px;
+    }
+
+    .logo img {
+        width: 85px;
+    }
+
+    .menu {
+        padding: 8px 7px;
+    }
+
+    .opcion {
+        padding: 9px 8px;
+        margin-bottom: 3px;
+    }
+
+    .cerrar {
+        padding: 12px 15px;
+    }
+
+}
+
+@media (max-height: 540px) and (min-width: 701px) {
+
+    .logo img {
+        width: 70px;
+    }
+
+    .opcion {
+        padding: 7px 8px;
+        margin-bottom: 2px;
+    }
+
+}
+
+
+/* ================================
+   MENÚ HAMBURGUESA (solo celular)
+================================ */
+
+.menu-check,
+.menu-btn,
+.logo-movil,
+.fondo-oscuro {
+    display: none;
 }
 
 
@@ -179,6 +204,10 @@ a {
     align-items: center;
 
     margin-bottom: 22px;
+}
+
+.encabezado-titulo {
+    min-width: 0;
 }
 
 .encabezado h1 {
@@ -862,56 +891,85 @@ td {
     }
 
 
-    /* MENÚ */
+    /* MENÚ DESLIZABLE */
 
     .menu-lateral {
-        position: relative;
-
-        top: auto;
+        top: 0;
         bottom: auto;
-        left: auto;
+        left: 0;
 
-        width: calc(100% - 14px);
+        z-index: 30;
 
-        margin: 7px;
+        width: 230px;
+        max-width: 80vw;
 
-        border-radius: 15px;
+        height: 100vh;
+        height: 100dvh;
 
-        padding: 10px;
+        transform: translateX(-105%);
+        transition: transform 0.3s ease;
+    }
+
+    .menu-check:checked ~ .pagina .menu-lateral {
+        transform: translateX(0);
+    }
+
+    .menu-check:checked ~ .pagina .fondo-oscuro {
+        display: block;
+
+        position: fixed;
+        inset: 0;
+
+        z-index: 20;
+
+        background: rgba(7, 40, 60, 0.5);
+    }
+
+    .menu-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+
+        width: 40px;
+        height: 40px;
+
+        border-radius: 10px;
+
+        background: #e3f5f4;
+        color: #075875;
+
+        font-size: 22px;
+        cursor: pointer;
+    }
+
+    .logo-movil {
+        display: block;
+        flex-shrink: 0;
+
+        height: 40px;
+        width: auto;
     }
 
     .logo {
-        width: 150px;
+        padding: 10px 8px;
+    }
 
-        margin-bottom: 10px;
+    .logo img {
+        width: 65px;
     }
 
     .menu {
-        display: flex;
-
-        flex-direction: row;
-
-        overflow-x: auto;
-
-        gap: 5px;
-
-        padding-bottom: 3px;
+        padding: 8px 7px;
     }
 
     .opcion {
-        flex-shrink: 0;
-
-        width: auto;
-
-        white-space: nowrap;
-
-        padding: 9px 11px;
+        padding: 10px 8px;
+        margin-bottom: 3px;
     }
 
     .cerrar {
-        margin-top: 8px;
-
-        width: max-content;
+        padding: 12px 15px;
     }
 
 
@@ -929,11 +987,16 @@ td {
     /* ENCABEZADO */
 
     .encabezado {
-        flex-direction: column;
+        flex-wrap: wrap;
 
-        align-items: flex-start;
+        justify-content: flex-start;
+        align-items: center;
 
         gap: 12px;
+    }
+
+    .encabezado-titulo {
+        flex: 1;
     }
 
     .encabezado h1 {
@@ -942,6 +1005,7 @@ td {
 
     .btn-nuevo {
         width: 100%;
+        order: 3;
     }
 
 
