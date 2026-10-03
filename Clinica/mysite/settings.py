@@ -85,11 +85,27 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
+import dj_database_url
+from pathlib import Path
+from dotenv import load_dotenv
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(BASE_DIR / '.env')
+
+DATABASE_URL = dj_database_url.config(
+    conn_max_age=600,
+    ssl_require=True
+)
+
+if DATABASE_URL is None:
+    raise RuntimeError(
+        "DATABASE_URL no está configurada. "
+        "Crea el archivo .env y configura PostgreSQL."
+    )
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': DATABASE_URL
 }
 
 
