@@ -43,9 +43,9 @@ a {
 
     position: fixed;
 
-    top: 10px;
-    bottom: 10px;
-    left: 7px;
+    top: 0;
+    bottom: 0;
+    left: 0;
 
     display: flex;
     flex-direction: column;
@@ -185,9 +185,9 @@ a {
 ================================ */
 
 .contenido {
-    margin-left: 180px;
+    margin-left: 160px;
 
-    width: calc(100% - 195px);
+    width: calc(100% - 160px);
 
     padding: 25px 20px 20px;
 }

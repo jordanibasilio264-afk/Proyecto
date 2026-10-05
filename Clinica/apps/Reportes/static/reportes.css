@@ -20,9 +20,9 @@ body {
     background: linear-gradient(#087f88, #075875);
     color: white;
     position: fixed;
-    top: 10px;
-    bottom: 10px;
-    left: 7px;
+    top: 0;
+    bottom: 0;
+    left: 0;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -114,8 +114,8 @@ body {
 }
 
 .contenido {
-    margin-left: 180px;
-    width: calc(100% - 195px);
+    margin-left: 160px;
+    width: calc(100% - 160px);
     padding: 20px 25px;
 }
 
