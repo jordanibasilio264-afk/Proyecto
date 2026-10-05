@@ -37,34 +37,39 @@
 
         <nav class="menu">
 
-            <a href="#" class="opcion">
+            <a href="{% url 'dashboard' %}" class="opcion">
                 <span>⌂</span>
                 Dashboard
             </a>
 
-            <a href="#" class="opcion">
-                <span>♟</span>
-                Pacientes
+            <a href="{% url 'medicamentos' %}" class="opcion">
+                <span></span>
+                Medicamentos
             </a>
 
-            <a href="#" class="opcion">
+            <a href="{% url 'citas' %}" class="opcion">
                 <span>▣</span>
                 Citas
             </a>
 
-            <a href="#" class="opcion">
-                <span>▤</span>
-                Pagos
+            <a href="{% url 'expedientes' %}" class="opcion">
+                <span></span>
+                Expediente Digital
             </a>
-
-            <a href="#" class="opcion">
-                <span>▧</span>
-                Recibos
-            </a>
-
-            <a href="#" class="opcion activa">
+            
+            <a href="{% url 'reportes' %}" class="opcion activa">
                 <span>▥</span>
                 Reportes
+            </a>
+
+            <a href="{% url 'seguros' %}" class="opcion">
+                <span>▤</span>
+                Seguros
+            </a>
+            
+            <a href="{% url 'pagos' %}" class="opcion">
+                <span>▤</span>
+                Pagos
             </a>
 
             <a href="#" class="opcion">

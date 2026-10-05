@@ -41,36 +41,41 @@
 
         <nav class="menu">
 
-            <a href="#" class="opcion">
+            <a href="{% url 'dashboard' %}" class="opcion">
                 <span>⌂</span>
                 Dashboard
             </a>
 
-            <a href="#" class="opcion">
+            <a href="{% url 'medicamentos' %}" class="opcion">
                 <span>♟</span>
-                Pacientes
+                Medicamentos
             </a>
 
-            <a href="#" class="opcion">
+            <a href="{% url 'citas' %}" class="opcion">
                 <span>▣</span>
                 Citas
             </a>
 
+            <a href="{% url 'expedientes' %}" class="opcion">
+                <span></span>
+                Expediente Digital
+            </a>
+
+            <a href="{% url 'reportes' %}" class="opcion">
+                <span>▥</span>
+                Reportes
+            </a>
+            
+            <a href="{% url 'seguros' %}" class="opcion">
+                <span>▧</span>
+                Seguros
+            </a>
+            
             <a href="#" class="opcion activa">
                 <span>$</span>
                 Pagos
             </a>
-
-            <a href="#" class="opcion">
-                <span>▧</span>
-                Recibos
-            </a>
-
-            <a href="#" class="opcion">
-                <span>▥</span>
-                Reportes
-            </a>
-
+            
             <a href="#" class="opcion">
                 <span>⚙</span>
                 Configuración

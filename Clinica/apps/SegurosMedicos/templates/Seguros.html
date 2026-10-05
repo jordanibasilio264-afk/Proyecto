@@ -36,44 +36,44 @@
 
         <nav class="menu">
 
-            <a href="#" class="opcion">
+            <a href="{% url 'dashboard' %}" class="opcion">
                 <span class="ico">⌂</span>
                 <span>Dashboard</span>
             </a>
 
-            <a href="#" class="opcion">
+            <a href="{% url 'medicamentos' %}" class="opcion">
                 <span class="ico">♟</span>
-                <span>Pacientes</span>
+                <span>Medicamentos</span>
             </a>
 
-            <a href="#" class="opcion">
+            <a href="{% url 'citas' %}" class="opcion">
                 <span class="ico">▣</span>
                 <span>Citas</span>
             </a>
 
-            <a href="#" class="opcion">
-                <span class="ico">⚕</span>
-                <span>Médicos</span>
+            <a href="{% url 'expedientes' %}" class="opcion">
+                <span></span>
+                Expediente Digital
             </a>
 
-            <a href="#" class="opcion activa">
-                <span class="ico">🛡</span>
-                <span>Seguros</span>
+            <a href="{% url 'reportes' %}" class="opcion activa">
+                <span>▥</span>
+                Reportes
+            </a>
+
+            <a href="{% url 'seguros' %}" class="opcion">
+                <span>▤</span>
+                Seguros
+            </a>
+            
+            <a href="{% url 'pagos' %}" class="opcion">
+                <span>▤</span>
+                Pagos
             </a>
 
             <a href="#" class="opcion">
-                <span class="ico">▧</span>
-                <span>Pagos</span>
-            </a>
-
-            <a href="#" class="opcion">
-                <span class="ico">▥</span>
-                <span>Reportes</span>
-            </a>
-
-            <a href="#" class="opcion">
-                <span class="ico">🔔</span>
-                <span>Notificaciones</span>
+                <span>⚙</span>
+                Configuración
             </a>
 
         </nav>

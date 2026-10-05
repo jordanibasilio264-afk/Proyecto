@@ -17,13 +17,13 @@
             <div class="">
                 <img src="{% static 'images/image26.svg' %}" alt="Clínica Médica" class="logo-img">
                 <nav class="menu">
-                    <a href="#" class="opcion"> <span>⌂</span> Dashboard</a>
-                    <a href="#" class="opcion"> <span>♟</span> Pacientes</a>
-                    <a href="#" class="opcion activa"> <span>▣</span> Citas</a>
-                    <a href="#" class="opcion">Recetas</a>
-                    <a href="#" class="opcion">Medicamentos</a>
-                    <a href="#" class="opcion"> <span>▤</span> Pagos</a>
-                    <a href="#" class="opcion"> <span>▥</span> Reportes</a>
+                    <a href="{% url 'dashboard' %}" class="opcion"> <span>⌂</span> Dashboard</a>
+                    <a href="{% url 'medicamentos' %}" class="opcion">Medicamentos</a>
+                    <a href="{% url 'citas' %}" class="opcion activa"> <span>▣</span> Citas</a>
+                    <a href="{% url 'expedientes' %}" class="opcion"> <span></span>Expediente Digital</a>
+                    <a href="{% url 'reportes' %}" class="opcion"> <span>▥</span> Reportes</a>
+                    <a href="{% url 'seguros' %}" class="opcion">Seguros</a>
+                    <a href="{% url 'pagos' %}" class="opcion"> <span>▤</span> Pagos</a>
                     <a href="#" class="opcion"> <span>⚙</span> Configuración</a>
                 </nav>
 
@@ -39,12 +39,12 @@
                     <h1 class="header-title">Gestión de citas.</h1>
                 </div>
 
-                <div class="header-actions">
-                    <button class="notification-btn">
-                        <i class=""></i>
-                        <span class="notification-badge"></span>
-                    </button>
-                    <img src="" alt="Usuario" class="user-avatar">
+                <div class="user-status-container">
+                    <a href="{% url 'notificaciones' %}">🔔</a>
+                    <div class="user-profile">
+                        <span>{{ request.user.username|default:"Usuario" }}</span>
+                        <i class="user-avatar"></i>
+                    </div>
                 </div>
             </header>
 

@@ -128,12 +128,6 @@ body.app-container {
   gap: 0.75rem;
 }
 
-.status-indicator {
-  width: 0.625rem;
-  height: 0.625rem;
-  background-color: #10B981;
-  border-radius: 9999px;
-}
 
 .user-profile {
   display: flex;
@@ -156,20 +150,6 @@ body.app-container {
   gap: 1.5rem;
 }
 
-.btn-hamburger {
-  display: none;
-  background: transparent;
-  border: none;
-  font-size: 1.25rem;
-  color: var(--brand-dark);
-  cursor: pointer;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.375rem;
-}
-
-.btn-hamburger:hover {
-  background-color: var(--brand-subtle);
-}
 
 /* GRILLA DE TARJETAS KPI */
 .kpi-grid {
@@ -264,11 +244,7 @@ body.app-container {
 }
 
 /* GRILLA DE GRÁFICOS */
-.charts-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-}
+
 
 .chart-card {
   background-color: #ffffff;
@@ -305,6 +281,41 @@ body.app-container {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  z-index: 30;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.sidebar-overlay.active {
+  display: block;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.btn-hamburger {
+  display: none;
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  color: var(--brand-dark);
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+}
+
+.btn-hamburger:hover {
+  background-color: var(--brand-subtle);
 }
 
 @media (max-width: 767px) {

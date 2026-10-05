@@ -14,34 +14,38 @@
 
   <aside id="sidebar" class="sidebar">
     
+    <div>
       <div class="brand-header">
-        <div class="brand-logo-container">
-          <i class="icon-brand"></i>
-        </div>
         <img src="{% static 'images/image26.svg' %}" alt="Clínica Médica" class="logo-img">
       </div>
 
       <nav class="nav-menu">
-        <a href="" class="nav-item active">
+        <a href="{% url 'dashboard' %}" class="nav-item active">
           <i class="nav-icon">⌂</i> Dashboard
         </a>
-        <a href="#" class="nav-item">
-          <i class="nav-icon">♟</i> Pacientes
+        <a href="{% url 'medicamentos' %}" class="nav-item">
+          <i class="nav-icon"></i> Medicamentos
         </a>
-        <a href="#" class="nav-item">
+        <a href="{% url 'citas' %}" class="nav-item">
           <i class="nav-icon">▣</i> Citas
         </a>
-        <a href="" class="nav-item">
+        <a href="{% url 'expedientes' %}" class="nav-item">
           <i class="nav-icon"></i> Expediente Digital
         </a>
-        <a href="#" class="nav-item">
-          <i class="nav-icon"></i> Recetas
+        <a href="{% url 'reportes' %}" class="nav-item">
+          <i class="nav-icon"></i> Reportes
+        </a>
+        <a href="{% url 'seguros' %}" class="nav-item">
+          <i class="nav-icon"></i> Seguros
+        </a>
+        <a href="{% url 'pagos' %}" class="nav-item">
+          <i class="nav-icon"></i> Pagos
         </a>
         <a href="#" class="nav-item">
           <i class="nav-icon">⚙</i> Configuración
         </a>
       </nav>
-
+    </div>
     <div class="sidebar-bottom">
       <a href="#" class="btn-logout">
         <i class="icon-logout"></i> Cerrar sesión
@@ -57,7 +61,7 @@
       </div>
 
       <div class="user-status-container">
-        <span class="status-indicator"></span>
+        <a href="{% url 'notificaciones' %}">🔔</a>
         <div class="user-profile">
           <span>{{ request.user.username|default:"Usuario" }}</span>
           <i class="user-avatar"></i>
@@ -175,6 +179,6 @@
     </div>
   </main>
 
-  <script src="{% static 'JS/scripts.js' %}"></script>
+  <script src="{% static 'JS/dashboard.js' %}"></script>
 </body>
 </html>

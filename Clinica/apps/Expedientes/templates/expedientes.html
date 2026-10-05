@@ -19,20 +19,26 @@
         <img src="{% static 'images/image26.svg' %}" alt="Clínica Médica" class="logo-img">
       </div>
       <nav class="nav-menu">
-        <a href="#" class="nav-item">
+        <a href="{% url 'dashboard' %}" class="nav-item">
           <i class="nav-icon">⌂</i> Dashboard
         </a>
-        <a href="#" class="nav-item">
-          <i class="nav-icon">♟</i> Pacientes
+        <a href="{% url 'medicamentos' %}" class="nav-item">
+          <i class="nav-icon"></i> Medicamentos
         </a>
-        <a href="#" class="nav-item">
+        <a href="{% url 'citas' %}" class="nav-item">
           <i class="nav-icon">▣</i> Citas
         </a>
-        <a href="#" class="nav-item active">
+        <a href="{% url 'expedientes' %}" class="nav-item active">
           <i class="nav-icon"></i> Expediente Digital
         </a>
-        <a href="#" class="nav-item">
-          <i class="nav-icon"></i> Recetas
+         <a href="{% url 'reportes' %}" class="nav-item">
+          <i class="nav-icon"></i> Reportes
+        </a>
+        <a href="{% url 'seguros' %}" class="nav-item">
+          <i class="nav-icon"></i> Seguros
+        </a>
+        <a href="{% url 'pagos' %}" class="nav-item">
+          <i class="nav-icon"></i> Pagos
         </a>
         <a href="#" class="nav-item">
           <i class="nav-icon">⚙</i> Configuración
