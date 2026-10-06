@@ -1,0 +1,631 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Auditoría</title>
+
+    <link rel="stylesheet" href="{% static 'auditoria.css' %}">
+
+</head>
+
+<body>
+
+<input type="checkbox" id="menu-toggle" class="menu-check">
+
+<div class="pagina">
+
+    <label for="menu-toggle" class="fondo-oscuro"></label>
+
+    <aside class="menu-lateral">
+
+        <div class="logo">
+
+            <img
+                src="{% static 'images/logo-clinica.png' %}"
+                alt="Clínica Médica General y Familiar"
+                width="120"
+                style="display:block; height:auto; max-width:100%; margin:0 auto;"
+            >
+
+        </div>
+
+
+        <nav class="menu">
+
+            <a href="#" class="opcion">
+                <span>⌂</span>
+                Dashboard
+            </a>
+
+            <a href="#" class="opcion">
+                <span>♟</span>
+                Pacientes
+            </a>
+
+            <a href="#" class="opcion">
+                <span>▣</span>
+                Citas
+            </a>
+
+            <a href="#" class="opcion">
+                <span>▤</span>
+                Pagos
+            </a>
+
+            <a href="#" class="opcion">
+                <span>▧</span>
+                Recibos
+            </a>
+
+            <a href="#" class="opcion">
+                <span>▥</span>
+                Reportes
+            </a>
+
+            <a href="#" class="opcion activa">
+                <span>🛡</span>
+                Auditoría
+            </a>
+
+            <a href="#" class="opcion">
+                <span>⚙</span>
+                Configuración
+            </a>
+
+        </nav>
+
+
+        <div class="cerrar">
+            ↪ Cerrar sesión
+        </div>
+
+    </aside>
+
+    <main class="contenido">
+
+        <header class="encabezado">
+
+            <label for="menu-toggle" class="menu-btn" aria-label="Abrir menú">☰</label>
+
+            <img
+                class="logo-movil"
+                src="{% static 'images/logo-clinica.png' %}"
+                alt="Clínica Médica General y Familiar"
+                style="height:40px; width:auto;"
+            >
+
+            <div class="encabezado-titulo">
+
+                <h1>Auditoría</h1>
+
+                <p>
+                    Registro de acciones, historial de actividades y accesos al sistema.
+                </p>
+
+            </div>
+
+
+            <div class="usuario">
+
+                <div class="notificacion">
+                    🔔
+                </div>
+
+                <div class="usuario-icono">
+                    👤
+                </div>
+
+                <div class="usuario-texto">
+
+                    <strong>
+                        Dr. Alejandro
+                    </strong>
+
+                    <small>
+                        Administrador
+                    </small>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- RESUMEN -->
+        <section class="resumen">
+
+            <div class="resumen-card">
+
+                <div class="resumen-icono">
+                    📝
+                </div>
+
+                <div>
+                    <span>Acciones registradas hoy</span>
+                    <strong>{{ acciones_hoy }}</strong>
+                </div>
+
+            </div>
+
+
+            <div class="resumen-card">
+
+                <div class="resumen-icono">
+                    🔑
+                </div>
+
+                <div>
+                    <span>Accesos al sistema hoy</span>
+                    <strong>{{ accesos_hoy }}</strong>
+                </div>
+
+            </div>
+
+
+            <div class="resumen-card">
+
+                <div class="resumen-icono">
+                    👤
+                </div>
+
+                <div>
+                    <span>Usuarios activos</span>
+                    <strong>{{ usuarios_activos }}</strong>
+                </div>
+
+            </div>
+
+
+            <div class="resumen-card alerta">
+
+                <div class="resumen-icono">
+                    ⚠
+                </div>
+
+                <div>
+                    <span>Accesos fallidos</span>
+                    <strong>{{ accesos_fallidos }}</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- HISTORIAL DE ACTIVIDADES -->
+        <section class="bloque">
+
+            <div class="bloque-titulo">
+
+                <div class="titulo">
+
+                    <h2>
+                        Historial de actividades
+                    </h2>
+
+                    <p>
+                        Consulta las acciones realizadas por los usuarios del sistema.
+                    </p>
+
+                </div>
+
+                <span class="contador">5 registros</span>
+
+            </div>
+
+
+            <div class="filtros-form">
+
+                <div class="campo">
+
+                    <label>
+                        Usuario
+                    </label>
+
+                    <select>
+
+                        <option>
+                            Todos los usuarios
+                        </option>
+
+                        <option>
+                            Dr. Alejandro
+                        </option>
+
+                        <option>
+                            Dra. Sánchez
+                        </option>
+
+                        <option>
+                            Laura Díaz
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Acción
+                    </label>
+
+                    <select>
+
+                        <option>
+                            Todas
+                        </option>
+
+                        <option>
+                            Crear
+                        </option>
+
+                        <option>
+                            Editar
+                        </option>
+
+                        <option>
+                            Consultar
+                        </option>
+
+                        <option>
+                            Eliminar
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Módulo
+                    </label>
+
+                    <select>
+
+                        <option>
+                            Todos
+                        </option>
+
+                        <option>
+                            Pacientes
+                        </option>
+
+                        <option>
+                            Citas
+                        </option>
+
+                        <option>
+                            Consultas
+                        </option>
+
+                        <option>
+                            Pagos
+                        </option>
+
+                        <option>
+                            Reportes
+                        </option>
+
+                        <option>
+                            Seguros
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Desde
+                    </label>
+
+                    <input type="date">
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Hasta
+                    </label>
+
+                    <input type="date">
+
+                </div>
+
+
+                <button class="boton-consultar">
+                    🔎 Consultar
+                </button>
+
+            </div>
+
+
+            <div class="tabla-scroll">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Fecha y hora</th>
+                            <th>Usuario</th>
+                            <th>Acción</th>
+                            <th>Módulo</th>
+                            <th>Descripción</th>
+                            <th>Dirección IP</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <tr>
+                        <td>
+                            05/10/2026
+                            <small>04:32 PM</small>
+                        </td>
+                        <td>
+                            <div class="usuario-fila">
+                                <div class="avatar">DS</div>
+                                <div>
+                                    <strong>Dra. Sánchez</strong>
+                                    <small>Médico</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="etiqueta crear">Crear</span></td>
+                        <td>Consultas</td>
+                        <td>Registró una consulta médica del paciente María Rodríguez.</td>
+                        <td class="ip">192.168.1.14</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            05/10/2026
+                            <small>03:58 PM</small>
+                        </td>
+                        <td>
+                            <div class="usuario-fila">
+                                <div class="avatar">LD</div>
+                                <div>
+                                    <strong>Laura Díaz</strong>
+                                    <small>Recepción</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="etiqueta editar">Editar</span></td>
+                        <td>Citas</td>
+                        <td>Reprogramó la cita de Ana Gómez para el viernes 09/10/2026.</td>
+                        <td class="ip">192.168.1.22</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            05/10/2026
+                            <small>02:41 PM</small>
+                        </td>
+                        <td>
+                            <div class="usuario-fila">
+                                <div class="avatar">DA</div>
+                                <div>
+                                    <strong>Dr. Alejandro</strong>
+                                    <small>Administrador</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="etiqueta consultar">Consultar</span></td>
+                        <td>Reportes</td>
+                        <td>Consultó el reporte de pagos del período 01/09/2026 al 30/09/2026.</td>
+                        <td class="ip">192.168.1.10</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            05/10/2026
+                            <small>11:15 AM</small>
+                        </td>
+                        <td>
+                            <div class="usuario-fila">
+                                <div class="avatar">LD</div>
+                                <div>
+                                    <strong>Laura Díaz</strong>
+                                    <small>Recepción</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="etiqueta crear">Crear</span></td>
+                        <td>Pacientes</td>
+                        <td>Registró un nuevo paciente: Juan Pérez.</td>
+                        <td class="ip">192.168.1.22</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            05/10/2026
+                            <small>09:20 AM</small>
+                        </td>
+                        <td>
+                            <div class="usuario-fila">
+                                <div class="avatar">DA</div>
+                                <div>
+                                    <strong>Dr. Alejandro</strong>
+                                    <small>Administrador</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="etiqueta eliminar">Eliminar</span></td>
+                        <td>Seguros</td>
+                        <td>Eliminó el seguro médico «Universal».</td>
+                        <td class="ip">192.168.1.10</td>
+                    </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ACCESOS AL SISTEMA -->
+        <section class="bloque">
+
+            <div class="bloque-titulo">
+
+                <div class="titulo">
+
+                    <h2>
+                        Accesos al sistema
+                    </h2>
+
+                    <p>
+                        Registro de inicios de sesión exitosos y fallidos.
+                    </p>
+
+                </div>
+
+                <span class="contador">4 accesos</span>
+
+            </div>
+
+
+            <div class="tabla-scroll">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Fecha y hora de acceso</th>
+                            <th>Dirección IP</th>
+                            <th>Dispositivo</th>
+                            <th>Resultado</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <tr>
+                        <td>
+                            <div class="usuario-fila">
+                                <div class="avatar">DA</div>
+                                <strong>Dr. Alejandro</strong>
+                            </div>
+                        </td>
+                        <td>05/10/2026 · 08:02 AM</td>
+                        <td class="ip">192.168.1.10</td>
+                        <td>Chrome · Windows</td>
+                        <td><span class="etiqueta exitoso">Exitoso</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="usuario-fila">
+                                <div class="avatar">LD</div>
+                                <strong>Laura Díaz</strong>
+                            </div>
+                        </td>
+                        <td>05/10/2026 · 08:15 AM</td>
+                        <td class="ip">192.168.1.22</td>
+                        <td>Chrome · Windows</td>
+                        <td><span class="etiqueta exitoso">Exitoso</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="usuario-fila">
+                                <div class="avatar">DS</div>
+                                <strong>Dra. Sánchez</strong>
+                            </div>
+                        </td>
+                        <td>05/10/2026 · 08:47 AM</td>
+                        <td class="ip">192.168.1.14</td>
+                        <td>Safari · iPhone</td>
+                        <td><span class="etiqueta exitoso">Exitoso</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="usuario-fila">
+                                <div class="avatar">?</div>
+                                <strong>Usuario desconocido</strong>
+                            </div>
+                        </td>
+                        <td>05/10/2026 · 07:31 AM</td>
+                        <td class="ip">190.80.45.12</td>
+                        <td>Firefox · Linux</td>
+                        <td><span class="etiqueta fallido">Fallido</span></td>
+                    </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <footer>
+
+            <div>
+
+                <strong>
+                    Registrar acciones
+                </strong>
+
+                <span>
+                    Cada cambio queda guardado
+                </span>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Consultar historial
+                </strong>
+
+                <span>
+                    Filtra por usuario, acción o fecha
+                </span>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Registrar accesos
+                </strong>
+
+                <span>
+                    Inicios de sesión y su resultado
+                </span>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Información segura
+                </strong>
+
+                <span>
+                    Solo el administrador la consulta
+                </span>
+
+            </div>
+
+        </footer>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

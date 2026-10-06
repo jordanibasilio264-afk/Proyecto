@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'apps.Medicamentos.apps.MedicamentosConfig',
     'apps.Expedientes.apps.ExpedientesConfig',
     "apps.Dashboard.apps.DashboardConfig",
+    "apps.Auditoria.apps.AuditoriaConfig",
 ]
 
 MIDDLEWARE = [

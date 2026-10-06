@@ -30,4 +30,5 @@ urlpatterns = [
     path("medicamentos/", include("apps.Medicamentos.urls")),
     path("expedientes/",include("apps.Expedientes.urls")),
     path("dashboard/",include("apps.Dashboard.urls")),
+    path("auditoria/",include("apps.Auditoria.urls")),
   ]   
