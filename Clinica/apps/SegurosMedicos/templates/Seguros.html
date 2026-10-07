@@ -46,6 +46,16 @@
                 <span>Medicamentos</span>
             </a>
 
+            <a href="{% url 'auditoria' %}" class="opcion activa">
+                <span></span>
+                Auditoria
+            </a>
+
+            <a href="{% url 'documentos' %}" class="opcion">
+                <span></span>
+                Consultas
+            </a>
+
             <a href="{% url 'citas' %}" class="opcion">
                 <span class="ico">▣</span>
                 <span>Citas</span>
@@ -56,12 +66,12 @@
                 Expediente Digital
             </a>
 
-            <a href="{% url 'reportes' %}" class="opcion activa">
+            <a href="{% url 'reportes' %}" class="opcion">
                 <span>▥</span>
                 Reportes
             </a>
 
-            <a href="{% url 'seguros' %}" class="opcion">
+            <a href="{% url 'seguros' %}" class="opcion activa">
                 <span>▤</span>
                 Seguros
             </a>
