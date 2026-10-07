@@ -126,7 +126,7 @@
 
                 <div>
                     <span>Total de seguros</span>
-                    <strong>{{ seguros|length }}</strong>
+                    
                 </div>
 
             </div>
@@ -209,7 +209,7 @@
 
                 <tbody>
 
-                    {% for seguro in seguros %}
+                    
 
                     <tr>
 
@@ -275,7 +275,6 @@
                                 </a>
 
                                 <a
-                                    href="{% url 'eliminar_seguro' seguro.id %}"
                                     class="btn-eliminar"
                                     onclick="return confirm('¿Desea eliminar este seguro?')"
                                 >
@@ -288,7 +287,7 @@
 
                     </tr>
 
-                    {% empty %}
+                    
 
                     <tr>
 
@@ -305,8 +304,6 @@
                         </td>
 
                     </tr>
-
-                    {% endfor %}
 
                 </tbody>
 
