@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Consultas y Documentos Médicos</title>
+  <link rel="stylesheet" href="{% static 'Css/documentos.css' %}">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-row">
+      <div>
+        <h1>Consultas y Documentos Médicos</h1>
+        <p>Clínica Médica General y Familiar</p>
+      </div>
+      <span class="user">{{ request.user.get_username|default:"Usuario" }}</span>
+    </div>
+  </header>
+
+  <div class="wrap">
+    {% csrf_token %}
+
+    <!-- Paciente: todo lo que se registre queda asociado a este paciente -->
+    <section class="card patient">
+      <div class="pick">
+        <label for="paciente" style="margin-top:0">Paciente</label>
+        <select id="paciente">
+          <option value="">Seleccione un paciente…</option>
+          {% for p in pacientes %}
+            <option value="{{ p.id }}" data-sangre="{{ p.tipo_sangre }}" data-edad="{{ p.edad }}">{{ p.nombre }}</option>
+          {% empty %}
+            <option value="1" data-sangre="O+" data-edad="34">María Pérez (demo)</option>
+            <option value="2" data-sangre="A-" data-edad="52">José Martínez (demo)</option>
+            <option value="3" data-sangre="B+" data-edad="8">Ana Gómez (demo)</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="patient-info" id="pInfo" hidden>
+        <span>Tipo de sangre<b id="iSangre"></b></span>
+        <span>Edad<b id="iEdad"></b></span>
+      </div>
+    </section>
+
+    <nav class="tabs" aria-label="Secciones">
+      <button class="tab active" data-tab="consultas">Consultas médicas <span class="count" id="nCons">0</span></button>
+      <button class="tab" data-tab="documentos">Documentos <span class="count" id="nDocs">0</span></button>
+    </nav>
+
+    <!-- CONSULTAS -->
+    <section class="panel active" id="consultas">
+      <form class="card form" id="formConsulta">
+        <fieldset id="fsConsulta" disabled>
+          <h2>Nueva consulta</h2>
+          <label for="cFecha" style="margin-top:0">Fecha y hora</label>
+          <input type="datetime-local" id="cFecha" required>
+          <label for="cMotivo">Motivo de consulta</label>
+          <input id="cMotivo" required>
+
+          <div class="vitals">
+            <h3>Signos vitales</h3>
+            <div><label for="vPA">Presión (mmHg)</label><input id="vPA" placeholder="120/80"></div>
+            <div><label for="vFC">Pulso (lpm)</label><input type="number" id="vFC" min="0"></div>
+            <div><label for="vTemp">Temp. (°C)</label><input type="number" id="vTemp" step="0.1"></div>
+            <div><label for="vFR">Resp. (rpm)</label><input type="number" id="vFR" min="0"></div>
+            <div><label for="vSat">SpO₂ (%)</label><input type="number" id="vSat" min="0" max="100"></div>
+            <div><label for="vPeso">Peso (kg)</label><input type="number" id="vPeso" step="0.1"></div>
+          </div>
+
+          <label for="cDiag">Diagnóstico</label>
+          <textarea id="cDiag" required></textarea>
+          <label for="cTrat">Tratamiento</label>
+          <textarea id="cTrat"></textarea>
+          <label for="cObs">Observaciones médicas</label>
+          <textarea id="cObs"></textarea>
+          <button class="btn block">Guardar consulta</button>
+        </fieldset>
+      </form>
+
+      <div class="card history">
+        <div class="head-row">
+          <h2>Historial de consultas</h2>
+          <input type="search" id="filtro" placeholder="Filtrar por motivo o diagnóstico">
+        </div>
+        <div class="timeline" id="timeline"></div>
+      </div>
+    </section>
+
+    <!-- DOCUMENTOS -->
+    <section class="panel" id="documentos">
+      <form class="card form" id="formDoc">
+        <fieldset id="fsDoc" disabled>
+          <h2>Subir documento</h2>
+          <label for="dTipo" style="margin-top:0">Tipo</label>
+          <select id="dTipo">
+            <option>Laboratorio</option><option>Imagen / Rayos X</option>
+            <option>Receta</option><option>Informe médico</option><option>Otro</option>
+          </select>
+          <label for="dFile">Archivo</label>
+          <input type="file" id="dFile" required>
+          <label for="dDesc">Descripción (opcional)</label>
+          <input id="dDesc">
+          <p class="empty" style="text-align:left;padding:10px 0 0">Se asociará al paciente seleccionado arriba.</p>
+          <button class="btn block">Subir documento</button>
+        </fieldset>
+      </form>
+
+      <div class="card history">
+        <h2>Documentos del paciente</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Archivo</th><th>Tipo</th><th>Fecha</th><th></th></tr></thead>
+            <tbody id="tbDocs"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="{% static 'Js/documentos.js' %}"></script>
+</body>
+</html>

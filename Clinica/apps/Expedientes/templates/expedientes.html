@@ -60,7 +60,7 @@
         <h2 class="header-title">Expediente Clínico Digital</h2>
       </div>
       <div class="user-status-container">
-        <span class="status-indicator"></span>
+        <a href="{% url 'notificaciones' %}">🔔</a>
         <div class="user-profile">
           <span>{{ request.user.username|default:"Usuario" }}</span>
           <i class="user-avatar"></i>

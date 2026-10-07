@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'apps.Expedientes.apps.ExpedientesConfig',
     "apps.Dashboard.apps.DashboardConfig",
     "apps.Auditoria.apps.AuditoriaConfig",
+    "apps.Documentos.apps.DocumentosConfig",
 ]
 
 MIDDLEWARE = [
