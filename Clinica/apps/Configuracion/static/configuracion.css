@@ -1,0 +1,999 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f8f9;
+    color: #123b5a;
+}
+
+a {
+    text-decoration: none;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.pagina {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+/* ================================
+   MENÚ LATERAL
+================================ */
+
+.menu-lateral {
+    width: 160px;
+    background: linear-gradient(#087f88, #075875);
+    color: white;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.menu-lateral::-webkit-scrollbar {
+    display: none;
+}
+
+.logo {
+    background: white;
+    color: #075273;
+    text-align: center;
+    padding: 18px 8px;
+}
+
+.logo img {
+    display: block;
+    width: 120px;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+
+.menu {
+    padding: 12px 7px;
+}
+
+.opcion {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 8px;
+    margin-bottom: 5px;
+    border-radius: 9px;
+    color: white;
+    font-size: 11px;
+}
+
+.opcion span {
+    width: 20px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.opcion:hover,
+.opcion.activa {
+    background: #42b7ae;
+}
+
+.cerrar {
+    margin-top: auto;
+    padding: 15px;
+    border-top: 1px solid #ffffff33;
+    font-size: 10px;
+}
+
+
+/* ================================
+   CONTENIDO
+================================ */
+
+.contenido {
+    margin-left: 160px;
+    width: calc(100% - 160px);
+    padding: 20px 25px;
+}
+
+.encabezado,
+.bloque,
+.resumen-card,
+footer {
+    background: white;
+    box-shadow: 0 3px 15px #0000000d;
+    border-radius: 14px;
+}
+
+
+/* ENCABEZADO */
+
+.encabezado {
+    padding: 18px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.encabezado h1 {
+    font-size: 23px;
+}
+
+.encabezado p {
+    font-size: 11px;
+    color: #71858c;
+    margin-top: 5px;
+}
+
+.usuario {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.usuario-icono {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #e2f4f3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.usuario-texto {
+    display: flex;
+    flex-direction: column;
+}
+
+.usuario-texto strong {
+    font-size: 10px;
+}
+
+.usuario-texto small {
+    font-size: 9px;
+    color: #71848b;
+}
+
+
+/* ================================
+   TARJETAS DE CONFIGURACIÓN
+================================ */
+
+.config-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.bloque {
+    padding: 20px;
+}
+
+.bloque-cab {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.bloque-icono {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #e3f5f4;
+    color: #07838a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.titulo h2 {
+    font-size: 16px;
+}
+
+.titulo p {
+    font-size: 10px;
+    color: #71858c;
+    margin-top: 4px;
+}
+
+
+/* PERFIL */
+
+.perfil {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: 18px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid #edf2f3;
+}
+
+.avatar-grande {
+    width: 62px;
+    height: 62px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #087f88, #075875);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.perfil strong {
+    display: block;
+    font-size: 14px;
+    color: #123d5c;
+}
+
+.perfil small {
+    display: block;
+    font-size: 11px;
+    color: #71858c;
+    margin-top: 4px;
+}
+
+
+/* CAMPOS */
+
+.campos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.campos.c3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.campos.c4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.campo.ancho {
+    grid-column: span 2;
+}
+
+.campo label {
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.campo input,
+.campo select {
+    width: 100%;
+    height: 38px;
+    border: 1px solid #d6e3e6;
+    border-radius: 8px;
+    padding: 0 10px;
+    outline: none;
+    background: white;
+    color: #123b5a;
+}
+
+.campo input:focus,
+.campo select:focus {
+    border-color: #087f88;
+    box-shadow: 0 0 0 3px rgba(7, 131, 138, 0.1);
+}
+
+
+/* BOTONES */
+
+.acciones-form {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.boton-guardar,
+.boton-sec {
+    height: 38px;
+    border: 0;
+    border-radius: 8px;
+    padding: 0 18px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.boton-guardar {
+    background: #07838a;
+    color: white;
+}
+
+.boton-guardar:hover {
+    background: #066c74;
+}
+
+.boton-sec {
+    background: #eef2f3;
+    color: #526b74;
+}
+
+.boton-sec:hover {
+    background: #e2e7e8;
+}
+
+
+/* INTERRUPTORES (notificaciones) */
+
+.fila-switch {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 13px 0;
+    border-bottom: 1px solid #edf2f3;
+}
+
+.fila-switch:first-of-type {
+    padding-top: 0;
+}
+
+.fila-switch strong {
+    display: block;
+    font-size: 12px;
+    color: #123d5c;
+}
+
+.fila-switch small {
+    display: block;
+    font-size: 10px;
+    color: #71858c;
+    margin-top: 4px;
+}
+
+.interruptor {
+    position: relative;
+    width: 42px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.interruptor input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.barra {
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    background: #cfdde0;
+    transition: 0.2s;
+}
+
+.barra::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: 0.2s;
+}
+
+.interruptor input:checked + .barra {
+    background: #07838a;
+}
+
+.interruptor input:checked + .barra::after {
+    transform: translateX(18px);
+}
+
+.interruptor input:focus-visible + .barra {
+    outline: 2px solid #42b7ae;
+    outline-offset: 2px;
+}
+
+
+/* ================================
+   ELEMENTOS EXTRA (según el rol)
+================================ */
+
+.campos.c2 {
+    grid-template-columns: 1fr 1fr;
+}
+
+.campos + .fila-switch {
+    margin-top: 10px;
+}
+
+/* Botón o insignia a la derecha del título de una tarjeta */
+
+.cab-der {
+    margin-left: auto;
+}
+
+.cab-der .boton-guardar {
+    height: 34px;
+    font-size: 11px;
+}
+
+.vigente {
+    display: inline-block;
+    background: #e2f6ee;
+    color: #23805e;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+
+/* Tablas (administrador: usuarios y roles) */
+
+.tabla-scroll {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    min-width: 640px;
+    border-collapse: collapse;
+}
+
+th {
+    background: #e8f7f6;
+    color: #123d5c;
+    font-size: 10px;
+    text-align: left;
+    padding: 12px 10px;
+}
+
+th:first-child {
+    border-radius: 8px 0 0 8px;
+}
+
+th:last-child {
+    border-radius: 0 8px 8px 0;
+}
+
+td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #edf2f3;
+    font-size: 11px;
+    color: #526b74;
+}
+
+.usuario-fila {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.usuario-fila strong {
+    font-size: 11px;
+    color: #123d5c;
+}
+
+.avatar {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #e3f5f4;
+    color: #07838a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.etiqueta {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.etiqueta.on {
+    background: #e2f6ee;
+    color: #23805e;
+}
+
+.etiqueta.off {
+    background: #fbe7e7;
+    color: #a54c4c;
+}
+
+.rol.admin {
+    background: #efe9fb;
+    color: #6b46c1;
+}
+
+.rol.medico {
+    background: #e3f0fb;
+    color: #2b6cb0;
+}
+
+.rol.recep {
+    background: #fff4df;
+    color: #d58b19;
+}
+
+.rol.cliente {
+    background: #e6f5f4;
+    color: #087e87;
+}
+
+.mini-btn {
+    display: inline-block;
+    background: #e6f5f4;
+    color: #087e87;
+    padding: 6px 12px;
+    border-radius: 7px;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.mini-btn:hover {
+    background: #d4eeec;
+}
+
+
+/* Días de atención (médico) */
+
+.etq {
+    display: block;
+    font-size: 10px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.dias {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.dia {
+    position: relative;
+    cursor: pointer;
+}
+
+.dia input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.dia span {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    background: #eef2f3;
+    color: #8a9aa0;
+    transition: 0.2s;
+}
+
+.dia input:checked + span {
+    background: #07838a;
+    color: white;
+}
+
+.dia input:focus-visible + span {
+    outline: 2px solid #42b7ae;
+    outline-offset: 2px;
+}
+
+
+/* Subir firma y sello (médico) */
+
+.subir {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 20px;
+    border: 2px dashed #cfe0e3;
+    border-radius: 12px;
+    background: #fbfdfd;
+    color: #71858c;
+    font-size: 11px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.subir:hover {
+    border-color: #07838a;
+    background: #f1fafa;
+}
+
+.subir input {
+    display: none;
+}
+
+.subir b {
+    font-size: 22px;
+}
+
+.subir strong {
+    font-size: 12px;
+    color: #123d5c;
+}
+
+.firma {
+    font-family: "Brush Script MT", "Segoe Script", cursive;
+    font-size: 30px;
+    font-style: italic;
+    color: #075875;
+}
+
+
+/* Opciones tipo botones (cliente: cómo recibir los avisos) */
+
+.subtitulo {
+    font-size: 12px;
+    font-weight: bold;
+    color: #123d5c;
+    margin: 18px 0 10px;
+}
+
+.segmentado {
+    display: inline-flex;
+    padding: 3px;
+    border-radius: 10px;
+    background: #eef2f3;
+}
+
+.seg-op {
+    position: relative;
+    cursor: pointer;
+}
+
+.seg-op input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.seg-op span {
+    display: block;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #526b74;
+    transition: 0.2s;
+}
+
+.seg-op input:checked + span {
+    background: #07838a;
+    color: white;
+}
+
+.seg-op input:focus-visible + span {
+    outline: 2px solid #42b7ae;
+}
+
+
+/* PIE */
+
+footer {
+    padding: 15px 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+footer div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+footer strong {
+    font-size: 10px;
+}
+
+footer span {
+    font-size: 9px;
+    color: #71858c;
+}
+
+
+/* ================================
+   MENÚ EN PANTALLAS BAJAS
+   (computadora con zoom o ventana chica)
+================================ */
+
+@media (max-height: 700px) and (min-width: 701px) {
+
+    .logo {
+        padding: 10px 8px;
+    }
+
+    .logo img {
+        width: 85px;
+    }
+
+    .menu {
+        padding: 8px 7px;
+    }
+
+    .opcion {
+        padding: 9px 8px;
+        margin-bottom: 3px;
+    }
+
+    .cerrar {
+        padding: 12px 15px;
+    }
+
+}
+
+@media (max-height: 540px) and (min-width: 701px) {
+
+    .logo img {
+        width: 70px;
+    }
+
+    .opcion {
+        padding: 7px 8px;
+        margin-bottom: 2px;
+    }
+
+}
+
+
+/* ================================
+   MENÚ HAMBURGUESA (solo celular)
+================================ */
+
+.menu-check,
+.menu-btn,
+.logo-movil,
+.fondo-oscuro {
+    display: none;
+}
+
+
+/* ================================
+   MENÚ HAMBURGUESA (solo celular)
+================================ */
+
+.menu-check,
+.menu-btn,
+.logo-movil,
+.fondo-oscuro {
+    display: none;
+}
+
+
+/* ================================
+   TABLET
+================================ */
+
+@media (max-width: 1000px) {
+
+    .campos.c3,
+    .campos.c4 {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    footer {
+        grid-template-columns: 1fr 1fr;
+    }
+
+}
+
+
+/* ================================
+   CELULAR
+================================ */
+
+@media (max-width: 700px) {
+
+    .pagina {
+        display: block;
+    }
+
+    /* La barra lateral sale de la pantalla y entra al tocar ☰ */
+    .menu-lateral {
+        top: 0;
+        bottom: auto;
+        left: 0;
+        z-index: 30;
+
+        width: 230px;
+        max-width: 80vw;
+        height: 100vh;
+        height: 100dvh;
+
+        transform: translateX(-105%);
+        transition: transform 0.3s ease;
+    }
+
+    .menu-check:checked ~ .pagina .menu-lateral {
+        transform: translateX(0);
+    }
+
+    /* Fondo oscuro detrás del menú abierto */
+    .menu-check:checked ~ .pagina .fondo-oscuro {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 20;
+        background: rgba(7, 40, 60, 0.5);
+    }
+
+    /* Botón ☰ en el encabezado */
+    .menu-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+
+        background: #e3f5f4;
+        color: #075875;
+        font-size: 22px;
+        cursor: pointer;
+    }
+
+    /* Logo visible en el encabezado cuando el menú está cerrado */
+    .logo-movil {
+        display: block;
+        flex-shrink: 0;
+        height: 40px;
+        width: auto;
+    }
+
+    /* Logo más pequeño dentro del menú deslizable */
+    .logo {
+        padding: 10px 8px;
+    }
+
+    .logo img {
+        width: 65px;
+    }
+
+    .menu {
+        padding: 8px 7px;
+    }
+
+    .opcion {
+        padding: 10px 8px;
+        margin-bottom: 3px;
+    }
+
+    .cerrar {
+        padding: 12px 15px;
+    }
+
+    .contenido {
+        width: 100%;
+        margin-left: 0;
+        padding: 15px;
+    }
+
+    .encabezado {
+        gap: 12px;
+        padding: 14px 16px;
+    }
+
+    .encabezado-titulo {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .encabezado h1 {
+        font-size: 19px;
+    }
+
+    .usuario-texto,
+    .notificacion {
+        display: none;
+    }
+
+    .bloque {
+        padding: 15px;
+    }
+
+    .campos,
+    .campos.c2,
+    .campos.c3,
+    .campos.c4 {
+        grid-template-columns: 1fr;
+    }
+
+    .campo.ancho {
+        grid-column: auto;
+    }
+
+    .acciones-form {
+        flex-direction: column-reverse;
+    }
+
+    .boton-guardar,
+    .boton-sec {
+        width: 100%;
+    }
+
+    footer {
+        grid-template-columns: 1fr;
+    }
+
+    .bloque-cab {
+        flex-wrap: wrap;
+    }
+
+    .cab-der {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .cab-der .boton-guardar {
+        width: 100%;
+    }
+
+    .segmentado {
+        display: flex;
+        width: 100%;
+    }
+
+    .seg-op {
+        flex: 1;
+    }
+
+    .seg-op span {
+        padding: 8px 4px;
+        text-align: center;
+    }
+
+    .dias {
+        gap: 6px;
+    }
+
+}

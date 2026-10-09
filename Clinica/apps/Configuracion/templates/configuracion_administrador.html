@@ -1,0 +1,877 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Configuración</title>
+
+    <link rel="stylesheet" href="{% static 'configuracion.css' %}">
+
+</head>
+
+<body>
+
+<!-- Interruptor del menú en celular (sin JavaScript) -->
+<input type="checkbox" id="menu-toggle" class="menu-check">
+
+<div class="pagina">
+
+    <label for="menu-toggle" class="fondo-oscuro"></label>
+
+    <aside class="menu-lateral">
+
+        <div class="logo">
+
+            <img
+                src="{% static 'images/logo-clinica.png' %}"
+                alt="Clínica Médica General y Familiar"
+                width="120"
+                style="display:block; height:auto; max-width:100%; margin:0 auto;"
+            >
+
+        </div>
+
+
+        <nav class="menu">
+
+            <a href="#" class="opcion">
+                <span>⌂</span>
+                Dashboard
+            </a>
+
+            <a href="#" class="opcion">
+                <span>♟</span>
+                Pacientes
+            </a>
+
+            <a href="#" class="opcion">
+                <span>▣</span>
+                Citas
+            </a>
+
+            <a href="#" class="opcion">
+                <span>▤</span>
+                Pagos
+            </a>
+
+            <a href="#" class="opcion">
+                <span>▧</span>
+                Recibos
+            </a>
+
+            <a href="#" class="opcion">
+                <span>▥</span>
+                Reportes
+            </a>
+
+            <a href="#" class="opcion">
+                <span>🛡</span>
+                Auditoría
+            </a>
+
+            <a href="#" class="opcion activa">
+                <span>⚙</span>
+                Configuración
+            </a>
+
+        </nav>
+
+
+        <div class="cerrar">
+            ↪ Cerrar sesión
+        </div>
+
+    </aside>
+
+    <main class="contenido">
+
+        <header class="encabezado">
+
+            <label for="menu-toggle" class="menu-btn" aria-label="Abrir menú">☰</label>
+
+            <img
+                class="logo-movil"
+                src="{% static 'images/logo-clinica.png' %}"
+                alt="Clínica Médica General y Familiar"
+                style="height:40px; width:auto;"
+            >
+
+            <div class="encabezado-titulo">
+
+                <h1>Configuración</h1>
+
+                <p>
+                    Administra tu perfil, los datos de la clínica, los usuarios y las preferencias del sistema.
+                </p>
+
+            </div>
+
+
+            <div class="usuario">
+
+                <div class="notificacion">
+                    🔔
+                </div>
+
+                <div class="usuario-icono">
+                    👤
+                </div>
+
+                <div class="usuario-texto">
+
+                    <strong>
+                        Dr. Alejandro
+                    </strong>
+
+                    <small>
+                        Administrador
+                    </small>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- TARJETAS EN CASCADA: cada <section class="bloque"> es una tarjeta -->
+        <div class="config-lista">
+
+
+            <!-- MI PERFIL -->
+            <section class="bloque">
+
+                <div class="bloque-cab">
+
+                    <div class="bloque-icono">
+                        👤
+                    </div>
+
+                    <div class="titulo">
+
+                        <h2>
+                            Mi perfil
+                        </h2>
+
+                        <p>
+                            Tu información personal en el sistema.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    <div class="perfil">
+
+                        <div class="avatar-grande">
+                            DA
+                        </div>
+
+                        <div>
+                            <strong>Dr. Alejandro</strong>
+                            <small>Administrador</small>
+                        </div>
+
+                    </div>
+
+                    <div class="campos c4">
+
+                        <div class="campo">
+
+                            <label>
+                                Nombre completo
+                            </label>
+
+                            <input type="text" name="nombre" value="Dr. Alejandro">
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label>
+                                Correo electrónico
+                            </label>
+
+                            <input type="email" name="email" value="alejandro@clinica.com">
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label>
+                                Teléfono
+                            </label>
+
+                            <input type="text" name="telefono" value="809-555-0101">
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label>
+                                Cargo
+                            </label>
+
+                            <input type="text" name="cargo" value="Administrador">
+
+                        </div>
+
+                    </div>
+
+                    <div class="acciones-form">
+
+                        <button type="reset" class="boton-sec">
+                            Cancelar
+                        </button>
+
+                        <button type="submit" class="boton-guardar">
+                            💾 Guardar cambios
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- SEGURIDAD -->
+            <section class="bloque">
+
+                <div class="bloque-cab">
+
+                    <div class="bloque-icono">
+                        🔒
+                    </div>
+
+                    <div class="titulo">
+
+                        <h2>
+                            Seguridad
+                        </h2>
+
+                        <p>
+                            Cambia tu contraseña de acceso.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    <div class="campos c3">
+
+                        <div class="campo">
+
+                            <label>
+                                Contraseña actual
+                            </label>
+
+                            <input type="password" name="password_actual" placeholder="••••••••">
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label>
+                                Nueva contraseña
+                            </label>
+
+                            <input type="password" name="password_nueva" placeholder="Mínimo 8 caracteres">
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label>
+                                Confirmar contraseña
+                            </label>
+
+                            <input type="password" name="password_confirmar" placeholder="Repite la contraseña">
+
+                        </div>
+
+                    </div>
+
+                    <div class="acciones-form">
+
+                        <button type="submit" class="boton-guardar">
+                            🔑 Cambiar contraseña
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- NOTIFICACIONES -->
+            <section class="bloque">
+
+                <div class="bloque-cab">
+
+                    <div class="bloque-icono">
+                        🔔
+                    </div>
+
+                    <div class="titulo">
+
+                        <h2>
+                            Notificaciones
+                        </h2>
+
+                        <p>
+                            Elige qué avisos quieres recibir.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    <div class="fila-switch">
+
+                        <div>
+                            <strong>Recordatorios de citas</strong>
+                            <small>Aviso antes de cada cita programada.</small>
+                        </div>
+
+                        <label class="interruptor">
+                            <input type="checkbox" name="notif_recordatorios" checked>
+                            <span class="barra"></span>
+                        </label>
+
+                    </div>
+
+                    <div class="fila-switch">
+
+                        <div>
+                            <strong>Alertas médicas</strong>
+                            <small>Avisos importantes sobre los pacientes.</small>
+                        </div>
+
+                        <label class="interruptor">
+                            <input type="checkbox" name="notif_alertas" checked>
+                            <span class="barra"></span>
+                        </label>
+
+                    </div>
+
+                    <div class="fila-switch">
+
+                        <div>
+                            <strong>Cancelaciones y cambios</strong>
+                            <small>Cuando una cita se cancela o se reprograma.</small>
+                        </div>
+
+                        <label class="interruptor">
+                            <input type="checkbox" name="notif_cambios" checked>
+                            <span class="barra"></span>
+                        </label>
+
+                    </div>
+
+                    <div class="fila-switch">
+
+                        <div>
+                            <strong>Resumen diario por correo</strong>
+                            <small>Un correo cada mañana con la actividad del día.</small>
+                        </div>
+
+                        <label class="interruptor">
+                            <input type="checkbox" name="notif_resumen">
+                            <span class="barra"></span>
+                        </label>
+
+                    </div>
+
+                    <div class="acciones-form">
+
+                        <button type="submit" class="boton-guardar">
+                            💾 Guardar notificaciones
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- PREFERENCIAS DEL SISTEMA -->
+            <section class="bloque">
+
+                <div class="bloque-cab">
+
+                    <div class="bloque-icono">
+                        🌐
+                    </div>
+
+                    <div class="titulo">
+
+                        <h2>
+                            Preferencias del sistema
+                        </h2>
+
+                        <p>
+                            Idioma, fecha y moneda.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    <div class="campos c4">
+
+                        <div class="campo">
+
+                            <label>
+                                Idioma
+                            </label>
+
+                            <select name="idioma">
+
+                            <option selected>
+                                Español
+                            </option>
+
+                            <option>
+                                English
+                            </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label>
+                                Zona horaria
+                            </label>
+
+                            <select name="zona_horaria">
+
+                            <option selected>
+                                América/Santo Domingo (GMT-4)
+                            </option>
+
+                            <option>
+                                América/New York (GMT-5)
+                            </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label>
+                                Formato de fecha
+                            </label>
+
+                            <select name="formato_fecha">
+
+                            <option selected>
+                                DD/MM/AAAA
+                            </option>
+
+                            <option>
+                                MM/DD/AAAA
+                            </option>
+
+                            <option>
+                                AAAA-MM-DD
+                            </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label>
+                                Moneda
+                            </label>
+
+                            <select name="moneda">
+
+                            <option selected>
+                                Peso dominicano (RD$)
+                            </option>
+
+                            <option>
+                                Dólar (US$)
+                            </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <div class="acciones-form">
+
+                        <button type="submit" class="boton-guardar">
+                            💾 Guardar preferencias
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- DATOS DE LA CLÍNICA -->
+            <section class="bloque">
+
+                <div class="bloque-cab">
+
+                    <div class="bloque-icono">
+                        🏥
+                    </div>
+
+                    <div class="titulo">
+
+                        <h2>
+                            Datos de la clínica
+                        </h2>
+
+                        <p>
+                            Información general del consultorio.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    <div class="campos c4">
+
+                        <div class="campo ancho">
+
+                            <label>
+                                Nombre de la clínica
+                            </label>
+
+                            <input type="text" name="clinica_nombre" value="Clínica Médica General y Familiar">
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label>
+                                Teléfono
+                            </label>
+
+                            <input type="text" name="clinica_telefono" value="(000) 000-0000">
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label>
+                                Correo
+                            </label>
+
+                            <input type="email" name="clinica_email" value="contacto@tuclinica.com">
+
+                        </div>
+
+                        <div class="campo ancho">
+
+                            <label>
+                                Dirección
+                            </label>
+
+                            <input type="text" name="clinica_direccion" value="Calle Principal #123, Tu ciudad">
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label>
+                                Hora de apertura
+                            </label>
+
+                            <input type="time" name="hora_apertura" value="08:00">
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label>
+                                Hora de cierre
+                            </label>
+
+                            <input type="time" name="hora_cierre" value="18:00">
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label>
+                                Duración de cada cita
+                            </label>
+
+                            <select name="duracion_cita">
+
+                            <option>
+                                15 minutos
+                            </option>
+
+                            <option selected>
+                                30 minutos
+                            </option>
+
+                            <option>
+                                45 minutos
+                            </option>
+
+                            <option>
+                                60 minutos
+                            </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label>
+                                Días de atención
+                            </label>
+
+                            <select name="dias_atencion">
+
+                            <option selected>
+                                Lunes a viernes
+                            </option>
+
+                            <option>
+                                Lunes a sábado
+                            </option>
+
+                            <option>
+                                Todos los días
+                            </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <div class="acciones-form">
+
+                        <button type="reset" class="boton-sec">
+                            Cancelar
+                        </button>
+
+                        <button type="submit" class="boton-guardar">
+                            💾 Guardar datos
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- USUARIOS Y ROLES -->
+            <section class="bloque">
+
+                <div class="bloque-cab">
+
+                    <div class="bloque-icono">
+                        👥
+                    </div>
+
+                    <div class="titulo">
+
+                        <h2>
+                            Usuarios y roles
+                        </h2>
+
+                        <p>
+                            Quién puede entrar al sistema y qué puede hacer.
+                        </p>
+
+                    </div>
+
+                <div class="cab-der">
+                    <button type="button" class="boton-guardar">
+                        + Nuevo usuario
+                    </button>
+                </div>
+                </div>
+
+                <div class="tabla-scroll">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Correo</th>
+                                <th>Rol</th>
+                                <th>Estado</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+                                <td>
+                                    <div class="usuario-fila">
+                                        <div class="avatar">DA</div>
+                                        <strong>Dr. Alejandro</strong>
+                                    </div>
+                                </td>
+                                <td>alejandro@clinica.com</td>
+                                <td><span class="etiqueta rol admin">Administrador</span></td>
+                                <td><span class="etiqueta on">Activo</span></td>
+                                <td><a href="#" class="mini-btn">Editar</a></td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="usuario-fila">
+                                        <div class="avatar">DS</div>
+                                        <strong>Dra. Sánchez</strong>
+                                    </div>
+                                </td>
+                                <td>sanchez@clinica.com</td>
+                                <td><span class="etiqueta rol medico">Médico</span></td>
+                                <td><span class="etiqueta on">Activo</span></td>
+                                <td><a href="#" class="mini-btn">Editar</a></td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="usuario-fila">
+                                        <div class="avatar">LD</div>
+                                        <strong>Laura Díaz</strong>
+                                    </div>
+                                </td>
+                                <td>laura@clinica.com</td>
+                                <td><span class="etiqueta rol recep">Recepcionista</span></td>
+                                <td><span class="etiqueta on">Activo</span></td>
+                                <td><a href="#" class="mini-btn">Editar</a></td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="usuario-fila">
+                                        <div class="avatar">JP</div>
+                                        <strong>Juan Pérez</strong>
+                                    </div>
+                                </td>
+                                <td>juan@correo.com</td>
+                                <td><span class="etiqueta rol cliente">Cliente</span></td>
+                                <td><span class="etiqueta off">Inactivo</span></td>
+                                <td><a href="#" class="mini-btn">Editar</a></td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================================================
+                 AQUÍ SE AGREGARÁN MÁS SECCIONES
+                 (copia una <section class="bloque"> completa
+                  y pégala justo arriba de este comentario)
+            ================================================= -->
+
+
+        </div>
+
+
+        <footer>
+
+            <div>
+
+                <strong>
+                    Control total
+                </strong>
+
+                <span>
+                    Gestiona todo el sistema
+                </span>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Usuarios y roles
+                </strong>
+
+                <span>
+                    Quién entra y qué puede hacer
+                </span>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Datos de la clínica
+                </strong>
+
+                <span>
+                    Horario y contacto
+                </span>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Cuenta segura
+                </strong>
+
+                <span>
+                    Cambia tu contraseña cuando quieras
+                </span>
+
+            </div>
+
+        </footer>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

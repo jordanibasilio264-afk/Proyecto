@@ -1,0 +1,742 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Configuración</title>
+
+    <link rel="stylesheet" href="{% static 'configuracion.css' %}">
+
+</head>
+
+<body>
+
+<!-- Interruptor del menú en celular (sin JavaScript) -->
+<input type="checkbox" id="menu-toggle" class="menu-check">
+
+<div class="pagina">
+
+    <label for="menu-toggle" class="fondo-oscuro"></label>
+
+    <aside class="menu-lateral">
+
+        <div class="logo">
+
+            <img
+                src="{% static 'images/logo-clinica.png' %}"
+                alt="Clínica Médica General y Familiar"
+                width="120"
+                style="display:block; height:auto; max-width:100%; margin:0 auto;"
+            >
+
+        </div>
+
+
+        <nav class="menu">
+
+            <a href="#" class="opcion">
+                <span>⌂</span>
+                Dashboard
+            </a>
+
+            <a href="#" class="opcion">
+                <span>♟</span>
+                Pacientes
+            </a>
+
+            <a href="#" class="opcion">
+                <span>▣</span>
+                Citas
+            </a>
+
+            <a href="#" class="opcion">
+                <span>▤</span>
+                Pagos
+            </a>
+
+            <a href="#" class="opcion">
+                <span>▧</span>
+                Recibos
+            </a>
+
+            <a href="#" class="opcion activa">
+                <span>⚙</span>
+                Configuración
+            </a>
+
+        </nav>
+
+
+        <div class="cerrar">
+            ↪ Cerrar sesión
+        </div>
+
+    </aside>
+
+    <main class="contenido">
+
+        <header class="encabezado">
+
+            <label for="menu-toggle" class="menu-btn" aria-label="Abrir menú">☰</label>
+
+            <img
+                class="logo-movil"
+                src="{% static 'images/logo-clinica.png' %}"
+                alt="Clínica Médica General y Familiar"
+                style="height:40px; width:auto;"
+            >
+
+            <div class="encabezado-titulo">
+
+                <h1>Configuración</h1>
+
+                <p>
+                    Administra tu perfil, tu agenda de trabajo y tus notificaciones.
+                </p>
+
+            </div>
+
+
+            <div class="usuario">
+
+                <div class="notificacion">
+                    🔔
+                </div>
+
+                <div class="usuario-icono">
+                    👤
+                </div>
+
+                <div class="usuario-texto">
+
+                    <strong>
+                        Laura Díaz
+                    </strong>
+
+                    <small>
+                        Recepcionista
+                    </small>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- TARJETAS EN CASCADA: cada <section class="bloque"> es una tarjeta -->
+        <div class="config-lista">
+
+
+            <!-- MI PERFIL -->
+            <section class="bloque">
+
+                <div class="bloque-cab">
+
+                    <div class="bloque-icono">
+                        👤
+                    </div>
+
+                    <div class="titulo">
+
+                        <h2>
+                            Mi perfil
+                        </h2>
+
+                        <p>
+                            Tu información personal en el sistema.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    <div class="perfil">
+
+                        <div class="avatar-grande">
+                            LD
+                        </div>
+
+                        <div>
+                            <strong>Laura Díaz</strong>
+                            <small>Recepcionista</small>
+                        </div>
+
+                    </div>
+
+                    <div class="campos c4">
+
+                        <div class="campo">
+
+                            <label>
+                                Nombre completo
+                            </label>
+
+                            <input type="text" name="nombre" value="Laura Díaz">
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label>
+                                Correo electrónico
+                            </label>
+
+                            <input type="email" name="email" value="laura@clinica.com">
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label>
+                                Teléfono
+                            </label>
+
+                            <input type="text" name="telefono" value="809-555-0303">
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label>
+                                Cargo
+                            </label>
+
+                            <input type="text" name="cargo" value="Recepcionista">
+
+                        </div>
+
+                    </div>
+
+                    <div class="acciones-form">
+
+                        <button type="reset" class="boton-sec">
+                            Cancelar
+                        </button>
+
+                        <button type="submit" class="boton-guardar">
+                            💾 Guardar cambios
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- SEGURIDAD -->
+            <section class="bloque">
+
+                <div class="bloque-cab">
+
+                    <div class="bloque-icono">
+                        🔒
+                    </div>
+
+                    <div class="titulo">
+
+                        <h2>
+                            Seguridad
+                        </h2>
+
+                        <p>
+                            Cambia tu contraseña de acceso.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    <div class="campos c3">
+
+                        <div class="campo">
+
+                            <label>
+                                Contraseña actual
+                            </label>
+
+                            <input type="password" name="password_actual" placeholder="••••••••">
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label>
+                                Nueva contraseña
+                            </label>
+
+                            <input type="password" name="password_nueva" placeholder="Mínimo 8 caracteres">
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label>
+                                Confirmar contraseña
+                            </label>
+
+                            <input type="password" name="password_confirmar" placeholder="Repite la contraseña">
+
+                        </div>
+
+                    </div>
+
+                    <div class="acciones-form">
+
+                        <button type="submit" class="boton-guardar">
+                            🔑 Cambiar contraseña
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- MI AGENDA DE TRABAJO -->
+            <section class="bloque">
+
+                <div class="bloque-cab">
+
+                    <div class="bloque-icono">
+                        📅
+                    </div>
+
+                    <div class="titulo">
+
+                        <h2>
+                            Mi agenda de trabajo
+                        </h2>
+
+                        <p>
+                            Cómo quieres ver las citas cada día.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    <div class="campos c3">
+
+                        <div class="campo">
+
+                            <label>
+                                Vista predeterminada
+                            </label>
+
+                            <select name="vista">
+
+                            <option selected>
+                                Día
+                            </option>
+
+                            <option>
+                                Semana
+                            </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label>
+                                Médico predeterminado
+                            </label>
+
+                            <select name="medico">
+
+                            <option selected>
+                                Todos los médicos
+                            </option>
+
+                            <option>
+                                Dra. Sánchez
+                            </option>
+
+                            <option>
+                                Dr. Alejandro
+                            </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label>
+                                Ordenar la lista por
+                            </label>
+
+                            <select name="orden">
+
+                            <option selected>
+                                Hora de la cita
+                            </option>
+
+                            <option>
+                                Nombre del paciente
+                            </option>
+
+                            <option>
+                                Médico
+                            </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <div class="fila-switch">
+
+                        <div>
+                            <strong>Mostrar citas canceladas</strong>
+                            <small>Se verán tachadas en la lista de citas.</small>
+                        </div>
+
+                        <label class="interruptor">
+                            <input type="checkbox" name="mostrar_canceladas">
+                            <span class="barra"></span>
+                        </label>
+
+                    </div>
+
+                    <div class="fila-switch">
+
+                        <div>
+                            <strong>Sonido con cada nueva solicitud</strong>
+                            <small>Un aviso corto cuando un paciente pide una cita.</small>
+                        </div>
+
+                        <label class="interruptor">
+                            <input type="checkbox" name="sonido_solicitud" checked>
+                            <span class="barra"></span>
+                        </label>
+
+                    </div>
+
+                    <div class="acciones-form">
+
+                        <button type="submit" class="boton-guardar">
+                            💾 Guardar agenda
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- NOTIFICACIONES -->
+            <section class="bloque">
+
+                <div class="bloque-cab">
+
+                    <div class="bloque-icono">
+                        🔔
+                    </div>
+
+                    <div class="titulo">
+
+                        <h2>
+                            Notificaciones
+                        </h2>
+
+                        <p>
+                            Elige qué avisos quieres recibir.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    <div class="fila-switch">
+
+                        <div>
+                            <strong>Nuevas solicitudes de cita</strong>
+                            <small>Cuando un paciente pide una cita en línea.</small>
+                        </div>
+
+                        <label class="interruptor">
+                            <input type="checkbox" name="notif_solicitudes" checked>
+                            <span class="barra"></span>
+                        </label>
+
+                    </div>
+
+                    <div class="fila-switch">
+
+                        <div>
+                            <strong>Cancelaciones y cambios</strong>
+                            <small>Cuando una cita se cancela o se reprograma.</small>
+                        </div>
+
+                        <label class="interruptor">
+                            <input type="checkbox" name="notif_cambios" checked>
+                            <span class="barra"></span>
+                        </label>
+
+                    </div>
+
+                    <div class="fila-switch">
+
+                        <div>
+                            <strong>Pagos pendientes</strong>
+                            <small>Pacientes con un pago sin completar.</small>
+                        </div>
+
+                        <label class="interruptor">
+                            <input type="checkbox" name="notif_pagos" checked>
+                            <span class="barra"></span>
+                        </label>
+
+                    </div>
+
+                    <div class="fila-switch">
+
+                        <div>
+                            <strong>Resumen diario por correo</strong>
+                            <small>Un correo cada mañana con las citas del día.</small>
+                        </div>
+
+                        <label class="interruptor">
+                            <input type="checkbox" name="notif_resumen">
+                            <span class="barra"></span>
+                        </label>
+
+                    </div>
+
+                    <div class="acciones-form">
+
+                        <button type="submit" class="boton-guardar">
+                            💾 Guardar notificaciones
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- PREFERENCIAS DEL SISTEMA -->
+            <section class="bloque">
+
+                <div class="bloque-cab">
+
+                    <div class="bloque-icono">
+                        🌐
+                    </div>
+
+                    <div class="titulo">
+
+                        <h2>
+                            Preferencias del sistema
+                        </h2>
+
+                        <p>
+                            Idioma, fecha y moneda.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    <div class="campos c4">
+
+                        <div class="campo">
+
+                            <label>
+                                Idioma
+                            </label>
+
+                            <select name="idioma">
+
+                            <option selected>
+                                Español
+                            </option>
+
+                            <option>
+                                English
+                            </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label>
+                                Zona horaria
+                            </label>
+
+                            <select name="zona_horaria">
+
+                            <option selected>
+                                América/Santo Domingo (GMT-4)
+                            </option>
+
+                            <option>
+                                América/New York (GMT-5)
+                            </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label>
+                                Formato de fecha
+                            </label>
+
+                            <select name="formato_fecha">
+
+                            <option selected>
+                                DD/MM/AAAA
+                            </option>
+
+                            <option>
+                                MM/DD/AAAA
+                            </option>
+
+                            <option>
+                                AAAA-MM-DD
+                            </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label>
+                                Moneda
+                            </label>
+
+                            <select name="moneda">
+
+                            <option selected>
+                                Peso dominicano (RD$)
+                            </option>
+
+                            <option>
+                                Dólar (US$)
+                            </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <div class="acciones-form">
+
+                        <button type="submit" class="boton-guardar">
+                            💾 Guardar preferencias
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- ================================================
+                 AQUÍ SE AGREGARÁN MÁS SECCIONES
+                 (copia una <section class="bloque"> completa
+                  y pégala justo arriba de este comentario)
+            ================================================= -->
+
+
+        </div>
+
+
+        <footer>
+
+            <div>
+
+                <strong>
+                    Agenda al día
+                </strong>
+
+                <span>
+                    Citas siempre a la vista
+                </span>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Avisos de citas
+                </strong>
+
+                <span>
+                    Solicitudes y cambios
+                </span>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Cobros
+                </strong>
+
+                <span>
+                    Pagos pendientes
+                </span>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Cuenta segura
+                </strong>
+
+                <span>
+                    Cambia tu contraseña cuando quieras
+                </span>
+
+            </div>
+
+        </footer>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>
