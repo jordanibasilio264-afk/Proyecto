@@ -10,6 +10,8 @@ body {
 }
 .dashboard {
     min-height: 100vh;
+    margin-left: 160px;
+    min-height: 100vh;
 }
 .topbar {
     height: 82px;
@@ -591,3 +593,10 @@ td a {
         margin-top: 20px;
     }
 }
+@media (max-width: 768px) {
+
+    .dashboard {
+        margin-left: 0;
+    }
+
+}   

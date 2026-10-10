@@ -6,63 +6,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Expediente Clínico Digital - Django</title>
+  <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
   <link rel="stylesheet" href="{% static 'CSS/expedientes.css' %}">
 </head>
 
 <body class="app-container">
 
-  <div id="sidebar-overlay" class="sidebar-overlay"></div>
-  <aside id="sidebar" class="sidebar">
-    
-    <div>
-      <div class="brand-header">
-        <img src="{% static 'images/image26.svg' %}" alt="Clínica Médica" class="logo-img">
-      </div>
-      <nav class="nav-menu">
-        <a href="{% url 'dashboard' %}" class="nav-item">
-          <i class="nav-icon">⌂</i> Dashboard
-        </a>
-        <a href="{% url 'medicamentos' %}" class="nav-item">
-          <i class="nav-icon"></i> Medicamentos
-        </a>
-        <a href="{% url 'auditoria' %}" class="nav-item">
-          <i class="nav-icon"></i> Auditoria
-        </a>
-        <a href="{% url 'documentos' %}" class="nav-item">
-          <i class="nav-icon"></i> Consultas
-        </a>
-        <a href="{% url 'citas' %}" class="nav-item">
-          <i class="nav-icon">▣</i> Citas
-        </a>
-        <a href="{% url 'expedientes' %}" class="nav-item active">
-          <i class="nav-icon"></i> Expediente Digital
-        </a>
-         <a href="{% url 'reportes' %}" class="nav-item">
-          <i class="nav-icon"></i> Reportes
-        </a>
-        <a href="{% url 'seguros' %}" class="nav-item">
-          <i class="nav-icon"></i> Seguros
-        </a>
-        <a href="{% url 'pagos' %}" class="nav-item">
-          <i class="nav-icon"></i> Pagos
-        </a>
-        <a href="#" class="nav-item">
-          <i class="nav-icon">⚙</i> Configuración
-        </a>
-      </nav>
-    </div>
-    <div class="sidebar-bottom">
-      <a href="#" class="btn-logout">
-        <i class="icon-logout"></i> Cerrar sesión
-      </a>
-    </div>
-
-  </aside>
+  {% include 'includes/sidebar.html' %}
+  
 
   <main class="main-content">
     <header class="main-header">
       <div class="header-left">
-        <button id="btn-toggle-sidebar" class="btn-hamburger">☰</button>
+        <!-- Botón hamburguesa móvil conectado al checkbox del sidebar -->
+        
         <h2 class="header-title">Expediente Clínico Digital</h2>
       </div>
       <div class="user-status-container">

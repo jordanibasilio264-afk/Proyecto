@@ -1,563 +1,265 @@
-{% load static %}
 
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Seguros Médicos</title>
 
-<link rel="stylesheet" href="{% static 'Seguros.css' %}"></head>
+    <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
+    <link rel="stylesheet" href="{% static 'Seguros.css' %}">
+</head>
 
 <body>
+    {% include 'includes/sidebar.html' %}
 
-<!-- Interruptor del menú en celular (sin JavaScript) -->
-<input type="checkbox" id="menu-toggle" class="menu-check">
+    <div class="seguros-page">
+        <main class="contenido">
 
-<div class="pagina">
-
-    <label for="menu-toggle" class="fondo-oscuro"></label>
-
-    <aside class="menu-lateral">
-
-<div class="logo">
-
-            <img
-                src="{% static 'images/logo-clinica.png' %}"
-                alt="Clínica Médica General y Familiar"
-                width="120"
-                style="display:block; height:auto; max-width:100%; margin:0 auto;"
-            >
-
-        </div>
-
-
-        <nav class="menu">
-
-            <a href="{% url 'dashboard' %}" class="opcion">
-                <span class="ico">⌂</span>
-                <span>Dashboard</span>
-            </a>
-
-            <a href="{% url 'medicamentos' %}" class="opcion">
-                <span class="ico">♟</span>
-                <span>Medicamentos</span>
-            </a>
-
-            <a href="{% url 'auditoria' %}" class="opcion activa">
-                <span></span>
-                Auditoria
-            </a>
-
-            <a href="{% url 'documentos' %}" class="opcion">
-                <span></span>
-                Consultas
-            </a>
-
-            <a href="{% url 'citas' %}" class="opcion">
-                <span class="ico">▣</span>
-                <span>Citas</span>
-            </a>
-
-            <a href="{% url 'expedientes' %}" class="opcion">
-                <span></span>
-                Expediente Digital
-            </a>
-
-            <a href="{% url 'reportes' %}" class="opcion">
-                <span>▥</span>
-                Reportes
-            </a>
-
-            <a href="{% url 'seguros' %}" class="opcion activa">
-                <span>▤</span>
-                Seguros
-            </a>
-            
-            <a href="{% url 'pagos' %}" class="opcion">
-                <span>▤</span>
-                Pagos
-            </a>
-
-            <a href="#" class="opcion">
-                <span>⚙</span>
-                Configuración
-            </a>
-
-        </nav>
-
-        <a href="#" class="cerrar">
-            ↪ Cerrar sesión
-        </a>
-
-    </aside>
-
-
-    <!-- CONTENIDO -->
-    <main class="contenido">
-
-        <!-- ENCABEZADO -->
-        <section class="encabezado">
-
-            <label for="menu-toggle" class="menu-btn" aria-label="Abrir menú">☰</label>
-
-            <img
-                class="logo-movil"
-                src="{% static 'images/logo-clinica.png' %}"
-                alt="Clínica Médica General y Familiar"
-                style="height:40px; width:auto;"
-            >
-
-            <div class="encabezado-titulo">
-                <h1>Seguros Médicos</h1>
-
-                <p>
-                    Registro y administración de seguros médicos
-                </p>
-            </div>
-
-            <button class="btn-nuevo">
-                + Nuevo seguro
-            </button>
-
-        </section>
-
-
-        <!-- RESUMEN -->
-        <section class="resumen">
-
-            <div class="tarjeta">
-
-                <div class="tarjeta-icono">
-                    🛡️
+            <section class="encabezado">
+                <div class="encabezado-titulo">
+                    <h1>Seguros Médicos</h1>
+                    <p>Registro y administración de seguros médicos</p>
                 </div>
 
-                <div>
-                    <span>Total de seguros</span>
-                    
-                </div>
-
-            </div>
-
-
-            <div class="tarjeta">
-
-                <div class="tarjeta-icono">
-                    ✓
-                </div>
-
-                <div>
-                    <span>Seguros activos</span>
-                    <strong>12</strong>
-                </div>
-
-            </div>
-
-
-            <div class="tarjeta">
-
-                <div class="tarjeta-icono">
-                    👤
-                </div>
-
-                <div>
-                    <span>Pacientes asegurados</span>
-                    <strong>35</strong>
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- BUSCADOR -->
-        <section class="buscar">
-
-            <div>
-                <h2>Seguros registrados</h2>
-
-                <p>
-                    Consulta los seguros disponibles en la clínica.
-                </p>
-            </div>
-
-            <form method="GET">
-
-                <input
-                    type="text"
-                    name="buscar"
-                    placeholder="Buscar seguro..."
-                >
-
-                <button type="submit">
-                    🔍
-                </button>
-
-            </form>
-
-        </section>
-
-
-        <!-- TABLA -->
-        <section class="tabla-contenedor">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-                        <th>Seguro</th>
-                        <th>Número</th>
-                        <th>Teléfono</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    
-
-                    <tr>
-
-                        <td>
-
-                            <div class="nombre-seguro">
-
-                                <div class="seguro-icono">
-                                    🛡️
-                                </div>
-
-                                <div>
-
-                                    <strong>
-                                        {{ seguro.nombre }}
-                                    </strong>
-
-                                    <small>
-                                        Seguro médico
-                                    </small>
-
-                                </div>
-
-                            </div>
-
-                        </td>
-
-                        <td>
-                            {{ seguro.numero }}
-                        </td>
-
-                        <td>
-                            {{ seguro.telefono }}
-                        </td>
-
-                        <td>
-
-                            {% if seguro.estado %}
-
-                                <span class="estado activo">
-                                    Activo
-                                </span>
-
-                            {% else %}
-
-                                <span class="estado inactivo">
-                                    Inactivo
-                                </span>
-
-                            {% endif %}
-
-                        </td>
-
-                        <td>
-
-                            <div class="acciones">
-
-                                <a
-                                    href="?editar={{ seguro.id }}"
-                                    class="btn-editar"
-                                >
-                                    ✏️ Editar
-                                </a>
-
-                                <a
-                                    class="btn-eliminar"
-                                    onclick="return confirm('¿Desea eliminar este seguro?')"
-                                >
-                                    🗑️
-                                </a>
-
-                            </div>
-
-                        </td>
-
-                    </tr>
-
-                    
-
-                    <tr>
-
-                        <td colspan="5" class="sin-datos">
-
-                            <div class="sin-datos-icono">
-                                🛡️
-                            </div>
-
-                            <p>
-                                No hay seguros registrados.
-                            </p>
-
-                        </td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </section>
-
-
-        <!-- FORMULARIO -->
-        <section class="form-card">
-
-            {% if seguro_editar %}
-
-                <div class="form-titulo">
-
-                    <div class="form-icono">
-                        ✏️
-                    </div>
-
+                <a href="#formulario-seguro" class="btn-nuevo">
+                    + Nuevo seguro
+                </a>
+            </section>
+
+            <section class="resumen">
+                <div class="tarjeta">
+                    <div class="tarjeta-icono">🛡️</div>
                     <div>
-
-                        <h2>
-                            Editar seguro médico
-                        </h2>
-
-                        <p>
-                            Modifica la información del seguro seleccionado.
-                        </p>
-
+                        <span>Total de seguros</span>
+                        <strong>
+                            {% if seguro %}1{% else %}0{% endif %}
+                        </strong>
                     </div>
-
                 </div>
 
-            {% else %}
-
-                <div class="form-titulo">
-
-                    <div class="form-icono">
-                        🛡️
-                    </div>
-
+                <div class="tarjeta">
+                    <div class="tarjeta-icono">✓</div>
                     <div>
-
-                        <h2>
-                            Registrar seguro médico
-                        </h2>
-
-                        <p>
-                            Completa los datos para registrar un nuevo seguro.
-                        </p>
-
+                        <span>Seguros activos</span>
+                        <strong>12</strong>
                     </div>
-
                 </div>
 
-            {% endif %}
+                <div class="tarjeta">
+                    <div class="tarjeta-icono">👤</div>
+                    <div>
+                        <span>Pacientes asegurados</span>
+                        <strong>35</strong>
+                    </div>
+                </div>
+            </section>
 
+            <section class="buscar">
+                <div>
+                    <h2>Seguros registrados</h2>
+                    <p>Consulta los seguros disponibles en la clínica.</p>
+                </div>
 
-            <form
-                method="POST"
-                action="{% url 'guardar_seguro' %}"
-            >
-
-                {% csrf_token %}
-
-                {% if seguro_editar %}
-
+                <form method="GET">
                     <input
-                        type="hidden"
-                        name="id"
-                        value="{{ seguro_editar.id }}"
+                        type="text"
+                        name="buscar"
+                        placeholder="Buscar seguro..."
+                        value="{{ request.GET.buscar|default:'' }}"
+                        aria-label="Buscar seguro"
                     >
+                    <button type="submit" aria-label="Buscar">🔍</button>
+                </form>
+            </section>
 
+            <section class="tabla-contenedor">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Seguro</th>
+                            <th>Número</th>
+                            <th>Teléfono</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% if seguro %}
+                        <tr>
+                            <td>
+                                <div class="nombre-seguro">
+                                    <div class="seguro-icono">🛡️</div>
+                                    <div>
+                                        <strong>{{ seguro.nombre }}</strong>
+                                        <small>Seguro médico</small>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>{{ seguro.numero }}</td>
+                            <td>{{ seguro.telefono }}</td>
+
+                            <td>
+                                {% if seguro.estado %}
+                                    <span class="estado activo">Activo</span>
+                                {% else %}
+                                    <span class="estado inactivo">Inactivo</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <div class="acciones">
+                                    <a
+                                        href="?editar={{ seguro.id }}"
+                                        class="btn-editar"
+                                    >✏️ Editar</a>
+
+                                    <a
+                                        href="?eliminar={{ seguro.id }}"
+                                        class="btn-eliminar"
+                                        aria-label="Eliminar seguro"
+                                        onclick="return confirm('¿Desea eliminar este seguro?')"
+                                    >🗑️</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="sin-datos">
+                                <div class="sin-datos-icono">🛡️</div>
+                                <p>No hay seguros registrados.</p>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="form-card" id="formulario-seguro">
+                {% if seguro_editar %}
+                    <div class="form-titulo">
+                        <div class="form-icono">✏️</div>
+                        <div>
+                            <h2>Editar seguro médico</h2>
+                            <p>Modifica la información del seguro seleccionado.</p>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="form-titulo">
+                        <div class="form-icono">🛡️</div>
+                        <div>
+                            <h2>Registrar seguro médico</h2>
+                            <p>Completa los datos para registrar un nuevo seguro.</p>
+                        </div>
+                    </div>
                 {% endif %}
 
-
-                <div class="form-grid">
-
-                    <!-- NOMBRE -->
-                    <div class="campo">
-
-                        <label>
-                            Nombre del seguro
-                        </label>
-
-                        <input
-                            type="text"
-                            name="nombre"
-                            value="{{ seguro_editar.nombre|default:'' }}"
-                            placeholder="Ej. SENASA"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- NÚMERO -->
-                    <div class="campo">
-
-                        <label>
-                            Número de seguro
-                        </label>
-
-                        <input
-                            type="text"
-                            name="numero"
-                            value="{{ seguro_editar.numero|default:'' }}"
-                            placeholder="Ej. SEN-00125"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- TELÉFONO -->
-                    <div class="campo">
-
-                        <label>
-                            Teléfono
-                        </label>
-
-                        <input
-                            type="text"
-                            name="telefono"
-                            value="{{ seguro_editar.telefono|default:'' }}"
-                            placeholder="809-555-5555"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- ESTADO -->
-                    <div class="campo">
-
-                        <label>
-                            Estado
-                        </label>
-
-                        <select name="estado">
-
-                            <option value="1">
-                                Activo
-                            </option>
-
-                            <option value="0">
-                                Inactivo
-                            </option>
-
-                        </select>
-
-                    </div>
-
-                </div>
-
-
-                <!-- BOTONES -->
-                <div class="form-botones">
-
-                    <button
-                        type="submit"
-                        class="btn-guardar"
-                    >
-
-                        💾
-
-                        {% if seguro_editar %}
-                            Actualizar seguro
-                        {% else %}
-                            Registrar seguro
-                        {% endif %}
-
-                    </button>
-
+                <form method="POST" action="{% url 'guardar_seguro' %}">
+                    {% csrf_token %}
 
                     {% if seguro_editar %}
-
-                        <a
-                            href="{% url 'seguros' %}"
-                            class="btn-cancelar"
+                        <input
+                            type="hidden"
+                            name="id"
+                            value="{{ seguro_editar.id }}"
                         >
-                            Cancelar
-                        </a>
-
-                    {% else %}
-
-                        <button
-                            type="reset"
-                            class="btn-cancelar"
-                        >
-                            Limpiar
-                        </button>
-
                     {% endif %}
 
+                    <div class="form-grid">
+                        <div class="campo">
+                            <label for="seguro-nombre">Nombre del seguro</label>
+                            <input
+                                id="seguro-nombre"
+                                type="text"
+                                name="nombre"
+                                value="{{ seguro_editar.nombre|default:'' }}"
+                                placeholder="Ej. SENASA"
+                                required
+                            >
+                        </div>
+
+                        <div class="campo">
+                            <label for="seguro-numero">Número de seguro</label>
+                            <input
+                                id="seguro-numero"
+                                type="text"
+                                name="numero"
+                                value="{{ seguro_editar.numero|default:'' }}"
+                                placeholder="Ej. SEN-00125"
+                                required
+                            >
+                        </div>
+
+                        <div class="campo">
+                            <label for="seguro-telefono">Teléfono</label>
+                            <input
+                                id="seguro-telefono"
+                                type="text"
+                                name="telefono"
+                                value="{{ seguro_editar.telefono|default:'' }}"
+                                placeholder="809-555-5555"
+                                required
+                            >
+                        </div>
+
+                        <div class="campo">
+                            <label for="seguro-estado">Estado</label>
+                            <select id="seguro-estado" name="estado">
+                                <option
+                                    value="1"
+                                    {% if seguro_editar.estado %}selected{% endif %}
+                                >Activo</option>
+                                <option
+                                    value="0"
+                                    {% if seguro_editar and not seguro_editar.estado %}selected{% endif %}
+                                >Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-botones">
+                        <button type="submit" class="btn-guardar">
+                            💾
+                            {% if seguro_editar %}
+                                Actualizar seguro
+                            {% else %}
+                                Registrar seguro
+                            {% endif %}
+                        </button>
+
+                        {% if seguro_editar %}
+                            <a href="{% url 'seguros' %}" class="btn-cancelar">
+                                Cancelar
+                            </a>
+                        {% else %}
+                            <button type="reset" class="btn-cancelar">
+                                Limpiar
+                            </button>
+                        {% endif %}
+                    </div>
+                </form>
+            </section>
+
+            <section class="asociar-card">
+                <div class="asociar-icono">🔗</div>
+                <div class="asociar-info">
+                    <h2>Asociar seguro a paciente</h2>
+                    <p>Relaciona un seguro médico con un paciente registrado.</p>
                 </div>
+                <button type="button" class="btn-asociar">
+                    Asociar seguro
+                </button>
+            </section>
 
-            </form>
+            <footer class="pie">
+                <span>RF-13 • Gestión de Seguros Médicos</span>
+                <span>Registrar • Editar • Consultar • Asociar</span>
+            </footer>
 
-        </section>
-
-
-        <!-- ASOCIAR PACIENTE -->
-        <section class="asociar-card">
-
-            <div class="asociar-icono">
-                🔗
-            </div>
-
-            <div class="asociar-info">
-
-                <h2>
-                    Asociar seguro a paciente
-                </h2>
-
-                <p>
-                    Relaciona un seguro médico con un paciente registrado.
-                </p>
-
-            </div>
-
-            <button class="btn-asociar">
-                Asociar seguro
-            </button>
-
-        </section>
-
-
-        <!-- PIE -->
-        <footer class="pie">
-
-            <span>
-                RF-13 • Gestión de Seguros Médicos
-            </span>
-
-            <span>
-                Registrar • Editar • Consultar • Asociar
-            </span>
-
-        </footer>
-
-    </main>
-
-</div>
-
+        </main>
+    </div>
 </body>
 </html>

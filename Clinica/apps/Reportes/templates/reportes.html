@@ -3,673 +3,274 @@
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Reportes</title>
-    <link rel="stylesheet" href ="{% static 'reportes.css' %}">
-
+   
+    <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
+    <link rel="stylesheet" href="{% static 'reportes.css' %}">
 </head>
 
 <body>
 
-<!-- Interruptor del menú en celular (sin JavaScript) -->
-<input type="checkbox" id="menu-toggle" class="menu-check">
+    
+    {% include 'includes/sidebar.html' %}
 
-<div class="pagina">
+    <div class="pagina">
 
-    <label for="menu-toggle" class="fondo-oscuro"></label>
+        <main class="contenido">
 
-    <aside class="menu-lateral">
+            <header class="encabezado">
+                
 
-        <div class="logo">
-
-            <img
-                src="{% static 'images/logo-clinica.png' %}"
-                alt="Clínica Médica General y Familiar"
-                width="120"
-                style="display:block; height:auto; max-width:100%; margin:0 auto;"
-            >
-
-        </div>
-
-
-        <nav class="menu">
-
-            <a href="{% url 'dashboard' %}" class="opcion">
-                <span>⌂</span>
-                Dashboard
-            </a>
-
-            <a href="{% url 'medicamentos' %}" class="opcion">
-                <span></span>
-                Medicamentos
-            </a>
-
-            <a href="{% url 'auditoria' %}" class="opcion">
-                <span></span>
-                Auditoria
-            </a>
-
-            <a href="{% url 'documentos' %}" class="opcion">
-                <span></span>
-                Consultas
-            </a>
-
-            <a href="{% url 'citas' %}" class="opcion">
-                <span>▣</span>
-                Citas
-            </a>
-
-            <a href="{% url 'expedientes' %}" class="opcion">
-                <span></span>
-                Expediente Digital
-            </a>
-            
-            <a href="{% url 'reportes' %}" class="opcion activa">
-                <span>▥</span>
-                Reportes
-            </a>
-
-            <a href="{% url 'seguros' %}" class="opcion">
-                <span>▤</span>
-                Seguros
-            </a>
-            
-            <a href="{% url 'pagos' %}" class="opcion">
-                <span>▤</span>
-                Pagos
-            </a>
-
-            <a href="#" class="opcion">
-                <span>⚙</span>
-                Configuración
-            </a>
-
-        </nav>
-
-
-        <div class="cerrar">
-            ↪ Cerrar sesión
-        </div>
-
-    </aside>
-
-    <main class="contenido">
-
-        <header class="encabezado">
-
-            <label for="menu-toggle" class="menu-btn" aria-label="Abrir menú">☰</label>
-
-            <img
-                class="logo-movil"
-                src="{% static 'images/logo-clinica.png' %}"
-                alt="Clínica Médica General y Familiar"
-                style="height:40px; width:auto;"
-            >
-
-            <div class="encabezado-titulo">
-
-                <h1>Reportes</h1>
-
-                <p>
-                    Genera y consulta reportes de la clínica.
-                </p>
-
-            </div>
-
-
-            <div class="usuario">
-
-                <div class="notificacion">
-                    🔔
+                <div class="encabezado-titulo">
+                    <h1>Reportes</h1>
+                    <p>
+                        Genera y consulta reportes de la clínica.
+                    </p>
                 </div>
 
-                <div class="usuario-icono">
-                    👤
+                <div class="usuario">
+                    <div class="notificacion">
+                        🔔
+                    </div>
+                    <div class="usuario-icono">
+                        👤
+                    </div>
+                    <div class="usuario-texto">
+                        <strong>
+                            Dr. Alejandro
+                        </strong>
+                        <small>
+                            Administrador
+                        </small>
+                    </div>
                 </div>
 
-                <div class="usuario-texto">
+            </header>
 
-                    <strong>
-                        Dr. Alejandro
-                    </strong>
-
-                    <small>
-                        Administrador
-                    </small>
-
+            <section class="filtros">
+                <div class="titulo">
+                    <h2>
+                        Generar Reportes
+                    </h2>
+                    <p>
+                        Selecciona el tipo de reporte y el período.
+                    </p>
                 </div>
 
-            </div>
-
-        </header>
-
-        <section class="filtros">
-
-            <div class="titulo">
-
-                <h2>
-                    Generar Reportes
-                </h2>
-
-                <p>
-                    Selecciona el tipo de reporte y el período.
-                </p>
-
-            </div>
-
-
-            <div class="filtros-form">
-
-
-                <div class="campo">
-
-                    <label>
-                        Tipo de Reporte
-                    </label>
-
-                    <select>
-
-                        <option>
-                            Pacientes
-                        </option>
-
-                        <option>
-                            Citas
-                        </option>
-
-                        <option>
-                            Consultas
-                        </option>
-
-                        <option>
-                            Pagos
-                        </option>
-
-                        <option>
-                            Diagnósticos
-                        </option>
-
-                        <option>
-                            Médicos
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="campo">
-
-                    <label>
-                        Desde
-                    </label>
-
-                    <input type="date">
-
-                </div>
-
-
-                <div class="campo">
-
-                    <label>
-                        Hasta
-                    </label>
-
-                    <input type="date">
-
-                </div>
-
-
-                <button class="boton-consultar">
-                    🔎 Consultar
-                </button>
-
-            </div>
-
-        </section>
-
-        <section class="zona-reportes">
-
-            <div class="titulo">
-
-                <h2>
-                    Reportes Disponibles
-                </h2>
-
-                <p>
-                    Selecciona el reporte que deseas generar.
-                </p>
-
-            </div>
-
-
-            <div class="tarjetas">
-
-                <div class="tarjeta">
-
-                    <div class="icono-reporte">
-                        ♟
+                <div class="filtros-form">
+                    <div class="campo">
+                        <label>
+                            Tipo de Reporte
+                        </label>
+                        <select>
+                            <option>Pacientes</option>
+                            <option>Citas</option>
+                            <option>Consultas</option>
+                            <option>Pagos</option>
+                            <option>Diagnósticos</option>
+                            <option>Médicos</option>
+                        </select>
                     </div>
 
-                    <div class="informacion">
+                    <div class="campo">
+                        <label>
+                            Desde
+                        </label>
+                        <input type="date">
+                    </div>
 
-                        <h3>
-                            Reporte de Pacientes
-                        </h3>
+                    <div class="campo">
+                        <label>
+                            Hasta
+                        </label>
+                        <input type="date">
+                    </div>
 
-                        <p>
-                            Lista de pacientes registrados
-                            en el sistema.
-                        </p>
+                    <button class="boton-consultar">
+                        🔎 Consultar
+                    </button>
+                </div>
+            </section>
 
-                        <div class="parte-inferior">
+            <section class="zona-reportes">
+                <div class="titulo">
+                    <h2>
+                        Reportes Disponibles
+                    </h2>
+                    <p>
+                        Selecciona el reporte que deseas generar.
+                    </p>
+                </div>
 
-                            <span>
-                                {{ pacientes }} registros
-                            </span>
-
-                            <div class="botones">
-
-                                <button class="pdf">
-                                    PDF
-                                </button>
-
-                                <button class="excel">
-                                    Excel
-                                </button>
-
+                <div class="tarjetas">
+                    <!-- Tarjeta Pacientes -->
+                    <div class="tarjeta">
+                        <div class="icono-reporte">♟</div>
+                        <div class="informacion">
+                            <h3>Reporte de Pacientes</h3>
+                            <p>Lista de pacientes registrados en el sistema.</p>
+                            <div class="parte-inferior">
+                                <span>{{ pacientes }} registros</span>
+                                <div class="botones">
+                                    <button class="pdf">PDF</button>
+                                    <button class="excel">Excel</button>
+                                </div>
                             </div>
-
                         </div>
-
                     </div>
 
-                </div>
-
-                <div class="tarjeta">
-
-                    <div class="icono-reporte">
-                        ▣
-                    </div>
-
-                    <div class="informacion">
-
-                        <h3>
-                            Reporte de Citas
-                        </h3>
-
-                        <p>
-                            Lista de citas médicas
-                            registradas.
-                        </p>
-
-                        <div class="parte-inferior">
-
-                            <span>
-                                {{ citas }} registros
-                            </span>
-
-                            <div class="botones">
-
-                                <button class="pdf">
-                                    PDF
-                                </button>
-
-                                <button class="excel">
-                                    Excel
-                                </button>
-
+                    <!-- Tarjeta Citas -->
+                    <div class="tarjeta">
+                        <div class="icono-reporte">▣</div>
+                        <div class="informacion">
+                            <h3>Reporte de Citas</h3>
+                            <p>Lista de citas médicas registradas.</p>
+                            <div class="parte-inferior">
+                                <span>{{ citas }} registros</span>
+                                <div class="botones">
+                                    <button class="pdf">PDF</button>
+                                    <button class="excel">Excel</button>
+                                </div>
                             </div>
-
                         </div>
-
                     </div>
 
-                </div>
-
-                <div class="tarjeta">
-
-                    <div class="icono-reporte">
-                        ♡
-                    </div>
-
-                    <div class="informacion">
-
-                        <h3>
-                            Reporte de Consultas
-                        </h3>
-
-                        <p>
-                            Consultas médicas realizadas.
-                        </p>
-
-                        <div class="parte-inferior">
-
-                            <span>
-                                {{ consultas }} registros
-                            </span>
-
-                            <div class="botones">
-
-                                <button class="pdf">
-                                    PDF
-                                </button>
-
-                                <button class="excel">
-                                    Excel
-                                </button>
-
+                    <!-- Tarjeta Consultas -->
+                    <div class="tarjeta">
+                        <div class="icono-reporte">♡</div>
+                        <div class="informacion">
+                            <h3>Reporte de Consultas</h3>
+                            <p>Consultas médicas realizadas.</p>
+                            <div class="parte-inferior">
+                                <span>{{ consultas }} registros</span>
+                                <div class="botones">
+                                    <button class="pdf">PDF</button>
+                                    <button class="excel">Excel</button>
+                                </div>
                             </div>
-
                         </div>
-
                     </div>
 
-                </div>
-
-                <div class="tarjeta">
-
-                    <div class="icono-reporte">
-                        $
-                    </div>
-
-                    <div class="informacion">
-
-                        <h3>
-                            Reporte de Pagos
-                        </h3>
-
-                        <p>
-                            Pagos realizados por pacientes.
-                        </p>
-
-                        <div class="parte-inferior">
-
-                            <span>
-                                {{ pagos }} registros
-                            </span>
-
-                            <div class="botones">
-
-                                <button class="pdf">
-                                    PDF
-                                </button>
-
-                                <button class="excel">
-                                    Excel
-                                </button>
-
+                    <!-- Tarjeta Pagos -->
+                    <div class="tarjeta">
+                        <div class="icono-reporte">$</div>
+                        <div class="informacion">
+                            <h3>Reporte de Pagos</h3>
+                            <p>Pagos realizados por pacientes.</p>
+                            <div class="parte-inferior">
+                                <span>{{ pagos }} registros</span>
+                                <div class="botones">
+                                    <button class="pdf">PDF</button>
+                                    <button class="excel">Excel</button>
+                                </div>
                             </div>
-
                         </div>
-
                     </div>
 
-                </div>
-
-                <div class="tarjeta">
-
-                    <div class="icono-reporte">
-                        +
-                    </div>
-
-                    <div class="informacion">
-
-                        <h3>
-                            Reporte de Diagnósticos
-                        </h3>
-
-                        <p>
-                            Diagnósticos registrados.
-                        </p>
-
-                        <div class="parte-inferior">
-
-                            <span>
-                                {{ diagnosticos }} registros
-                            </span>
-
-                            <div class="botones">
-
-                                <button class="pdf">
-                                    PDF
-                                </button>
-
-                                <button class="excel">
-                                    Excel
-                                </button>
-
+                    <!-- Tarjeta Diagnósticos -->
+                    <div class="tarjeta">
+                        <div class="icono-reporte">+</div>
+                        <div class="informacion">
+                            <h3>Reporte de Diagnósticos</h3>
+                            <p>Diagnósticos registrados.</p>
+                            <div class="parte-inferior">
+                                <span>{{ diagnosticos }} registros</span>
+                                <div class="botones">
+                                    <button class="pdf">PDF</button>
+                                    <button class="excel">Excel</button>
+                                </div>
                             </div>
-
                         </div>
-
                     </div>
 
-                </div>
-
-                <div class="tarjeta">
-
-                    <div class="icono-reporte">
-                        ⚕
-                    </div>
-
-                    <div class="informacion">
-
-                        <h3>
-                            Reporte de Médicos
-                        </h3>
-
-                        <p>
-                            Médicos y especialidades.
-                        </p>
-
-                        <div class="parte-inferior">
-
-                            <span>
-                                {{ medicos }} registros
-                            </span>
-
-                            <div class="botones">
-
-                                <button class="pdf">
-                                    PDF
-                                </button>
-
-                                <button class="excel">
-                                    Excel
-                                </button>
-
+                    <!-- Tarjeta Médicos -->
+                    <div class="tarjeta">
+                        <div class="icono-reporte">⚕</div>
+                        <div class="informacion">
+                            <h3>Reporte de Médicos</h3>
+                            <p>Médicos y especialidades.</p>
+                            <div class="parte-inferior">
+                                <span>{{ medicos }} registros</span>
+                                <div class="botones">
+                                    <button class="pdf">PDF</button>
+                                    <button class="excel">Excel</button>
+                                </div>
                             </div>
-
                         </div>
-
                     </div>
+                </div>
+            </section>
 
+            <section class="resumen">
+                <div class="resumen-card">
+                    <div class="resumen-icono">♟</div>
+                    <div>
+                        <span>Total de Pacientes</span>
+                        <strong>{{ pacientes }}</strong>
+                    </div>
                 </div>
 
-
-            </div>
-
-        </section>
-
-        <section class="resumen">
-
-
-            <div class="resumen-card">
-
-                <div class="resumen-icono">
-                    ♟
+                <div class="resumen-card">
+                    <div class="resumen-icono">▣</div>
+                    <div>
+                        <span>Citas del período</span>
+                        <strong>{{ citas }}</strong>
+                    </div>
                 </div>
 
+                <div class="resumen-card">
+                    <div class="resumen-icono">$</div>
+                    <div>
+                        <span>Ingresos</span>
+                        <strong>{{ ingresos }}</strong>
+                    </div>
+                </div>
+
+                <div class="resumen-card">
+                    <div class="resumen-icono">⚕</div>
+                    <div>
+                        <span>Médicos Activos</span>
+                        <strong>{{ medicos }}</strong>
+                    </div>
+                </div>
+            </section>
+
+            <section class="exportar">
+                <div class="exportar-icono">⇩</div>
+                <div class="exportar-texto">
+                    <h2>Exportar Reportes</h2>
+                    <p>Descarga los reportes en PDF o Excel.</p>
+                </div>
+                <div class="exportar-botones">
+                    <button class="boton-pdf">📄 Descargar PDF</button>
+                    <button class="boton-excel">📊 Descargar Excel</button>
+                </div>
+            </section>
+
+            <footer>
                 <div>
-
-                    <span>
-                        Total de Pacientes
-                    </span>
-
-                    <strong>
-                        {{ pacientes }}
-                    </strong>
-
+                    <strong>Registro Rápido</strong>
+                    <span>Información organizada</span>
                 </div>
-
-            </div>
-
-
-            <div class="resumen-card">
-
-                <div class="resumen-icono">
-                    ▣
-                </div>
-
                 <div>
-
-                    <span>
-                        Citas del período
-                    </span>
-
-                    <strong>
-                        {{ citas }}
-                    </strong>
-
+                    <strong>Información Segura</strong>
+                    <span>Datos protegidos</span>
                 </div>
-
-            </div>
-
-
-            <div class="resumen-card">
-
-                <div class="resumen-icono">
-                    $
-                </div>
-
                 <div>
-
-                    <span>
-                        Ingresos
-                    </span>
-
-                    <strong>
-                        {{ ingresos }}
-                    </strong>
-
+                    <strong>Reportes Claros</strong>
+                    <span>Información fácil de consultar</span>
                 </div>
-
-            </div>
-
-
-            <div class="resumen-card">
-
-                <div class="resumen-icono">
-                    ⚕
-                </div>
-
                 <div>
-
-                    <span>
-                        Médicos Activos
-                    </span>
-
-                    <strong>
-                        {{ medicos }}
-                    </strong>
-
+                    <strong>Siempre Contigo</strong>
+                    <span>Acceso desde cualquier dispositivo</span>
                 </div>
+            </footer>
 
-            </div>
-
-        </section>
-
-        <section class="exportar">
-
-            <div class="exportar-icono">
-                ⇩
-            </div>
-
-            <div class="exportar-texto">
-
-                <h2>
-                    Exportar Reportes
-                </h2>
-
-                <p>
-                    Descarga los reportes en PDF o Excel.
-                </p>
-
-            </div>
-
-            <div class="exportar-botones">
-
-                <button class="boton-pdf">
-                    📄 Descargar PDF
-                </button>
-
-                <button class="boton-excel">
-                    📊 Descargar Excel
-                </button>
-
-            </div>
-
-        </section>
-
-        <footer>
-
-            <div>
-
-                <strong>
-                    Registro Rápido
-                </strong>
-
-                <span>
-                    Información organizada
-                </span>
-
-            </div>
-
-            <div>
-
-                <strong>
-                    Información Segura
-                </strong>
-
-                <span>
-                    Datos protegidos
-                </span>
-
-            </div>
-
-            <div>
-
-                <strong>
-                    Reportes Claros
-                </strong>
-
-                <span>
-                    Información fácil de consultar
-                </span>
-
-            </div>
-
-            <div>
-
-                <strong>
-                    Siempre Contigo
-                </strong>
-
-                <span>
-                    Acceso desde cualquier dispositivo
-                </span>
-
-            </div>
-
-        </footer>
-        
-    </main>
-
-</div>
+        </main>
+    </div>
 
 </body>
 

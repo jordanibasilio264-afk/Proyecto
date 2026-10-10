@@ -1,0 +1,125 @@
+
+{% load static %}
+
+<input
+    type="checkbox"
+    id="sidebar-menu-toggle"
+    class="sidebar-menu-check"
+    aria-label="Abrir o cerrar el menú"
+>
+
+<div class="sidebar-wrapper">
+
+    <!-- Encabezado móvil -->
+    <header class="sidebar-mobile-header">
+
+        <label
+            for="sidebar-menu-toggle"
+            class="sidebar-mobile-button"
+            aria-label="Abrir o cerrar menú"
+        >
+            <span class="sidebar-hamburger" aria-hidden="true">☰</span>
+        </label>
+
+        <span class="sidebar-mobile-title">
+            Clínica Médica
+        </span>
+
+    </header>
+
+    <!-- Fondo oscuro para móvil -->
+    <label
+        for="sidebar-menu-toggle"
+        class="sidebar-overlay"
+        aria-label="Cerrar menú"
+    ></label>
+
+    <!-- Menú lateral -->
+    <aside class="sidebar" aria-label="Menú principal">
+
+        <!-- Logo -->
+        <div class="sidebar-logo">
+            <img
+                src="{% static 'images/logo-clinica.png' %}"
+                alt="Clínica Médica General y Familiar"
+            >
+        </div>
+
+        <!-- Navegación -->
+        <nav class="sidebar-menu">
+
+    <a href="{% url 'dashboard' %}"
+       class="sidebar-option {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+        <span class="sidebar-icon">⌂</span>
+        <span>Dashboard</span>
+    </a>
+
+    <a href="{% url 'medicamentos' %}"
+       class="sidebar-option {% if request.resolver_match.url_name == 'medicamentos' %}active{% endif %}">
+        <span class="sidebar-icon">♟</span>
+        <span>Medicamentos</span>
+    </a>
+
+    <a href="{% url 'auditoria' %}"
+       class="sidebar-option {% if request.resolver_match.url_name == 'auditoria' %}active{% endif %}">
+        <span class="sidebar-icon">◉</span>
+        <span>Auditoría</span>
+    </a>
+
+    <a href="{% url 'documentos' %}"
+       class="sidebar-option {% if request.resolver_match.url_name == 'documentos' %}active{% endif %}">
+        <span class="sidebar-icon">▤</span>
+        <span>Consultas</span>
+    </a>
+
+    <a href="{% url 'citas' %}"
+       class="sidebar-option {% if request.resolver_match.url_name == 'citas' %}active{% endif %}">
+        <span class="sidebar-icon">▣</span>
+        <span>Citas</span>
+    </a>
+
+    <a href="{% url 'expedientes' %}"
+       class="sidebar-option {% if request.resolver_match.url_name == 'expedientes' %}active{% endif %}">
+        <span class="sidebar-icon">▥</span>
+        <span>Expediente Digital</span>
+    </a>
+
+    <a href="{% url 'reportes' %}"
+       class="sidebar-option {% if request.resolver_match.url_name == 'reportes' %}active{% endif %}">
+        <span class="sidebar-icon">▥</span>
+        <span>Reportes</span>
+    </a>
+
+    <a href="{% url 'seguros' %}"
+       class="sidebar-option {% if request.resolver_match.url_name == 'seguros' %}active{% endif %}">
+        <span class="sidebar-icon">▧</span>
+        <span>Seguros</span>
+    </a>
+
+    <a href="{% url 'pagos' %}"
+       class="sidebar-option {% if request.resolver_match.url_name == 'pagos' %}active{% endif %}">
+        <span class="sidebar-icon">$</span>
+        <span>Pagos</span>
+    </a>
+
+    
+<a href="{% url 'configuracion' %}"
+   class="sidebar-option {% if request.resolver_match.url_name == 'configuracion' %}active{% endif %}">
+    <span class="sidebar-icon">⚙</span>
+    <span>Configuración</span>
+</a>
+
+
+</nav>
+
+        <!-- Cerrar sesión -->
+        <div class="sidebar-logout">
+            <a href="#">
+                <span class="sidebar-icon" aria-hidden="true">↪</span>
+                <span class="sidebar-label">Cerrar sesión</span>
+            </a>
+        </div>
+
+    </aside>
+
+</div>

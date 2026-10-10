@@ -8,79 +8,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Configuración</title>
-
+    <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
     <link rel="stylesheet" href="{% static 'configuracion.css' %}">
 
 </head>
 
 <body>
 
-<!-- Interruptor del menú en celular (sin JavaScript) -->
-<input type="checkbox" id="menu-toggle" class="menu-check">
+
 
 <div class="pagina">
 
-    <label for="menu-toggle" class="fondo-oscuro"></label>
+    {% include 'includes/sidebar.html' %}
 
-    <aside class="menu-lateral">
-
-        <div class="logo">
-
-            <img
-                src="{% static 'images/logo-clinica.png' %}"
-                alt="Clínica Médica General y Familiar"
-                width="120"
-                style="display:block; height:auto; max-width:100%; margin:0 auto;"
-            >
-
-        </div>
-
-
-        <nav class="menu">
-
-            <a href="#" class="opcion">
-                <span>⌂</span>
-                Dashboard
-            </a>
-
-            <a href="#" class="opcion">
-                <span>♟</span>
-                Pacientes
-            </a>
-
-            <a href="#" class="opcion">
-                <span>▣</span>
-                Citas
-            </a>
-
-            <a href="#" class="opcion">
-                <span>♡</span>
-                Consultas
-            </a>
-
-            <a href="#" class="opcion">
-                <span>💊</span>
-                Recetas
-            </a>
-
-            <a href="#" class="opcion">
-                <span>▤</span>
-                Expedientes
-            </a>
-
-            <a href="#" class="opcion activa">
-                <span>⚙</span>
-                Configuración
-            </a>
-
-        </nav>
-
-
-        <div class="cerrar">
-            ↪ Cerrar sesión
-        </div>
-
-    </aside>
+  
 
     <main class="contenido">
 

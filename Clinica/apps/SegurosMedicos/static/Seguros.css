@@ -1,1094 +1,630 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html,
-body {
+.seguros-page {
     width: 100%;
-    min-height: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
     font-family: Arial, sans-serif;
     background: #f4f7f8;
     color: #123d5c;
 }
 
-body {
-    overflow-x: hidden;
+.seguros-page,
+.seguros-page * {
+    box-sizing: border-box;
 }
 
-a {
-    text-decoration: none;
-}
+@scope (.seguros-page) {
 
-.pagina {
-    width: 100%;
-    min-height: 100vh;
-}
-
-
-/* ================================
-   MENÚ LATERAL
-================================ */
-
-.menu-lateral {
-    width: 160px;
-
-    background: linear-gradient(
-        #087f88,
-        #075875
-    );
-
-    color: white;
-
-    position: fixed;
-
-    top: 0;
-    bottom: 0;
-    left: 0;
-
-    display: flex;
-    flex-direction: column;
-
-    overflow-y: auto;
-    scrollbar-width: none;
-
-    z-index: 10;
-}
-
-.menu-lateral::-webkit-scrollbar {
-    display: none;
-}
-
-.logo {
-    background: white;
-    color: #075273;
-    text-align: center;
-    padding: 18px 8px;
-}
-
-.logo img {
-    display: block;
-    width: 120px;
-    max-width: 100%;
-    height: auto;
-    margin: 0 auto;
-}
-
-.menu {
-    padding: 12px 7px;
-}
-
-.opcion {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    padding: 11px 8px;
-    margin-bottom: 5px;
-
-    border-radius: 9px;
-
-    color: white;
-
-    font-size: 11px;
-
-    transition: 0.2s;
-}
-
-.opcion .ico {
-    width: 20px;
-    text-align: center;
-    font-size: 16px;
-}
-
-.opcion span {
-    white-space: nowrap;
-}
-
-.opcion:hover,
-.opcion.activa {
-    background: #42b7ae;
-}
-
-.cerrar {
-    display: block;
-
-    margin-top: auto;
-    padding: 15px;
-
-    border-top: 1px solid #ffffff33;
-
-    color: white;
-    font-size: 10px;
-}
-
-
-/* ================================
-   MENÚ EN PANTALLAS BAJAS
-   (computadora con zoom o ventana chica)
-================================ */
-
-@media (max-height: 700px) and (min-width: 701px) {
-
-    .logo {
-        padding: 10px 8px;
+    a {
+        text-decoration: none;
     }
 
-    .logo img {
-        width: 85px;
+    button,
+    input,
+    select {
+        font: inherit;
     }
 
-    .menu {
-        padding: 8px 7px;
+    
+    .contenido {
+        width: calc(100% - 240px);
+        margin-left: 240px;
+        max-width: calc(100% - 240px);
+        min-width: 0;
+        padding: 25px 20px 20px;
     }
 
-    .opcion {
-        padding: 9px 8px;
-        margin-bottom: 3px;
+    /* ENCABEZADO */
+    .encabezado {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 22px;
     }
 
-    .cerrar {
-        padding: 12px 15px;
+    .encabezado-titulo {
+        min-width: 0;
     }
 
-}
-
-@media (max-height: 540px) and (min-width: 701px) {
-
-    .logo img {
-        width: 70px;
+    .encabezado h1 {
+        margin: 0 0 5px;
+        color: #123d5c;
+        font-size: 25px;
     }
 
-    .opcion {
-        padding: 7px 8px;
-        margin-bottom: 2px;
+    .encabezado p {
+        margin: 0;
+        color: #71858c;
+        font-size: 13px;
     }
 
-}
-
-
-/* ================================
-   MENÚ HAMBURGUESA (solo celular)
-================================ */
-
-.menu-check,
-.menu-btn,
-.logo-movil,
-.fondo-oscuro {
-    display: none;
-}
-
-
-/* ================================
-   CONTENIDO
-================================ */
-
-.contenido {
-    margin-left: 160px;
-
-    width: calc(100% - 160px);
-
-    padding: 25px 20px 20px;
-}
-
-
-/* ================================
-   ENCABEZADO
-================================ */
-
-.encabezado {
-    display: flex;
-
-    justify-content: space-between;
-    align-items: center;
-
-    margin-bottom: 22px;
-}
-
-.encabezado-titulo {
-    min-width: 0;
-}
-
-.encabezado h1 {
-    font-size: 25px;
-
-    color: #123d5c;
-
-    margin-bottom: 5px;
-}
-
-.encabezado p {
-    font-size: 13px;
-
-    color: #71858c;
-}
-
-
-/* ================================
-   BOTÓN NUEVO
-================================ */
-
-.btn-nuevo {
-    border: none;
-
-    background: #07838a;
-
-    color: white;
-
-    padding: 11px 17px;
-
-    border-radius: 9px;
-
-    font-size: 12px;
-
-    cursor: pointer;
-
-    transition: 0.2s;
-}
-
-.btn-nuevo:hover {
-    background: #075875;
-}
-
-
-/* ================================
-   RESUMEN
-================================ */
-
-.resumen {
-    display: grid;
-
-    grid-template-columns: repeat(3, 1fr);
-
-    gap: 15px;
-
-    margin-bottom: 20px;
-}
-
-.tarjeta {
-    background: white;
-
-    border-radius: 13px;
-
-    padding: 16px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 13px;
-
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
-}
-
-.tarjeta-icono {
-    width: 42px;
-    height: 42px;
-
-    background: #e3f5f4;
-
-    color: #07838a;
-
-    border-radius: 10px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 20px;
-}
-
-.tarjeta span {
-    display: block;
-
-    color: #71858c;
-
-    font-size: 11px;
-
-    margin-bottom: 5px;
-}
-
-.tarjeta strong {
-    display: block;
-
-    font-size: 22px;
-
-    color: #123d5c;
-}
-
-
-/* ================================
-   BUSCADOR
-================================ */
-
-.buscar {
-    background: white;
-
-    border-radius: 13px;
-
-    padding: 17px 18px;
-
-    display: flex;
-
-    justify-content: space-between;
-    align-items: center;
-
-    gap: 15px;
-
-    margin-bottom: 15px;
-
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
-}
-
-.buscar h2 {
-    font-size: 17px;
-
-    margin-bottom: 4px;
-}
-
-.buscar p {
-    color: #71858c;
-
-    font-size: 11px;
-}
-
-.buscar form {
-    display: flex;
-
-    gap: 5px;
-}
-
-.buscar input {
-    width: 230px;
-
-    padding: 9px 11px;
-
-    border: 1px solid #d9e4e6;
-
-    border-radius: 8px;
-
-    outline: none;
-
-    font-size: 12px;
-}
-
-.buscar input:focus {
-    border-color: #07838a;
-}
-
-.buscar button {
-    width: 38px;
-
-    border: none;
-
-    border-radius: 8px;
-
-    background: #07838a;
-
-    color: white;
-
-    cursor: pointer;
-}
-
-
-/* ================================
-   TABLA
-================================ */
-
-.tabla-contenedor {
-    width: 100%;
-
-    background: white;
-
-    border-radius: 13px;
-
-    overflow-x: auto;
-
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
-
-    margin-bottom: 20px;
-}
-
-table {
-    width: 100%;
-
-    min-width: 700px;
-
-    border-collapse: collapse;
-}
-
-thead {
-    background: #f1f7f7;
-}
-
-th {
-    text-align: left;
-
-    padding: 13px;
-
-    font-size: 11px;
-
-    color: #56717b;
-
-    font-weight: bold;
-}
-
-td {
-    padding: 13px;
-
-    border-top: 1px solid #edf1f2;
-
-    font-size: 12px;
-
-    color: #526b74;
-}
-
-
-/* ================================
-   NOMBRE DEL SEGURO
-================================ */
-
-.nombre-seguro {
-    display: flex;
-
-    align-items: center;
-
-    gap: 10px;
-}
-
-.seguro-icono {
-    width: 35px;
-    height: 35px;
-
-    border-radius: 9px;
-
-    background: #e3f5f4;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    font-size: 17px;
-}
-
-.nombre-seguro strong {
-    display: block;
-
-    color: #123d5c;
-
-    font-size: 12px;
-
-    margin-bottom: 3px;
-}
-
-.nombre-seguro small {
-    display: block;
-
-    color: #8a9aa0;
-
-    font-size: 10px;
-}
-
-
-/* ================================
-   ESTADO
-================================ */
-
-.estado {
-    display: inline-block;
-
-    padding: 5px 9px;
-
-    border-radius: 20px;
-
-    font-size: 10px;
-
-    font-weight: bold;
-}
-
-.estado.activo {
-    background: #e2f6ee;
-
-    color: #23805e;
-}
-
-.estado.inactivo {
-    background: #fbe7e7;
-
-    color: #a54c4c;
-}
-
-
-/* ================================
-   ACCIONES
-================================ */
-
-.acciones {
-    display: flex;
-
-    align-items: center;
-
-    gap: 6px;
-}
-
-.btn-editar {
-    background: #eaf6f5;
-
-    color: #07838a;
-
-    padding: 6px 9px;
-
-    border-radius: 7px;
-
-    font-size: 10px;
-}
-
-.btn-editar:hover {
-    background: #d8efed;
-}
-
-.btn-eliminar {
-    width: 30px;
-    height: 30px;
-
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-
-    border-radius: 7px;
-
-    background: #fdeaea;
-
-    color: #b54e4e;
-
-    font-size: 12px;
-}
-
-.btn-eliminar:hover {
-    background: #f8d6d6;
-}
-
-
-/* ================================
-   SIN DATOS
-================================ */
-
-.sin-datos {
-    text-align: center;
-
-    padding: 35px !important;
-
-    color: #8a9aa0;
-}
-
-.sin-datos-icono {
-    font-size: 28px;
-
-    margin-bottom: 8px;
-}
-
-.sin-datos p {
-    font-size: 12px;
-}
-
-
-/* ================================
-   FORMULARIO
-================================ */
-
-.form-card {
-    background: white;
-
-    border-radius: 13px;
-
-    padding: 20px;
-
-    margin-bottom: 20px;
-
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
-}
-
-
-/* TÍTULO DEL FORMULARIO */
-
-.form-titulo {
-    display: flex;
-
-    align-items: center;
-
-    gap: 12px;
-
-    margin-bottom: 20px;
-}
-
-.form-icono {
-    width: 40px;
-    height: 40px;
-
-    border-radius: 10px;
-
-    background: #e3f5f4;
-
-    color: #07838a;
-
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-
-    font-size: 18px;
-}
-
-.form-titulo h2 {
-    font-size: 17px;
-
-    margin-bottom: 4px;
-}
-
-.form-titulo p {
-    font-size: 11px;
-
-    color: #71858c;
-}
-
-
-/* ================================
-   CAMPOS
-================================ */
-
-.form-grid {
-    display: grid;
-
-    grid-template-columns: repeat(2, 1fr);
-
-    gap: 16px;
-}
-
-.campo {
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 6px;
-}
-
-.campo label {
-    font-size: 11px;
-
-    color: #526b74;
-
-    font-weight: bold;
-}
-
-.campo input,
-.campo select {
-    width: 100%;
-
-    padding: 10px 11px;
-
-    border: 1px solid #d9e4e6;
-
-    border-radius: 8px;
-
-    outline: none;
-
-    font-size: 12px;
-
-    background: white;
-}
-
-.campo input:focus,
-.campo select:focus {
-    border-color: #07838a;
-
-    box-shadow: 0 0 0 2px rgba(7, 131, 138, 0.08);
-}
-
-
-/* ================================
-   BOTONES FORMULARIO
-================================ */
-
-.form-botones {
-    display: flex;
-
-    justify-content: flex-end;
-
-    gap: 8px;
-
-    margin-top: 20px;
-}
-
-.btn-guardar,
-.btn-cancelar {
-    border: none;
-
-    padding: 10px 15px;
-
-    border-radius: 8px;
-
-    font-size: 11px;
-
-    cursor: pointer;
-}
-
-.btn-guardar {
-    background: #07838a;
-
-    color: white;
-}
-
-.btn-guardar:hover {
-    background: #075875;
-}
-
-.btn-cancelar {
-    background: #eef2f3;
-
-    color: #526b74;
-
-    display: inline-flex;
-
-    align-items: center;
-    justify-content: center;
-}
-
-.btn-cancelar:hover {
-    background: #e2e7e8;
-}
-
-
-/* ================================
-   ASOCIAR SEGURO
-================================ */
-
-.asociar-card {
-    background: #e3f5f4;
-
-    border: 1px solid #c9e9e7;
-
-    border-radius: 13px;
-
-    padding: 18px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 13px;
-
-    margin-bottom: 20px;
-}
-
-.asociar-icono {
-    width: 43px;
-    height: 43px;
-
-    flex-shrink: 0;
-
-    background: white;
-
-    border-radius: 10px;
-
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-
-    font-size: 19px;
-}
-
-.asociar-info {
-    flex: 1;
-}
-
-.asociar-info h2 {
-    font-size: 15px;
-
-    margin-bottom: 4px;
-
-    color: #123d5c;
-}
-
-.asociar-info p {
-    font-size: 11px;
-
-    color: #71858c;
-}
-
-.btn-asociar {
-    border: none;
-
-    background: #07838a;
-
-    color: white;
-
-    padding: 10px 14px;
-
-    border-radius: 8px;
-
-    font-size: 11px;
-
-    cursor: pointer;
-}
-
-.btn-asociar:hover {
-    background: #075875;
-}
-
-
-/* ================================
-   PIE
-================================ */
-
-.pie {
-    display: flex;
-
-    justify-content: space-between;
-
-    padding: 5px 3px 15px;
-
-    color: #8a9aa0;
-
-    font-size: 10px;
-}
-
-
-/* ================================
-   RESPONSIVE - TABLET
-================================ */
-
-@media (max-width: 900px) {
-
+    /* BOTÓN NUEVO */
+    .btn-nuevo {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border: none;
+        border-radius: 9px;
+        padding: 11px 17px;
+        background: #07838a;
+        color: white;
+        font-size: 12px;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .btn-nuevo:hover {
+        background: #075875;
+    }
+
+    /* RESUMEN */
     .resumen {
-        grid-template-columns: 1fr 1fr;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
     }
 
-    .resumen .tarjeta:last-child {
-        grid-column: span 2;
+    .tarjeta {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        min-width: 0;
+        padding: 16px;
+        background: white;
+        border-radius: 13px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
     }
 
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
-
-}
-
-
-/* ================================
-   RESPONSIVE - CELULAR
-================================ */
-
-@media (max-width: 700px) {
-
-    html,
-    body {
-        width: 100%;
-        overflow-x: hidden;
-    }
-
-
-    /* MENÚ DESLIZABLE */
-
-    .menu-lateral {
-        top: 0;
-        bottom: auto;
-        left: 0;
-
-        z-index: 30;
-
-        width: 230px;
-        max-width: 80vw;
-
-        height: 100vh;
-        height: 100dvh;
-
-        transform: translateX(-105%);
-        transition: transform 0.3s ease;
-    }
-
-    .menu-check:checked ~ .pagina .menu-lateral {
-        transform: translateX(0);
-    }
-
-    .menu-check:checked ~ .pagina .fondo-oscuro {
-        display: block;
-
-        position: fixed;
-        inset: 0;
-
-        z-index: 20;
-
-        background: rgba(7, 40, 60, 0.5);
-    }
-
-    .menu-btn {
+    .tarjeta-icono {
         display: flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
-
-        width: 40px;
-        height: 40px;
-
+        width: 42px;
+        height: 42px;
         border-radius: 10px;
-
         background: #e3f5f4;
-        color: #075875;
-
-        font-size: 22px;
-        cursor: pointer;
+        color: #07838a;
+        font-size: 20px;
     }
 
-    .logo-movil {
+    .tarjeta span {
         display: block;
-        flex-shrink: 0;
-
-        height: 40px;
-        width: auto;
+        margin-bottom: 5px;
+        color: #71858c;
+        font-size: 11px;
     }
 
-    .logo {
-        padding: 10px 8px;
-    }
-
-    .logo img {
-        width: 65px;
-    }
-
-    .menu {
-        padding: 8px 7px;
-    }
-
-    .opcion {
-        padding: 10px 8px;
-        margin-bottom: 3px;
-    }
-
-    .cerrar {
-        padding: 12px 15px;
-    }
-
-
-    /* CONTENIDO */
-
-    .contenido {
-        width: 100%;
-
-        margin-left: 0;
-
-        padding: 15px 12px;
-    }
-
-
-    /* ENCABEZADO */
-
-    .encabezado {
-        flex-wrap: wrap;
-
-        justify-content: flex-start;
-        align-items: center;
-
-        gap: 12px;
-    }
-
-    .encabezado-titulo {
-        flex: 1;
-    }
-
-    .encabezado h1 {
+    .tarjeta strong {
+        display: block;
+        color: #123d5c;
         font-size: 22px;
     }
-
-    .btn-nuevo {
-        width: 100%;
-        order: 3;
-    }
-
-
-    /* RESUMEN */
-
-    .resumen {
-        grid-template-columns: 1fr;
-    }
-
-    .resumen .tarjeta:last-child {
-        grid-column: auto;
-    }
-
 
     /* BUSCADOR */
-
     .buscar {
-        flex-direction: column;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        margin-bottom: 15px;
+        padding: 17px 18px;
+        background: white;
+        border-radius: 13px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+    }
 
-        align-items: stretch;
+    .buscar h2 {
+        margin: 0 0 4px;
+        font-size: 17px;
+    }
+
+    .buscar p {
+        margin: 0;
+        color: #71858c;
+        font-size: 11px;
     }
 
     .buscar form {
-        width: 100%;
+        display: flex;
+        gap: 5px;
+        min-width: 0;
     }
 
     .buscar input {
+        width: 230px;
+        max-width: 100%;
+        min-width: 0;
+        padding: 9px 11px;
+        border: 1px solid #d9e4e6;
+        border-radius: 8px;
+        outline: none;
+        font-size: 12px;
+    }
+
+    .buscar input:focus {
+        border-color: #07838a;
+    }
+
+    .buscar button {
+        flex-shrink: 0;
+        width: 38px;
+        border: none;
+        border-radius: 8px;
+        background: #07838a;
+        color: white;
+        cursor: pointer;
+    }
+
+    .buscar button:hover {
+        background: #075875;
+    }
+
+    /* TABLA */
+    .tabla-contenedor {
+        width: 100%;
+        margin-bottom: 20px;
+        overflow-x: auto;
+        background: white;
+        border-radius: 13px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .tabla-contenedor table {
+        width: 100%;
+        min-width: 700px;
+        border-collapse: collapse;
+    }
+
+    .tabla-contenedor thead {
+        background: #f1f7f7;
+    }
+
+    .tabla-contenedor th {
+        padding: 13px;
+        text-align: left;
+        color: #56717b;
+        font-size: 11px;
+        font-weight: bold;
+    }
+
+    .tabla-contenedor td {
+        padding: 13px;
+        border-top: 1px solid #edf1f2;
+        color: #526b74;
+        font-size: 12px;
+    }
+
+    /* NOMBRE DEL SEGURO */
+    .nombre-seguro {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .seguro-icono {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 35px;
+        height: 35px;
+        border-radius: 9px;
+        background: #e3f5f4;
+        font-size: 17px;
+    }
+
+    .nombre-seguro strong {
+        display: block;
+        margin-bottom: 3px;
+        color: #123d5c;
+        font-size: 12px;
+    }
+
+    .nombre-seguro small {
+        display: block;
+        color: #8a9aa0;
+        font-size: 10px;
+    }
+
+    /* ESTADO */
+    .estado {
+        display: inline-block;
+        padding: 5px 9px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: bold;
+    }
+
+    .estado.activo {
+        background: #e2f6ee;
+        color: #23805e;
+    }
+
+    .estado.inactivo {
+        background: #fbe7e7;
+        color: #a54c4c;
+    }
+
+    /* ACCIONES */
+    .acciones {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .btn-editar {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 9px;
+        border-radius: 7px;
+        background: #eaf6f5;
+        color: #07838a;
+        font-size: 10px;
+        white-space: nowrap;
+    }
+
+    .btn-editar:hover {
+        background: #d8efed;
+    }
+
+    .btn-eliminar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 7px;
+        background: #fdeaea;
+        color: #b54e4e;
+        font-size: 12px;
+        cursor: pointer;
+    }
+
+    .btn-eliminar:hover {
+        background: #f8d6d6;
+    }
+
+    /* SIN DATOS */
+    .tabla-contenedor .sin-datos {
+        padding: 35px !important;
+        text-align: center;
+        color: #8a9aa0;
+    }
+
+    .sin-datos-icono {
+        margin-bottom: 8px;
+        font-size: 28px;
+    }
+
+    .sin-datos p {
+        margin: 0;
+        font-size: 12px;
+    }
+
+    /* FORMULARIO */
+    .form-card {
+        margin-bottom: 20px;
+        padding: 20px;
+        background: white;
+        border-radius: 13px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+        scroll-margin-top: 20px;
         width: 100%;
     }
 
-
-    /* TABLA */
-
-    .tabla-contenedor {
-        overflow-x: auto;
+    .form-titulo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
     }
 
-    table {
-        min-width: 700px;
+    .form-icono {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: #e3f5f4;
+        color: #07838a;
+        font-size: 18px;
     }
 
+    .form-titulo h2 {
+        margin: 0 0 4px;
+        font-size: 17px;
+    }
 
-    /* FORMULARIO */
-
-    .form-card {
-        padding: 15px;
+    .form-titulo p {
+        margin: 0;
+        color: #71858c;
+        font-size: 11px;
     }
 
     .form-grid {
-        grid-template-columns: 1fr;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        width: 100%;
     }
 
-    .form-botones {
+    .campo {
+        display: flex;
         flex-direction: column;
+        gap: 6px;
+        min-width: 0;
+        width: 100%;
+    }
+
+    .campo label {
+        color: #526b74;
+        font-size: 11px;
+        font-weight: bold;
+    }
+
+    .campo input,
+    .campo select {
+        width: 100%;
+        min-width: 0;
+        padding: 10px 11px;
+        border: 1px solid #d9e4e6;
+        border-radius: 8px;
+        outline: none;
+        background: white;
+        color: #123d5c;
+        font-size: 12px;
+    }
+
+    .campo input:focus,
+    .campo select:focus {
+        border-color: #07838a;
+        box-shadow: 0 0 0 2px rgba(7, 131, 138, 0.08);
+    }
+
+    /* BOTONES DEL FORMULARIO */
+    .form-botones {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        margin-top: 20px;
     }
 
     .btn-guardar,
     .btn-cancelar {
-        width: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-size: 11px;
+        cursor: pointer;
     }
 
+    .btn-guardar {
+        background: #07838a;
+        color: white;
+    }
 
-    /* ASOCIAR */
+    .btn-guardar:hover {
+        background: #075875;
+    }
 
+    .btn-cancelar {
+        background: #eef2f3;
+        color: #526b74;
+    }
+
+    .btn-cancelar:hover {
+        background: #e2e7e8;
+    }
+
+    /* ASOCIAR SEGURO */
     .asociar-card {
-        flex-direction: column;
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        margin-bottom: 20px;
+        padding: 18px;
+        border: 1px solid #c9e9e7;
+        border-radius: 13px;
+        background: #e3f5f4;
+    }
 
-        align-items: flex-start;
+    .asociar-icono {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 43px;
+        height: 43px;
+        border-radius: 10px;
+        background: white;
+        font-size: 19px;
+    }
+
+    .asociar-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .asociar-info h2 {
+        display: block;
+        margin: 0 0 4px;
+        color: #123d5c;
+        font-size: 15px;
+    }
+
+    .asociar-info p {
+        margin: 0;
+        color: #71858c;
+        font-size: 11px;
     }
 
     .btn-asociar {
-        width: 100%;
+        flex-shrink: 0;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 14px;
+        background: #07838a;
+        color: white;
+        font-size: 11px;
+        cursor: pointer;
     }
 
+    .btn-asociar:hover {
+        background: #075875;
+    }
 
     /* PIE */
-
     .pie {
-        flex-direction: column;
-
-        gap: 5px;
-
-        text-align: center;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 5px 3px 15px;
+        color: #8a9aa0;
+        font-size: 10px;
     }
 
+    /* TABLET */
+    @media (max-width: 900px) {
+        .resumen {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .resumen .tarjeta:last-child {
+            grid-column: span 2;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    
+    @media (max-width: 768px) {
+        .contenido {
+            width: 100%;
+            max-width: 100%;
+            margin-left: 0;
+            padding: 15px 12px;
+        }
+
+        .encabezado {
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .encabezado-titulo {
+            flex: 1;
+        }
+
+        .encabezado h1 {
+            font-size: 22px;
+        }
+
+        .encabezado p {
+            line-height: 1.5;
+        }
+
+        .btn-nuevo {
+            width: 100%;
+        }
+
+        .resumen {
+            grid-template-columns: 1fr;
+        }
+
+        .resumen .tarjeta:last-child {
+            grid-column: auto;
+        }
+
+        .buscar {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .buscar form {
+            width: 100%;
+        }
+
+        .buscar input {
+            flex: 1;
+            width: 100%;
+        }
+
+        .tabla-contenedor {
+            overflow-x: auto;
+        }
+
+        .tabla-contenedor table {
+            min-width: 700px;
+        }
+
+        .form-card {
+            padding: 15px;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .form-botones {
+            flex-direction: column;
+        }
+
+        .btn-guardar,
+        .btn-cancelar {
+            width: 100%;
+        }
+
+        .asociar-card {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .asociar-info {
+            width: 100%;
+        }
+
+        .btn-asociar {
+            width: 100%;
+        }
+
+        .pie {
+            flex-direction: column;
+            gap: 5px;
+            text-align: center;
+        }
+    }
 }

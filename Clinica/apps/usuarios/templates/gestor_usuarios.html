@@ -5,12 +5,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestor de usuarios</title>
+    <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
     <link rel="stylesheet" href="{% static 'css/gestor_usuarios.css' %}">
 </head>
 
 <!-- Codigo del apartado principal del gestor de usuarios-->
 
 <body>
+
+{% include 'includes/sidebar.html' %}
+
+<header class="sidebar-mobile-header">
+
+    <label
+        for="sidebar-menu-toggle"
+        class="sidebar-mobile-button"
+        aria-label="Abrir menú"
+    >
+        ☰
+    </label>
+
+    <img
+        src="{% static 'images/logo-clinica.png' %}"
+        alt="Clínica Médica"
+        class="mobile-header-logo"
+    >
+
+</header>
 
     <div class="dashboard">
         <header class="topbar">

@@ -460,7 +460,17 @@ tbody tr:hover {
     padding: 0 4px;
     color: var(--text-muted);
 }
+.text-center {
+    text-align: center;
+}
 
+/* Ajusta los botones de acciones al centro */
+.actions {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Cambiado de flex-end a center */
+    gap: 6px;
+}
 /* =========================================
    MODAL
 ========================================= */
