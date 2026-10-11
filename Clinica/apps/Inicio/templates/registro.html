@@ -21,12 +21,8 @@
 
         <div class="registro-card">
 
-            <img
-                src="{% static 'images/logo-clinica.png' %}"
-                alt="Clínica Médica General y Familiar"
-                class="logo-img"
-                style="display:block; height:90px; width:auto; max-width:100%; margin:0 auto 12px;"
-            >
+            <img src="{% static 'images/logo-clinica.png' %}" alt="Clínica Médica General y Familiar" class="logo-img"
+                style="display:block; height:90px; width:auto; max-width:100%; margin:0 auto 12px;">
 
             <h1>
                 Crear cuenta
@@ -37,82 +33,18 @@
             </p>
 
 
-            <form method="POST">
-
+            <form method="post" novalidate>
                 {% csrf_token %}
-
-
+                {{ form.non_field_errors }}
+                {% for campo in form %}
                 <div class="campo">
-
-                    <label>
-                        Nombre completo
-                    </label>
-
-                    <input
-                        type="text"
-                        name="nombre"
-                        placeholder="Nombre completo"
-                        required
-                    >
-
+                    <label for="{{ campo.id_for_label }}">{{ campo.label }}</label>
+                    {{ campo }}
+                    {{ campo.errors }}
+                    {% if campo.help_text %}<small>{{ campo.help_text|safe }}</small>{% endif %}
                 </div>
-
-
-                <div class="campo">
-
-                    <label>
-                        Correo electrónico
-                    </label>
-
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="correo@gmail.com"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="campo">
-
-                    <label>
-                        Contraseña
-                    </label>
-
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Contraseña"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="campo">
-
-                    <label>
-                        Confirmar contraseña
-                    </label>
-
-                    <input
-                        type="password"
-                        name="password2"
-                        placeholder="Repite la contraseña"
-                        required
-                    >
-
-                </div>
-
-
-                <button
-                    type="submit"
-                    class="btn-registro"
-                >
-                    Registrarse
-                </button>
-
+                {% endfor %}
+                <button type="submit" class="btn-registro">Registrarme</button>
             </form>
 
 
@@ -127,10 +59,7 @@
             </p>
 
 
-            <a
-                href="{% url 'inicio' %}"
-                class="volver"
-            >
+            <a href="{% url 'inicio' %}" class="volver">
                 ← Volver al inicio
             </a>
 

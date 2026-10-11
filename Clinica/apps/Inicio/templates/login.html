@@ -21,12 +21,8 @@
 
         <div class="login-card">
 
-            <img
-                src="{% static 'images/logo-clinica.png' %}"
-                alt="Clínica Médica General y Familiar"
-                class="logo-img"
-                style="display:block; height:90px; width:auto; max-width:100%; margin:0 auto 12px;"
-            >
+            <img src="{% static 'images/logo-clinica.png' %}" alt="Clínica Médica General y Familiar" class="logo-img"
+                style="display:block; height:90px; width:auto; max-width:100%; margin:0 auto 12px;">
 
             <h1>
                 Iniciar sesión
@@ -37,49 +33,18 @@
             </p>
 
 
-            <form method="POST">
-
+            <form method="post" novalidate>
                 {% csrf_token %}
-
+                {{ form.non_field_errors }}
+                {% for campo in form %}
                 <div class="campo">
-
-                    <label>
-                        Correo electrónico
-                    </label>
-
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="correo@gmail.com"
-                        required
-                    >
-
+                    <label for="{{ campo.id_for_label }}">{{ campo.label }}</label>
+                    {{ campo }}
+                    {{ campo.errors }}
                 </div>
-
-
-                <div class="campo">
-
-                    <label>
-                        Contraseña
-                    </label>
-
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Contraseña"
-                        required
-                    >
-
-                </div>
-
-
-                <button
-                    type="submit"
-                    class="btn-login"
-                >
-                    Iniciar sesión
-                </button>
-
+                {% endfor %}
+                <input type="hidden" name="next" value="{{ next }}">
+                <button type="submit" class="btn-login">Entrar</button>
             </form>
 
 
@@ -94,10 +59,7 @@
             </p>
 
 
-            <a
-                href="{% url 'inicio' %}"
-                class="volver"
-            >
+            <a href="{% url 'inicio' %}" class="volver">
                 ← Volver al inicio
             </a>
 

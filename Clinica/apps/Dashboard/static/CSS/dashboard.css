@@ -23,6 +23,16 @@ body.app-container {
   overflow: hidden;
 }
 
+.btn-logout {
+  background: none;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+}
+
 /* SIDEBAR */
 .sidebar {
   width: 11rem;

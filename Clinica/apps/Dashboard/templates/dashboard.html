@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,12 +9,13 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="{% static 'CSS/dashboard.css' %}">
 </head>
+
 <body class="app-container">
 
   <div id="sidebar-overlay" class="sidebar-overlay"></div>
 
   <aside id="sidebar" class="sidebar">
-    
+
     <div>
       <div class="brand-header">
         <img src="{% static 'images/image26.svg' %}" alt="Clínica Médica" class="logo-img">
@@ -53,9 +55,12 @@
       </nav>
     </div>
     <div class="sidebar-bottom">
-      <a href="#" class="btn-logout">
-        <i class="icon-logout"></i> Cerrar sesión
-      </a>
+      <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn-logout">
+          <i class="icon-logout"></i> Cerrar sesión
+        </button>
+      </form>
     </div>
   </aside>
 
@@ -76,7 +81,7 @@
     </header>
 
     <div class="content-body">
-      
+
       <section class="kpi-grid">
         <div class="kpi-card">
           <div class="kpi-header">
@@ -187,4 +192,5 @@
 
   <script src="{% static 'JS/dashboard.js' %}"></script>
 </body>
+
 </html>
