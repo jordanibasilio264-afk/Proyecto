@@ -8,107 +8,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Auditoría</title>
-
+    <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
     <link rel="stylesheet" href="{% static 'auditoria.css' %}">
 
 </head>
 
 <body>
 
-<input type="checkbox" id="menu-toggle" class="menu-check">
+
+ {% include 'includes/sidebar.html' %}
 
 <div class="pagina">
 
-    <label for="menu-toggle" class="fondo-oscuro"></label>
-
-    <aside class="menu-lateral">
-
-        <div class="logo">
-
-            <img
-                src="{% static 'images/logo-clinica.png' %}"
-                alt="Clínica Médica General y Familiar"
-                width="120"
-                style="display:block; height:auto; max-width:100%; margin:0 auto;"
-            >
-
-        </div>
-
-
-        <nav class="menu">
-
-            <a href="{% url 'dashboard' %}" class="opcion">
-                <span>⌂</span>
-                Dashboard
-            </a>
-
-            <a href="{% url 'medicamentos' %}" class="opcion">
-                <span></span>
-                Medicamentos
-            </a>
-
-            <a href="{% url 'auditoria' %}" class="opcion activa">
-                <span></span>
-                Auditoria
-            </a>
-
-            <a href="{% url 'documentos' %}" class="opcion">
-                <span></span>
-                Consultas
-            </a>
-
-           <a href="{% url 'citas' %}" class="opcion">
-                <span>▣</span>
-                Citas
-            </a>
-
-            <a href="{% url 'expedientes' %}" class="opcion">
-                <span></span>
-                Expediente Digital
-            </a>
-            
-            <a href="{% url 'reportes' %}" class="opcion">
-                <span>▥</span>
-                Reportes
-            </a>
-
-            <a href="{% url 'seguros' %}" class="opcion">
-                <span>▤</span>
-                Seguros
-            </a>
-            
-            <a href="{% url 'pagos' %}" class="opcion">
-                <span>▤</span>
-                Pagos
-            </a>
-
-            <a href="#" class="opcion">
-                <span>⚙</span>
-                Configuración
-            </a>
-
-        </nav>
-
-
-        <div class="cerrar">
-            ↪ Cerrar sesión
-        </div>
-
-    </aside>
-
+   
     <main class="contenido">
 
         <header class="encabezado">
 
-            <label for="menu-toggle" class="menu-btn" aria-label="Abrir menú">☰</label>
+            
 
-            <img
-                class="logo-movil"
-                src="{% static 'images/logo-clinica.png' %}"
-                alt="Clínica Médica General y Familiar"
-                style="height:40px; width:auto;"
-            >
-
+            
             <div class="encabezado-titulo">
 
                 <h1>Auditoría</h1>

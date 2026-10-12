@@ -113,12 +113,20 @@
 </nav>
 
         <!-- Cerrar sesión -->
-        <div class="sidebar-logout">
-            <a href="#">
-                <span class="sidebar-icon" aria-hidden="true">↪</span>
-                <span class="sidebar-label">Cerrar sesión</span>
-            </a>
-        </div>
+       
+
+<div class="sidebar-logout">
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+
+        <button type="submit" class="btn-logout">
+            <span class="sidebar-icon" aria-hidden="true">↪</span>
+            <span class="sidebar-label">Cerrar sesión</span>
+        </button>
+    </form>
+</div>
+
+
 
     </aside>
 

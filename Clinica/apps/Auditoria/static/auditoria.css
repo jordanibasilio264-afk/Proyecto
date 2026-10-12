@@ -24,77 +24,14 @@ button {
     min-height: 100vh;
 }
 
-
-.menu-lateral {
-    width: 160px;
-    background: linear-gradient(#087f88, #075875);
-    color: white;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    scrollbar-width: none;
-}
-
-.menu-lateral::-webkit-scrollbar {
-    display: none;
-}
-
-.logo {
-    background: white;
-    color: #075273;
-    text-align: center;
-    padding: 18px 8px;
-}
-
-.logo img {
-    display: block;
-    width: 120px;
-    max-width: 100%;
-    height: auto;
-    margin: 0 auto;
-}
-
-.menu {
-    padding: 12px 7px;
-}
-
-.opcion {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 11px 8px;
-    margin-bottom: 5px;
-    border-radius: 9px;
-    color: white;
-    font-size: 11px;
-}
-
-.opcion span {
-    width: 20px;
-    text-align: center;
-    font-size: 16px;
-}
-
-.opcion:hover,
-.opcion.activa {
-    background: #42b7ae;
-}
-
-.cerrar {
-    margin-top: auto;
-    padding: 15px;
-    border-top: 1px solid #ffffff33;
-    font-size: 10px;
-}
-
+/* ================================
+   CONTENIDO PRINCIPAL (Ajustado a 240px para el sidebar global)
+================================ */
 
 .contenido {
-    margin-left: 160px;
-    width: calc(100% - 160px);
+    margin-left: 240px;
+    width: calc(100% - 240px);
+    max-width: calc(100% - 240px);
     padding: 20px 25px;
 }
 
@@ -106,7 +43,6 @@ footer {
     box-shadow: 0 3px 15px #0000000d;
     border-radius: 14px;
 }
-
 
 .encabezado {
     padding: 18px 24px;
@@ -156,7 +92,6 @@ footer {
     color: #71848b;
 }
 
-
 .resumen {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -197,7 +132,6 @@ footer {
     background: #fdeaea;
     color: #c94c4c;
 }
-
 
 .bloque {
     padding: 20px;
@@ -282,7 +216,6 @@ footer {
 .boton-consultar:hover {
     background: #066c74;
 }
-
 
 .tabla-scroll {
     margin-top: 16px;
@@ -408,55 +341,11 @@ footer span {
     color: #71858c;
 }
 
-
-@media (max-height: 700px) and (min-width: 701px) {
-
-    .logo {
-        padding: 10px 8px;
-    }
-
-    .logo img {
-        width: 85px;
-    }
-
-    .menu {
-        padding: 8px 7px;
-    }
-
-    .opcion {
-        padding: 9px 8px;
-        margin-bottom: 3px;
-    }
-
-    .cerrar {
-        padding: 12px 15px;
-    }
-
-}
-
-@media (max-height: 540px) and (min-width: 701px) {
-
-    .logo img {
-        width: 70px;
-    }
-
-    .opcion {
-        padding: 7px 8px;
-        margin-bottom: 2px;
-    }
-
-}
-
-.menu-check,
-.menu-btn,
-.logo-movil,
-.fondo-oscuro {
-    display: none;
-}
-
+/* ================================
+   DISEÑO RESPONSIVO
+================================ */
 
 @media (max-width: 1000px) {
-
     .resumen {
         grid-template-columns: 1fr 1fr;
     }
@@ -468,88 +357,13 @@ footer span {
     footer {
         grid-template-columns: 1fr 1fr;
     }
-
 }
 
-@media (max-width: 700px) {
-
-    .pagina {
-        display: block;
-    }
-
-    .menu-lateral {
-        top: 0;
-        bottom: auto;
-        left: 0;
-        z-index: 30;
-
-        width: 230px;
-        max-width: 80vw;
-        height: 100vh;
-        height: 100dvh;
-
-        transform: translateX(-105%);
-        transition: transform 0.3s ease;
-    }
-
-    .menu-check:checked ~ .pagina .menu-lateral {
-        transform: translateX(0);
-    }
-
-    .menu-check:checked ~ .pagina .fondo-oscuro {
-        display: block;
-        position: fixed;
-        inset: 0;
-        z-index: 20;
-        background: rgba(7, 40, 60, 0.5);
-    }
-
-    .menu-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-
-        width: 40px;
-        height: 40px;
-        border-radius: 10px;
-
-        background: #e3f5f4;
-        color: #075875;
-        font-size: 22px;
-        cursor: pointer;
-    }
-
-    .logo-movil {
-        display: block;
-        flex-shrink: 0;
-        height: 40px;
-        width: auto;
-    }
-
-    .logo {
-        padding: 10px 8px;
-    }
-
-    .logo img {
-        width: 65px;
-    }
-
-    .menu {
-        padding: 8px 7px;
-    }
-
-    .opcion {
-        padding: 10px 8px;
-        margin-bottom: 3px;
-    }
-
-    .cerrar {
-        padding: 12px 15px;
-    }
-
+/* Cambiamos de 700px a 768px para que coincida exactamente con el sidebar */
+@media (max-width: 768px) {
     .contenido {
         width: 100%;
+        max-width: 100%;
         margin-left: 0;
         padding: 15px;
     }
@@ -596,5 +410,4 @@ footer span {
     footer {
         grid-template-columns: 1fr;
     }
-
 }
