@@ -89,9 +89,8 @@ PERMISOS_POR_ROL = {
     },
     # Solo ve lo suyo: filtra por paciente=request.user en las vistas.
     "PACIENTE": {
-        "citas.ver", "citas.crear", "citas.cancelar",
-        "recetas.ver", "recetas.imprimir",
-        "expedientes.ver", "documentos.ver", "notificaciones.ver",
+        "pagos.ver","recetas.ver", "recetas.imprimir",
+        "notificaciones.ver",
     },
 }
 

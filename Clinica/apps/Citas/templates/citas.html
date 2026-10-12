@@ -56,7 +56,7 @@
                 <div class="user-status-container">
                     <a href="{% url 'notificaciones' %}">🔔</a>
                     <div class="user-profile">
-                        <span>{{ request.user.get_full_name|default:request.user.email }}</span>
+                        <span>{{ request.user.email|default:request.user.email }}</span>
                         <i class="user-avatar"></i>
                     </div>
                 </div>

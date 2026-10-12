@@ -1,6 +1,7 @@
 from django.shortcuts import render
+from apps.usuarios.decorators import requiere_permiso
 
-
+@requiere_permiso("notidicaciones.ver")
 def notificaciones(request):
 
     #recordatorios = 12
