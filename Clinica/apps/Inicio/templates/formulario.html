@@ -1,0 +1,47 @@
+{# Ubicación: apps/Inicio/templates/formulario.html
+   Página autónoma para cualquier formulario (editar, cancelar, reprogramar, pagos...).
+   Variables: form, titulo, boton (opcional), volver (opcional) #}
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ titulo }}</title>
+  <style>
+    body{font-family:system-ui,sans-serif;background:#f3f6f9;display:flex;justify-content:center;padding:40px 16px;margin:0}
+    .formulario-card{background:#fff;max-width:560px;width:100%;padding:28px;border-radius:12px;box-shadow:0 2px 12px #0001}
+    .campo{margin-bottom:14px}
+    label{display:block;font-size:14px;margin-bottom:4px}
+    input:not([type=checkbox]),select,textarea{width:100%;padding:9px;border:1px solid #ccd;border-radius:6px;box-sizing:border-box;font:inherit}
+    .btn{padding:10px 18px;background:#2b6f8a;color:#fff;border:0;border-radius:6px;cursor:pointer;font-size:15px}
+    .volver{margin-left:12px;color:#555}
+    .error,.errorlist{color:#b00020;font-size:13px;list-style:none;padding:0;margin:4px 0}
+    .ayuda{color:#667;font-size:12px}
+  </style>
+</head>
+<body>
+<main class="formulario-card">
+  <h2>{{ titulo }}</h2>
+  <form method="post" novalidate {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {% for campo in form.visible_fields %}
+      <div class="campo">
+        {% if campo.field.widget.input_type == "checkbox" %}
+          {{ campo }} <label for="{{ campo.id_for_label }}" style="display:inline">{{ campo.label }}</label>
+        {% else %}
+          <label for="{{ campo.id_for_label }}">{{ campo.label }}</label>
+          {{ campo }}
+        {% endif %}
+        {% for e in campo.errors %}<small class="error">{{ e }}</small>{% endfor %}
+        {% if campo.help_text %}<small class="ayuda">{{ campo.help_text|safe }}</small>{% endif %}
+      </div>
+    {% endfor %}
+    {% for oculto in form.hidden_fields %}{{ oculto }}{% endfor %}
+    <button type="submit" class="btn">{{ boton|default:"Guardar" }}</button>
+    {% if volver %}<a class="volver" href="{{ volver }}">Cancelar</a>{% endif %}
+  </form>
+</main>
+</body>
+</html>

@@ -7,6 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de citas y Especialidades</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    {# Estilos nuevos que tu style.css aún no tiene. Muévelos a style.css cuando quieras. #}
+    <style>
+        
+    </style>
 </head>
 
 <body class="page-body">
@@ -16,21 +21,28 @@
         <aside id="menu-lateral" class="menu-lateral">
             <div class="">
                 <img src="{% static 'images/image26.svg' %}" alt="Clínica Médica" class="logo-img">
+
+                {# Cada rol ve solo los módulos a los que tiene permiso #}
                 <nav class="menu">
-                    <a href="{% url 'dashboard' %}" class="opcion"> <span>⌂</span> Dashboard</a>
-                    <a href="{% url 'medicamentos' %}" class="opcion">Medicamentos</a>
-                    <a href="{% url 'auditoria' %}" class="opcion">Auditoria</a>
-                    <a href="{% url 'documentos' %}" class="opcion">Consultas</a>
-                    <a href="{% url 'citas' %}" class="opcion activa"> <span>▣</span> Citas</a>
-                    <a href="{% url 'expedientes' %}" class="opcion"> <span></span>Expediente Digital</a>
-                    <a href="{% url 'reportes' %}" class="opcion"> <span>▥</span> Reportes</a>
-                    <a href="{% url 'seguros' %}" class="opcion">Seguros</a>
-                    <a href="{% url 'pagos' %}" class="opcion"> <span>▤</span> Pagos</a>
-                    <a href="#" class="opcion"> <span>⚙</span> Configuración</a>
+                    {% if "dashboard.ver" in permisos %}<a href="{% url 'dashboard' %}" class="opcion"> <span>⌂</span> Dashboard</a>{% endif %}
+                    {% if "medicamentos.ver" in permisos %}<a href="{% url 'medicamentos' %}" class="opcion">Medicamentos</a>{% endif %}
+                    {% if "auditoria.ver" in permisos %}<a href="{% url 'auditoria' %}" class="opcion">Auditoria</a>{% endif %}
+                    {% if "documentos.ver" in permisos %}<a href="{% url 'documentos' %}" class="opcion">Documentos</a>{% endif %}
+                    {% if "citas.ver" in permisos %}<a href="{% url 'citas' %}" class="opcion activa"> <span>▣</span> Citas</a>{% endif %}
+                    {% if "expedientes.ver" in permisos %}<a href="{% url 'expedientes' %}" class="opcion"> <span></span>Expediente Digital</a>{% endif %}
+                    {% if "reportes.ver" in permisos %}<a href="{% url 'reportes' %}" class="opcion"> <span>▥</span> Reportes</a>{% endif %}
+                    {% if "seguros.ver" in permisos %}<a href="{% url 'seguros' %}" class="opcion">Seguros</a>{% endif %}
+                    {% if "pagos.ver" in permisos %}<a href="{% url 'pagos' %}" class="opcion"> <span>▤</span> Pagos</a>{% endif %}
+                    {% if "configuracion.ver" in permisos %}<a href="#" class="opcion"> <span>⚙</span> Configuración</a>{% endif %}
                 </nav>
 
             </div>
-            <a href="#" class="cerrar">↪ Cerrar sesión</a>
+
+            {# Cerrar sesión debe ser POST, por eso es un formulario con botón #}
+            <form method="post" action="{% url 'logout' %}" class="form-logout">
+                {% csrf_token %}
+                <button type="submit" class="cerrar">↪ Cerrar sesión</button>
+            </form>
         </aside>
 
         <main class="main-content">
@@ -44,28 +56,45 @@
                 <div class="user-status-container">
                     <a href="{% url 'notificaciones' %}">🔔</a>
                     <div class="user-profile">
-                        <span>{{ request.user.username|default:"Usuario" }}</span>
+                        <span>{{ request.user.get_full_name|default:request.user.email }}</span>
                         <i class="user-avatar"></i>
                     </div>
                 </div>
             </header>
 
+            {# Mensajes de éxito / error #}
+            {% for m in messages %}
+                <div class="alerta {{ m.tags }}">{{ m }}</div>
+            {% endfor %}
+
             <section class="card-grid">
+                {% if "citas.crear" in permisos %}
                 <button class="shortcut-card" id="openRegistro">
                     <img src="{% static 'images/registro_citas.png' %}" alt="Icono_de_citas">
                     <span class="card-text">Registrar Citas</span>
                 </button>
+                {% endif %}
 
-                <button href="" class="shortcut-card">
+                {# Agenda de hoy: aplica el filtro de fecha #}
+                <a href="{% url 'citas' %}?desde={{ hoy|date:'Y-m-d' }}&hasta={{ hoy|date:'Y-m-d' }}" class="shortcut-card">
                     <img src="{% static 'images/Agenda_imagen.png' %}" alt="Icono_de_agenda">
                     <span class="card-text">Consultar Agenda</span>
-                </button>
+                </a>
             </section>
 
             <section class="table-container">
                 <div class="table-header">
-                    <h2 class="table-title">Citas Recientes</h2>
+                    <h2 class="table-title">{% if mostrando_todas %}Citas{% else %}Citas Recientes{% endif %}</h2>
                 </div>
+
+                {# Búsqueda y filtros (GET: no lleva csrf_token) #}
+                <form method="get" class="filter-bar">
+                    {% for campo in filtro %}
+                        <div>{{ campo.label_tag }} {{ campo }}</div>
+                    {% endfor %}
+                    <div><button type="submit" class="save-btn">Filtrar</button></div>
+                    <div><a href="{% url 'citas' %}" class="save-btn">Limpiar</a></div>
+                </form>
 
                 <div class="table-wrapper">
                     <table class="data-table">
@@ -83,102 +112,88 @@
                         </thead>
                         <tbody class="table-body">
 
+                            {% for c in citas %}
                             <tr class="table-row">
-                                <td class="table-td td-muted">usuario@gmail.com</td>
-                                <td class="table-td td-highlight">usuario@gmail.com</td>
-                                <td class="table-td td-muted">usuario@gmail.com</td>
-                                <td class="table-td td-muted">usuario@gmail.com</td>
-                                <td class="table-td td-muted">usuario@gmail.com</td>
-                                <td class="table-td td-muted">usuario@gmail.com</td>
+                                <td class="table-td td-muted">{{ c.pk }}</td>
+                                <td class="table-td td-highlight">{{ c.paciente }}</td>
+                                <td class="table-td td-muted">{{ c.medico }}</td>
+                                <td class="table-td td-muted">
+                                    {% for e in c.medico.especialidades.all %}{{ e.nombre }}{% if not forloop.last %}, {% endif %}{% empty %}-{% endfor %}
+                                </td>
+                                <td class="table-td td-muted">{{ c.inicio|date:"d/m/Y" }}</td>
+                                <td class="table-td td-muted">{{ c.inicio|time:"H:i" }}</td>
                                 <td class="table-td">
-
-                                    <!-- <span class="status-badge status-confirmada">Confirmada</span>
-                                    
-                                        <span class="status-badge status-pendiente">Pendiente</span>
-                                    
-                                        <span class="status-badge status-reprogramada">Reprogramada</span>
-                                    
-                                        <span class="status-badge status-cancelada">Cancelada</span> -->
-
+                                    {% if c.estado == "CONFIRMADA" %}<span class="status-badge status-confirmada">Confirmada</span>
+                                    {% elif c.estado == "PROGRAMADA" %}<span class="status-badge status-pendiente">Pendiente</span>
+                                    {% elif c.estado == "REPROGRAMADA" %}<span class="status-badge status-reprogramada">Reprogramada</span>
+                                    {% elif c.estado == "CANCELADA" %}<span class="status-badge status-cancelada">Cancelada</span>
+                                    {% elif c.estado == "ATENDIDA" %}<span class="status-badge status-atendida">Atendida</span>
+                                    {% else %}<span class="status-badge status-noasistio">No asistió</span>{% endif %}
                                 </td>
                                 <td class="table-td td-center">
-                                    <button class="action-btn">:</button>
+                                    {% if c.estado == "PROGRAMADA" or c.estado == "CONFIRMADA" %}
+                                    <details class="acciones">
+                                        <summary class="action-btn">:</summary>
+                                        <div class="acciones-menu">
+                                            {% if c.estado == "PROGRAMADA" and "citas.confirmar" in permisos %}
+                                            <form method="post" action="{% url 'cita_confirmar' c.pk %}">
+                                                {% csrf_token %}<button type="submit">Confirmar</button>
+                                            </form>
+                                            {% endif %}
+                                            {% if "citas.editar" in permisos %}<a href="{% url 'cita_editar' c.pk %}">Editar</a>{% endif %}
+                                            {% if "citas.reprogramar" in permisos %}<a href="{% url 'cita_reprogramar' c.pk %}">Reprogramar</a>{% endif %}
+                                            {% if "citas.cancelar" in permisos %}<a href="{% url 'cita_cancelar' c.pk %}">Cancelar</a>{% endif %}
+                                        </div>
+                                    </details>
+                                    {% else %}-{% endif %}
                                 </td>
                             </tr>
-
+                            {% empty %}
                             <tr>
                                 <td colspan="8" class="table-td-empty">No hay citas registradas.</td>
                             </tr>
+                            {% endfor %}
 
                         </tbody>
                     </table>
                 </div>
 
+                {% if not mostrando_todas %}
                 <div class="table-footer">
-                    <a href="" class="link-view-all">Ver mas.</a>
+                    <a href="?todas=1" class="link-view-all">Ver mas.</a>
                 </div>
+                {% endif %}
             </section>
         </main>
     </div>
 
+    {% if "citas.crear" in permisos %}
     <div class="modal-overlay" id="resgistroModal">
 
         <div class="user-modal">
             <div class="modal-header">
-
-                <h2>Resgistrar cita</h2>
-
-
+                <h2>Registrar cita</h2>
             </div>
 
-            <form id="createCitaForm" method="POST" action="">
+            {# action vacío = envía a esta misma página (/citas/) #}
+            <form id="createCitaForm" method="POST" action="{% url 'citas' %}" novalidate>
 
                 {% csrf_token %}
 
                 <div class="form-section">
 
+                    {{ form.non_field_errors }}
+
                     <div class="form-grid">
+                        {% for campo in form.visible_fields %}
                         <div class="form-group">
-
-                            <label for="Pacientes-citas">
-                                Pacientes
-                            </label>
-
-                            <input type="text" id="Pacientes-citas" name="Pacientes-citas"
-                                placeholder="Ingrese el nombre del Paciente" required>
-
+                            <label for="{{ campo.id_for_label }}">{{ campo.label }}</label>
+                            {{ campo }}
+                            {% for e in campo.errors %}<small class="field-error">{{ e }}</small>{% endfor %}
                         </div>
-                        <div class="form-group">
-
-                            <label for="Medico-cita">
-                                Medico
-                            </label>
-
-                            <input type="text" id="Medico-cita" name="Medico-cita"
-                                placeholder="Ingrese el nombre del medico" required>
-
-                        </div>
-                        <div class="form-group">
-
-                            <label for="Especialidades-citas">
-                                Especialidades
-                            </label>
-
-                            <input type="text" id="Especialidades-citas" name="Especialidades-citas"
-                                placeholder="Ingrese el nombre del la especialidad" required>
-
-                        </div>
-                        <div class="form-group">
-
-                            <label for="fecha-citas">
-                                Fecha y Hora
-                            </label>
-
-                            <input type="datetime-local" id="fecha-citas" name="fecha-citas" required>
-
-                        </div>
-
+                        {% endfor %}
                     </div>
+
                     <div class="modal-actions">
                         <button type="button" class="cancel-btn" id="cancelRegistModal">
                             Cancelar
@@ -192,8 +207,19 @@
 
         </div>
     </div>
+    {% endif %}
 
     <script src="{% static 'js/base.js' %}"></script>
+
+    {# Si el formulario tuvo errores, vuelve a abrir el modal para mostrarlos #}
+    {% if abrir_modal %}
+    <!-- <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var boton = document.getElementById("openRegistro");
+            if (boton) { boton.click(); }
+        });
+    </script> -->
+    {% endif %}
 
 </body>
 
