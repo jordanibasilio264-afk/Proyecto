@@ -16,6 +16,6 @@ def rol_requerido(*roles):
     return decorador
 
 
-@rol_requerido("admin", "recepcionista", "medico")
+@rol_requerido("ADMIN", "RECEPCIONISTA", "MEDICO")
 def expedientes(request):
     return render(request,"expedientes.html")

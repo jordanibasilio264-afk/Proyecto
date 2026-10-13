@@ -7,7 +7,6 @@ def rol_requerido(*roles):
     def decorador(vista):
         @wraps(vista)
         def wrapper(request, *args, **kwargs):
-            print(repr(request.user.rol), type(request.user.rol))
             if not request.user.is_authenticated:
                 from django.contrib.auth.views import redirect_to_login
                 return redirect_to_login(request.get_full_path())
