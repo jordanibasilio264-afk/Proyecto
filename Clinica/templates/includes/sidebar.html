@@ -48,66 +48,67 @@
         <!-- Navegación -->
         <nav class="sidebar-menu">
 
-    <a href="{% url 'dashboard' %}"
+    {% if "dashboard.ver" in permisos %}<a href="{% url 'dashboard' %}"
        class="sidebar-option {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
         <span class="sidebar-icon">⌂</span>
         <span>Dashboard</span>
+        {% endif %}
     </a>
 
-    <a href="{% url 'medicamentos' %}"
+    {% if "medicamentos.ver" in permisos %}<a href="{% url 'medicamentos' %}"
        class="sidebar-option {% if request.resolver_match.url_name == 'medicamentos' %}active{% endif %}">
         <span class="sidebar-icon">♟</span>
         <span>Medicamentos</span>
-    </a>
+    </a>{% endif %}
 
-    <a href="{% url 'auditoria' %}"
+    {% if "auditoria.ver" in permisos %}<a href="{% url 'auditoria' %}"
        class="sidebar-option {% if request.resolver_match.url_name == 'auditoria' %}active{% endif %}">
         <span class="sidebar-icon">◉</span>
         <span>Auditoría</span>
-    </a>
+    </a>{% endif %}
 
-    <a href="{% url 'documentos' %}"
+    {% if "documentos.ver" in permisos %}<a href="{% url 'documentos' %}"
        class="sidebar-option {% if request.resolver_match.url_name == 'documentos' %}active{% endif %}">
         <span class="sidebar-icon">▤</span>
         <span>Consultas</span>
-    </a>
+    </a>{% endif %}
 
-    <a href="{% url 'citas' %}"
+    {% if "citas.ver" in permisos %}<a href="{% url 'citas' %}"
        class="sidebar-option {% if request.resolver_match.url_name == 'citas' %}active{% endif %}">
         <span class="sidebar-icon">▣</span>
         <span>Citas</span>
-    </a>
+    </a>{% endif %}
 
-    <a href="{% url 'expedientes' %}"
+    {% if "expedientes.ver" in permisos %}<a href="{% url 'expedientes' %}"
        class="sidebar-option {% if request.resolver_match.url_name == 'expedientes' %}active{% endif %}">
         <span class="sidebar-icon">▥</span>
         <span>Expediente Digital</span>
-    </a>
+    </a>{% endif %}
 
-    <a href="{% url 'reportes' %}"
+    {% if "reportes.ver" in permisos %}<a href="{% url 'reportes' %}"
        class="sidebar-option {% if request.resolver_match.url_name == 'reportes' %}active{% endif %}">
         <span class="sidebar-icon">▥</span>
         <span>Reportes</span>
-    </a>
+    </a>{% endif %}
 
-    <a href="{% url 'seguros' %}"
+    {% if "seguros.ver" in permisos %}<a href="{% url 'seguros' %}"
        class="sidebar-option {% if request.resolver_match.url_name == 'seguros' %}active{% endif %}">
         <span class="sidebar-icon">▧</span>
         <span>Seguros</span>
-    </a>
+    </a>{% endif %}
 
-    <a href="{% url 'pagos' %}"
+    {% if "pagos.ver" in permisos %}<a href="{% url 'pagos' %}"
        class="sidebar-option {% if request.resolver_match.url_name == 'pagos' %}active{% endif %}">
         <span class="sidebar-icon">$</span>
         <span>Pagos</span>
-    </a>
+    </a>{% endif %}
 
     
-<a href="{% url 'configuracion' %}"
-   class="sidebar-option {% if request.resolver_match.url_name == 'configuracion' %}active{% endif %}">
-    <span class="sidebar-icon">⚙</span>
-    <span>Configuración</span>
-</a>
+    {% if "configuracion.ver" in permisos %}<a href="{% url 'configuracion' %}"
+       class="sidebar-option {% if request.resolver_match.url_name == 'configuracion' %}active{% endif %}">
+        <span class="sidebar-icon">⚙</span>
+        <span>Configuración</span>
+    </a>{% endif %}
 
 
 </nav>
