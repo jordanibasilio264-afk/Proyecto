@@ -39,15 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Autocompletar datos del paciente
-  function rellenarPaciente() {
-    const opt = selPaciente.selectedOptions[0];
-    const d = opt ? opt.dataset : {};
-    if (inpSangre) inpSangre.value = d.sangre || "";
-    if (inpEdad) inpEdad.value = d.edad ? d.edad + " años" : "";
-    if (inpSexo) inpSexo.value = d.sexo || "";
-  }
-
   // Listeners Modal
   if (btnAbrirModal) btnAbrirModal.addEventListener('click', abrirModal);
   if (btnCancelarModal) btnCancelarModal.addEventListener('click', cerrarModal);

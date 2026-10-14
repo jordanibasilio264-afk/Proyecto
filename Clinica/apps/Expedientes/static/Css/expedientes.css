@@ -303,8 +303,9 @@ body.app-container {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: auto;
   padding: 1rem;
-  z-index: 50;
+  z-index: 1000;
 }
 
 .modal-overlay.hidden {
@@ -315,7 +316,7 @@ body.app-container {
   background-color: #ffffff;
   border-radius: 0.75rem;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-  width: 100%;
+  width: 50%;
   max-width: 42rem;
   overflow: hidden;
 }
@@ -347,7 +348,6 @@ body.app-container {
 
 .form-grid-2 {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
 }
 
@@ -380,8 +380,6 @@ body.app-container {
   display: flex;
   justify-content: flex-end;
   gap: 0.75rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border-color);
 }
 
 .btn-secondary {
@@ -440,6 +438,10 @@ body.app-container {
     margin-left: 0;
     width: 100%;
     max-width: 100%;
+  }
+
+  .modal-card{
+    width: 90%;
   }
 
   .actions-grid {

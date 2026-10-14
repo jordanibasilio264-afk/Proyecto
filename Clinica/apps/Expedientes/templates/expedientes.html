@@ -22,7 +22,7 @@
       <div class="user-status-container">
         <a href="{% url 'notificaciones' %}">🔔</a>
         <div class="user-profile">
-          <span>{{ request.user.username|default:"Usuario" }}</span>
+          <span>{{ request.user.email|default:request.user.email }}</span>
           <i class="user-avatar"></i>
         </div>
       </div>
@@ -115,23 +115,24 @@
         <div class="form-grid-2">
           <div class="form-group">
             <label class="form-label">Paciente</label>
-            <select name="paciente" id="paciente" class="form-input" required>
-              <option value="">Seleccione un paciente...</option>
+            <input type="text" id="paciente_input" class="form-input" list="pacientes-lista" placeholder="Escriba o seleccione un paciente..." required>
+            <datalist id="pacientes-lista">
               {% for p in pacientes %}
-              <option value="{{ p.pk }}" data-sangre="{{ p.tipo_sangre }}" data-edad="{{ p.edad }}"
-                data-sexo="{{ p.get_sexo_display }}">
-                {{ p.nombres }} {{ p.apellidos }}
-              </option>
-              {% endfor %}
-            </select>
-            <label class="form-label">Edad</label>
-            <input type="text" name="edad" id="edad" class="form-input" readonly>
-            <label class="form-label">Sexo</label>
-            <input type="text" name="sexo" id="sexo" class="form-input" readonly>
-            <label class="form-label">Fecha de Apertura</label>
-            <input type="date" name="fecha_apertura" class="form-input" value="{{ today_date }}">
-            <label class="form-label">Tipo de Sangre</label>
-            <input type="text" name="tipo_sangre" id="tipo_sangre" class="form-input" readonly>
+              <option value="{{ p.nombres }} {{ p.apellidos }}" data-id="{{ p.pk }}">
+                {% endfor %}
+            </datalist> 
+            <div><label class="form-label">Edad</label>
+              <input type="text" name="edad" id="edad" class="form-input" maxlength="3">
+            </div>
+            <div><label class="form-label">Sexo</label>
+              <input type="text" name="sexo" id="sexo" class="form-input" maxlength="1">
+            </div>
+            <div><label class="form-label">Fecha de Apertura</label>
+              <input type="date" name="fecha_apertura" class="form-input" value="{{ today_date }}">
+            </div>
+            <div><label class="form-label">Tipo de Sangre</label>
+              <input type="text" name="tipo_sangre" id="tipo_sangre" class="form-input" maxlength="2">
+            </div>
           </div>
         </div>
         </select>
