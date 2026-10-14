@@ -32,16 +32,12 @@
       <!-- Paciente: todo lo que se registre queda asociado a este paciente -->
       <section class="card patient">
         <div class="pick">
-          <label for="paciente" style="margin-top:0">Paciente</label>
-          <select id="paciente">
-            <option value="">Seleccione un paciente…</option>
+          <select name="paciente" id="paciente" class="form-input">
+            <option value="">Seleccione un paciente...</option>
             {% for p in pacientes %}
-            <option value="{{ p.id }}" data-sangre="{{ p.tipo_sangre }}" data-edad="{{ p.edad }}">{{ p.nombre }}
+            <option value="{{ p.pk }}" data-sangre="{{ p.tipo_sangre|default:'' }}" data-edad="{{ p.edad|default:'' }}">
+              {{ p.nombres }} {{ p.apellidos }}
             </option>
-            {% empty %}
-            <option value="1" data-sangre="O+" data-edad="34">María Pérez (demo)</option>
-            <option value="2" data-sangre="A-" data-edad="52">José Martínez (demo)</option>
-            <option value="3" data-sangre="B+" data-edad="8">Ana Gómez (demo)</option>
             {% endfor %}
           </select>
         </div>

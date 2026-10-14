@@ -259,7 +259,6 @@ class Paciente(ModeloBase):
     class Sexo(models.TextChoices):
         MASCULINO = "M", "Masculino"
         FEMENINO = "F", "Femenino"
-        OTRO = "O", "Otro"
 
     class TipoSangre(models.TextChoices):
         A_POS = "A+", "A+"
@@ -283,8 +282,8 @@ class Paciente(ModeloBase):
     nombres = models.CharField(max_length=100)
     apellidos = models.CharField(max_length=100)
     cedula = models.CharField("cédula", max_length=20, unique=True, null=True, blank=True)
-    fecha_nacimiento = models.DateField()
-    sexo = models.CharField(max_length=1, choices=Sexo.choices)
+    fecha_nacimiento = models.DateField(null=True, blank=True)
+    sexo = models.CharField(max_length=1, choices=Sexo.choices, blank=True)
     telefono = models.CharField(max_length=20, blank=True)
     email = models.EmailField(blank=True)
     direccion = models.CharField(max_length=255, blank=True)
@@ -310,8 +309,10 @@ class Paciente(ModeloBase):
 
     @property
     def edad(self):
-        hoy = date.today()
         n = self.fecha_nacimiento
+        if not n:
+            return ""
+        hoy = date.today()
         return hoy.year - n.year - ((hoy.month, hoy.day) < (n.month, n.day))
 
     def clean(self):

@@ -1,3 +1,4 @@
+from apps.usuarios.models import Paciente
 from django.shortcuts import render
 from functools import wraps
 from django.core.exceptions import PermissionDenied
@@ -18,4 +19,5 @@ def rol_requerido(*roles):
 
 @rol_requerido("ADMIN", "RECEPCIONISTA", "MEDICO","PACIENTE")
 def documentos(request):
-    return render(request,"documentos.html")
+    pacientes = Paciente.objects.order_by("apellidos", "nombres")
+    return render(request, "documentos.html", {"pacientes": pacientes})

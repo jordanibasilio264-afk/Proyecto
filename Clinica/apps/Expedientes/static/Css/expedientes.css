@@ -433,27 +433,8 @@ body.app-container {
   background: var(--brand-dark);
 }
 
-/* BOTÓN HAMBURGUESA MÓVIL */
-.btn-hamburger {
-  display: none;
-  background: transparent;
-  border: none;
-  font-size: 1.25rem;
-  color: var(--brand-dark);
-  cursor: pointer;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.375rem;
-}
-
-.btn-hamburger:hover {
-  background-color: var(--brand-subtle);
-}
-
 /* RESPONSIVE PARA CELULARES */
 @media (max-width: 768px) {
-  .btn-hamburger {
-    display: block;
-  }
   
   .main-content {
     margin-left: 0;

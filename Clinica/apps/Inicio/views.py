@@ -19,7 +19,7 @@ def registro(request):
         usuario = form.save()
         login(request, usuario)
         messages.success(request, "Cuenta creada correctamente.")
-        return redirect("dashboard")
+        return redirect("pagos")
     return render(request, "registro.html", {"form": form})
 
 

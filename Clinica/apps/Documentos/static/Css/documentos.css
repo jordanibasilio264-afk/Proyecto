@@ -18,17 +18,37 @@
   padding: 0
 }
 
+body.app-container{
+  font-family: ui-sans-serif, system-ui, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh
+}
+
 .header-title {
   font-size: 1.5rem;
   font-weight: 700;
   color: #1F2937;
 }
 
-body.app-container{
-  font-family: ui-sans-serif, system-ui, Arial, sans-serif;
-  background: var(--bg);
-  color: var(--ink);
-  min-height: 100vh
+.user-status-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.user-avatar {
+  font-size: 1.5rem;
+  color: var(--brand-dark);
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #4B5563;
+  font-weight: 500;
 }
 
 .main-content {
@@ -39,6 +59,13 @@ body.app-container{
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+}
+
+.main-header {
+  padding: 1.5rem 1.5rem 0.5rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .wrap {
@@ -125,7 +152,8 @@ body.app-container{
   display: none;
   grid-template-columns: 400px 1fr;
   gap: 22px;
-  align-items: start
+  align-items: start;
+  margin-bottom: 22px
 }
 
 .panel.active {
@@ -388,9 +416,9 @@ td.act>* {
 
 /* RESPONSIVE PARA CELULARES */
 @media (max-width: 768px) {
-  .btn-hamburger {
+  /* .btn-hamburger {
     display: block;
-  }
+  } */
   
   .main-content {
     margin-left: 0;
@@ -398,13 +426,29 @@ td.act>* {
     max-width: 100%;
   }
 
-  .actions-grid {
+  .panel {
+    display: none;
+    grid-template-columns: 1fr;
+    gap: 22px;
+    align-items: start;
+  }
+
+  .form-input {
+    width: 90%;
+  }
+
+  .tab {
+    font-size: 12px;
+    padding: 8px 14px;
+  }
+
+  /* .actions-grid {
     grid-template-columns: 1fr;
   }
 
   .form-grid-2 {
     grid-template-columns: 1fr;
-  }
+  } */
   
   .header-title {
     font-size: 1.1rem;

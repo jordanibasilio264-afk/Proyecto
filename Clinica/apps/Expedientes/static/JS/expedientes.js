@@ -9,6 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnToggleSidebar = document.getElementById('btn-toggle-sidebar');
   const sidebarOverlay = document.getElementById('sidebar-overlay');
 
+  // ELEMENTOS PACIENTE
+  const selPaciente = document.getElementById('paciente');
+  const inpSangre = document.getElementById('tipo_sangre');
+  const inpEdad = document.getElementById('edad');
+  const inpSexo = document.getElementById('sexo');
+
   // Funciones Modal
   function abrirModal() {
     if (modalCrear) modalCrear.classList.remove('hidden');
@@ -33,6 +39,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Autocompletar datos del paciente
+  function rellenarPaciente() {
+    const opt = selPaciente.selectedOptions[0];
+    const d = opt ? opt.dataset : {};
+    if (inpSangre) inpSangre.value = d.sangre || "";
+    if (inpEdad) inpEdad.value = d.edad ? d.edad + " años" : "";
+    if (inpSexo) inpSexo.value = d.sexo || "";
+  }
+
   // Listeners Modal
   if (btnAbrirModal) btnAbrirModal.addEventListener('click', abrirModal);
   if (btnCancelarModal) btnCancelarModal.addEventListener('click', cerrarModal);
@@ -40,4 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Listeners Sidebar
   if (btnToggleSidebar) btnToggleSidebar.addEventListener('click', abrirSidebar);
   if (sidebarOverlay) sidebarOverlay.addEventListener('click', cerrarSidebar);
+
+  // Listener Paciente
+  if (selPaciente) selPaciente.addEventListener('change', rellenarPaciente);
 });

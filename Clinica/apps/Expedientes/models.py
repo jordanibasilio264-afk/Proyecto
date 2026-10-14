@@ -23,6 +23,7 @@ class Expediente(NoEliminable):
     habitos = models.TextField("hábitos", blank=True)
     observaciones_generales = models.TextField(blank=True)
     activo = models.BooleanField(default=True)
+    actualizado_en = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ["-fecha_apertura"]

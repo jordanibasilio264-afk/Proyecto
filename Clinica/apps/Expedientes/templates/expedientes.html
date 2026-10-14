@@ -76,24 +76,22 @@
             <tbody>
               {% for exp in expedientes %}
               <tr>
-                <td class="font-medium text-dark">{{ exp.codigo }}</td>
-                <td class="font-bold text-darker">{{ exp.paciente_nombre }}</td>
-                <td>
-                  <span class="badge-blood-type">{{ exp.tipo_sangre }}</span>
-                </td>
-                <td>{{ exp.fecha_actualizacion|date:"d/m/Y H:i" }}</td>
+                <td class="font-medium text-dark">{{ exp.numero }}</td>
+                <td class="font-bold text-darker">{{ exp.paciente.nombre_completo }}</td>
+                <td><span class="badge-blood-type">{{ exp.paciente.tipo_sangre|default:"—" }}</span></td>
+                <td>{{ exp.actualizado_en|date:"d/m/Y H:i" }}</td>
                 <td class="text-center">
-                  <span class="badge-files">
-                    <i class="icon-clip"></i> {{ exp.documentos.count }} archivos
-                  </span>
+                  <span class="badge-files">{{ exp.paciente.documentos.count }} archivos</span>
                 </td>
-                <td class="text-right">
-                  <a href="{% url 'descargar_pdf' exp.pk %}" title="Descargar PDF" class="btn-pdf-action">
-                    <i class=""></i>
-                  </a>
-                </td>
-              </tr>
-              {% empty %}
+                <!-- <td class="text-right">
+                  <a href="{% url 'detalle_expediente' exp.pk %}" class="btn-action btn-view">Ver</a>
+                  <a href="{% url 'editar_expediente' exp.pk %}" class="btn-action btn-edit">Editar</a>
+                  <form action="{% url 'eliminar_expediente' exp.pk %}" method="POST" class="inline-form">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-action btn-delete"
+                      onclick="return confirm('¿Está seguro de eliminar este expediente?');">Eliminar</button>
+                  </form> -->
+                {% empty %}
               <tr>
                 <td colspan="6" class="empty-table-msg">No se encontraron expedientes registrados.</td>
               </tr>
@@ -112,34 +110,42 @@
         <h3 class="modal-title"><i class="icon-modal"></i> Crear Nuevo Expediente</h3>
       </div>
 
-      <form action="#" method="POST" enctype="multipart/form-data" class="modal-body">
+      <form action="{% url 'crear_expediente' %}" method="POST" enctype="multipart/form-data" class="modal-body">
         {% csrf_token %}
         <div class="form-grid-2">
           <div class="form-group">
-            <label class="form-label">Nombre Completo del Paciente</label>
-            <input type="text" name="paciente_nombre" required placeholder="Ej. María Gómez" class="form-input">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Tipo de Sangre</label>
-            <select name="tipo_sangre" class="form-select">
-              <option value="O+">O Rh (+)</option>
-              <option value="A+">A Rh (+)</option>
-              <option value="B+">B Rh (+)</option>
-              <option value="AB+">AB Rh (+)</option>
-              <option value="O-">O Rh (-)</option>
-              <option value="A-">A Rh (-)</option>
-              <option value="B-">B Rh (-)</option>
-              <option value="AB-">AB Rh (-)</option>
+            <label class="form-label">Paciente</label>
+            <select name="paciente" id="paciente" class="form-input" required>
+              <option value="">Seleccione un paciente...</option>
+              {% for p in pacientes %}
+              <option value="{{ p.pk }}" data-sangre="{{ p.tipo_sangre }}" data-edad="{{ p.edad }}"
+                data-sexo="{{ p.get_sexo_display }}">
+                {{ p.nombres }} {{ p.apellidos }}
+              </option>
+              {% endfor %}
             </select>
+            <label class="form-label">Edad</label>
+            <input type="text" name="edad" id="edad" class="form-input" readonly>
+            <label class="form-label">Sexo</label>
+            <input type="text" name="sexo" id="sexo" class="form-input" readonly>
+            <label class="form-label">Fecha de Apertura</label>
+            <input type="date" name="fecha_apertura" class="form-input" value="{{ today_date }}">
+            <label class="form-label">Tipo de Sangre</label>
+            <input type="text" name="tipo_sangre" id="tipo_sangre" class="form-input" readonly>
           </div>
         </div>
+        </select>
+
+
 
         <div class="form-group">
-          <label class="form-label">Antecedentes Médicos / Alergias</label>
-          <textarea name="antecedentes" rows="3" placeholder="Alergias a medicamentos, cirugías previas..."
-            class="form-textarea"></textarea>
+          <label class="form-label">Alergias</label>
+          <textarea name="alergias" rows="2" class="form-textarea"></textarea>
         </div>
-
+        <div class="form-group">
+          <label class="form-label">Antecedentes personales</label>
+          <textarea name="antecedentes" rows="3" class="form-textarea"></textarea>
+        </div>
         <div class="form-group">
           <label class="form-label">Adjuntar Archivos / Estudios (PDF, PNG, JPG)</label>
           <input type="file" name="archivos" multiple class="form-file-input">

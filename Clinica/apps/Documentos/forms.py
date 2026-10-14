@@ -2,6 +2,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
+from apps.usuarios.models import Paciente
 from apps.Expedientes.models import Consulta
 from apps.usuarios.forms_base import EstiloFormMixin, buscar_texto
 
@@ -51,11 +52,18 @@ class DocumentoForm(EstiloFormMixin, forms.ModelForm):
 class FiltroDocumentoForm(EstiloFormMixin, forms.Form):
     q = forms.CharField(label="Buscar", required=False, widget=forms.TextInput(
         attrs={"placeholder": "Título, paciente o descripción"}))
+    paciente = forms.ModelChoiceField(
+        queryset=Paciente.objects.order_by("apellidos", "nombres"),
+        required=False,
+        empty_label="Todos los pacientes",
+    )
     tipo = forms.ChoiceField(required=False, choices=[("", "Todos los tipos"), *Documento.Tipo.choices])
 
     def filtrar(self, qs):
         qs = buscar_texto(qs, self.cleaned_data.get("q"), [
             "titulo", "paciente__nombres", "paciente__apellidos", "descripcion"])
+        if self.cleaned_data.get("paciente"):
+            qs = qs.filter(paciente=self.cleaned_data["paciente"])
         if self.cleaned_data.get("tipo"):
             qs = qs.filter(tipo=self.cleaned_data["tipo"])
         return qs
