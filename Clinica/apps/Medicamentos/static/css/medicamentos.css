@@ -33,57 +33,7 @@ button, input, select, textarea {
     font-family: inherit;
 }
 
-.dashboard {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
 
-.topbar {
-    height: 70px;
-    background-color: #eaf4f4; 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 32px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.menu-card-btn {
-    width: 42px;
-    height: 42px;
-    background: #d8eded;
-    border: none;
-    border-radius: 8px;
-    color: #149d94;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background 0.2s ease, transform 0.1s ease;
-}
-
-.menu-card-btn:hover {
-    background: #c5e4e4;
-}
-
-.menu-card-btn:active {
-    transform: scale(0.96);
-}
-
-.logo-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.logo {
-    height: 48px;
-    width: auto;
-    object-fit: contain;
-}
 
 .circle-action-btn {
     width: 40px;
@@ -133,10 +83,10 @@ button, input, select, textarea {
 }
 
 .content {
-    width: 92%;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 32px 0 60px;
+    margin-left: 240px !important;
+    width: calc(100% - 240px) !important;
+    max-width: none !important;
+    padding: 32px 30px 60px 30px !important;
 }
 
 .page-header {
@@ -611,6 +561,12 @@ tbody tr:hover {
 }
 
 @media (max-width: 768px) {
+    .content {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 20px 15px 40px 15px !important;
+    }
+
     .page-header {
         flex-direction: column;
         align-items: stretch;

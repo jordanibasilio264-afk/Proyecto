@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de citas y Especialidades</title>
+    <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
     {# Estilos nuevos que tu style.css aún no tiene. Muévelos a style.css cuando quieras. #}
@@ -15,44 +16,14 @@
 </head>
 
 <body class="page-body">
-
-    <div class="layout-container">
-        <div id="menu-overlay" class="menu-overlay"></div>
-        <aside id="menu-lateral" class="menu-lateral">
-            <div class="">
-                <img src="{% static 'images/image26.svg' %}" alt="Clínica Médica" class="logo-img">
-
-                {# Cada rol ve solo los módulos a los que tiene permiso #}
-                <nav class="menu">
-                    {% if "dashboard.ver" in permisos %}<a href="{% url 'dashboard' %}" class="opcion"> <span>⌂</span> Dashboard</a>{% endif %}
-                    {% if "medicamentos.ver" in permisos %}<a href="{% url 'medicamentos' %}" class="opcion">Medicamentos</a>{% endif %}
-                    {% if "auditoria.ver" in permisos %}<a href="{% url 'auditoria' %}" class="opcion">Auditoria</a>{% endif %}
-                    {% if "documentos.ver" in permisos %}<a href="{% url 'documentos' %}" class="opcion">Documentos</a>{% endif %}
-                    {% if "citas.ver" in permisos %}<a href="{% url 'citas' %}" class="opcion activa"> <span>▣</span> Citas</a>{% endif %}
-                    {% if "expedientes.ver" in permisos %}<a href="{% url 'expedientes' %}" class="opcion"> <span></span>Expediente Digital</a>{% endif %}
-                    {% if "reportes.ver" in permisos %}<a href="{% url 'reportes' %}" class="opcion"> <span>▥</span> Reportes</a>{% endif %}
-                    {% if "seguros.ver" in permisos %}<a href="{% url 'seguros' %}" class="opcion">Seguros</a>{% endif %}
-                    {% if "pagos.ver" in permisos %}<a href="{% url 'pagos' %}" class="opcion"> <span>▤</span> Pagos</a>{% endif %}
-                    {% if "configuracion.ver" in permisos %}<a href="#" class="opcion"> <span>⚙</span> Configuración</a>{% endif %}
-                </nav>
-
-            </div>
-
-            {# Cerrar sesión debe ser POST, por eso es un formulario con botón #}
-            <form method="post" action="{% url 'logout' %}" class="form-logout">
-                {% csrf_token %}
-                <button type="submit" class="cerrar">↪ Cerrar sesión</button>
-            </form>
-        </aside>
+        
+         {% include 'includes/sidebar.html' %}
+    
 
         <main class="main-content">
 
             <header class="main-header">
-                <div class="header-left">
-                    <button id="btn-toggle-sidebar" class="btn-hamburger">☰</button>
-                    <h1 class="header-title">Gestión de citas.</h1>
-                </div>
-
+                
                 <div class="user-status-container">
                     <a href="{% url 'notificaciones' %}">🔔</a>
                     <div class="user-profile">
