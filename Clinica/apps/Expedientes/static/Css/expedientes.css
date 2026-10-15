@@ -113,13 +113,17 @@ body.app-container {
   transition: transform 0.2s;
 }
 
-.action-card-btn:hover .action-icon-wrapper {
+.action-icon-wrapper {
   transform: scale(1.05);
 }
 
 .action-title {
   font-weight: 600;
   color: #1F2937;
+}
+
+.modal-overlay.hidden {
+  display: none;
 }
 
 /* BUSCADOR */
@@ -296,20 +300,8 @@ body.app-container {
 }
 
 .modal-overlay {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: auto;
-  padding: 1rem;
-  z-index: 1000;
-}
-
-.modal-overlay.hidden {
-  display: none;
+  padding: 1.25rem;
 }
 
 .modal-card {
@@ -318,7 +310,7 @@ body.app-container {
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
   width: 50%;
   max-width: 42rem;
-  overflow: hidden;
+  border-radius: 0.5rem;
 }
 
 .modal-header {
@@ -328,6 +320,7 @@ body.app-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-radius: 0.5rem 0.5rem 0 0;
 }
 
 .modal-title {
@@ -348,7 +341,12 @@ body.app-container {
 
 .form-grid-2 {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
+}
+
+.full-width {
+  grid-column: 1 / -1;
 }
 
 .form-group {
@@ -431,13 +429,53 @@ body.app-container {
   background: var(--brand-dark);
 }
 
+.header-actions { display: flex; gap: 0.5rem; align-items: center; }
+.header-actions a, .btn-action { text-decoration: none; display: inline-block; }
+
+.btn-action {
+  padding: 0.35rem 0.7rem;
+  border-radius: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-left: 0.25rem;
+}
+.btn-view { background: var(--brand-subtle); color: var(--brand-dark); }
+.btn-edit { background: #FEF3C7; color: #92400E; }
+.btn-pdf  { background: #FEF2F2; color: #DC2626; }
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  padding: 1.25rem;
+}
+.detail-grid-1 { grid-template-columns: 1fr; }
+.detail-grid p { margin-top: 0.25rem; }
+
+.alert { padding: 0.75rem 1rem; border-radius: 0.5rem; font-size: 0.875rem; }
+.alert-success { background: #ECFDF5; color: #065F46; }
+.alert-error   { background: #FEF2F2; color: #991B1B; }
+.field-error   { color: #DC2626; font-size: 0.75rem; }
+
+.pagination { display: flex; gap: 1rem; justify-content: center; padding: 1rem; font-size: 0.875rem; }
+.doc-form { border-top: 1px solid var(--border-color); }
+
 /* RESPONSIVE PARA CELULARES */
 @media (max-width: 768px) {
   
+  .detail-grid { grid-template-columns: 1fr; }
+
   .main-content {
     margin-left: 0;
     width: 100%;
     max-width: 100%;
+  }
+
+  .modal-overlay {
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .modal-card{

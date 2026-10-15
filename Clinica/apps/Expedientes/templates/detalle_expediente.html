@@ -1,0 +1,138 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ exp.numero }} - Expediente</title>
+  <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
+  <link rel="stylesheet" href="{% static 'CSS/detalle_expediente.css' %}">
+</head>
+<body class="app-container">
+  {% include 'includes/sidebar.html' %}
+
+  <main class="main-content">
+    <header class="main-header">
+      <h2 class="header-title">Expediente {{ exp.numero }}</h2>
+      <div class="header-actions">
+        <a href="{% url 'expedientes' %}" class="btn-secondary">← Volver</a>
+        {% if request.user.is_superuser or request.user.rol == 'MEDICO' %}
+        <a href="{% url 'editar_expediente' exp.pk %}" class="btn-secondary">Editar</a>
+        <a href="{% url 'descargar_expediente_pdf' exp.pk %}" class="btn-primary">Descargar PDF</a>
+        {% endif %}
+      </div>
+    </header>
+
+    <div class="content-body">
+
+      {% for m in messages %}
+      <div class="alert alert-{{ m.tags }}">{{ m }}</div>
+      {% endfor %}
+
+      <!-- Datos del paciente -->
+      <section class="table-container">
+        <div class="table-header"><h3 class="table-title">Datos del paciente</h3></div>
+        <div class="detail-grid">
+          <div><span class="form-label">Paciente</span><p>{{ exp.paciente.nombre_completo }}</p></div>
+          <div><span class="form-label">Edad</span><p>{{ exp.paciente.edad|default:"—" }}</p></div>
+          <div><span class="form-label">Sexo</span><p>{{ exp.paciente.get_sexo_display|default:"—" }}</p></div>
+          <div><span class="form-label">Tipo de sangre</span><p>{{ exp.paciente.tipo_sangre|default:"—" }}</p></div>
+          <div><span class="form-label">Apertura</span><p>{{ exp.fecha_apertura|date:"d/m/Y" }}</p></div>
+          <div><span class="form-label">Última actualización</span><p>{{ exp.actualizado_en|date:"d/m/Y H:i" }}</p></div>
+        </div>
+      </section>
+
+      <!-- Información clínica -->
+      <section class="table-container">
+        <div class="table-header"><h3 class="table-title">Información clínica</h3></div>
+        <div class="detail-grid detail-grid-1">
+          <div><span class="form-label">Alergias</span><p>{{ exp.alergias|default:"—"|linebreaksbr }}</p></div>
+          <div><span class="form-label">Antecedentes personales</span><p>{{ exp.antecedentes_personales|default:"—"|linebreaksbr }}</p></div>
+          <div><span class="form-label">Antecedentes familiares</span><p>{{ exp.antecedentes_familiares|default:"—"|linebreaksbr }}</p></div>
+          <div><span class="form-label">Cirugías previas</span><p>{{ exp.cirugias_previas|default:"—"|linebreaksbr }}</p></div>
+          <div><span class="form-label">Tratamientos</span><p>{{ exp.tratamientos|default:"—"|linebreaksbr }}</p></div>
+          <div><span class="form-label">Observaciones</span><p>{{ exp.observaciones_generales|default:"—"|linebreaksbr }}</p></div>
+        </div>
+      </section>
+
+      <!-- Historial médico -->
+      <section class="table-container">
+        <div class="table-header"><h3 class="table-title">Historial médico</h3></div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Fecha</th><th>Médico</th><th>Motivo</th><th>Diagnóstico</th><th>Tratamiento</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for c in pagina %}
+              <tr>
+                <td>{{ c.fecha|date:"d/m/Y H:i" }}</td>
+                <td>{{ c.medico.nombre_completo }}</td>
+                <td>{{ c.motivo_consulta }}</td>
+                <td>{{ c.diagnostico|default:"—"|truncatechars:60 }}</td>
+                <td>{{ c.tratamiento|default:"—"|truncatechars:60 }}</td>
+              </tr>
+              {% empty %}
+              <tr><td colspan="5" class="empty-table-msg">Aún no hay consultas registradas.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% if pagina.has_other_pages %}
+        <div class="pagination">
+          {% if pagina.has_previous %}<a href="?page={{ pagina.previous_page_number }}">‹ Anterior</a>{% endif %}
+          <span>Página {{ pagina.number }} de {{ pagina.paginator.num_pages }}</span>
+          {% if pagina.has_next %}<a href="?page={{ pagina.next_page_number }}">Siguiente ›</a>{% endif %}
+        </div>
+        {% endif %}
+      </section>
+
+      <!-- Documentos -->
+      <section class="table-container">
+        <div class="table-header"><h3 class="table-title">Documentos médicos</h3></div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr><th>Título</th><th>Tipo</th><th>Subido</th><th>Tamaño</th><th class="text-right">Archivo</th></tr>
+            </thead>
+            <tbody>
+              {% for d in documentos %}
+              <tr>
+                <td class="font-medium text-dark">{{ d.titulo }}</td>
+                <td>{{ d.get_tipo_display }}</td>
+                <td>{{ d.creado_en|date:"d/m/Y" }}</td>
+                <td>{{ d.tamano_bytes|filesizeformat }}</td>
+                <td class="text-right"><a href="{{ d.archivo.url }}" target="_blank" class="btn-action btn-view">Abrir</a></td>
+              </tr>
+              {% empty %}
+              <tr><td colspan="5" class="empty-table-msg">No hay documentos adjuntos.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        {% if perms_subir %}{% endif %}
+        <form action="{% url 'adjuntar_documento' exp.pk %}" method="POST"
+              enctype="multipart/form-data" class="modal-body doc-form">
+          {% csrf_token %}
+          <h4 class="table-title">Adjuntar documento</h4>
+          <div class="form-grid-2">
+            {% for field in form_doc %}
+            <div class="form-group {% if field.name == 'descripcion' %}full-width{% endif %}">
+              <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field }}
+              {% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}
+            </div>
+            {% endfor %}
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn-primary">Subir documento</button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

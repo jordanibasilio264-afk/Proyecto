@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar {{ exp.numero }}</title>
+  <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
+  <link rel="stylesheet" href="{% static 'CSS/expedientes.css' %}">
+</head>
+<body class="app-container">
+  {% include 'includes/sidebar.html' %}
+
+  <main class="main-content">
+    <header class="main-header">
+      <h2 class="header-title">Editar expediente {{ exp.numero }} · {{ exp.paciente.nombre_completo }}</h2>
+    </header>
+
+    <div class="content-body">
+      <section class="table-container">
+        <form method="POST" class="modal-body">
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+          <div class="form-grid-2">
+            {% for field in form %}
+            <div class="form-group {% if field.field.widget.input_type != 'date' and field.name != 'sexo' and field.name != 'tipo_sangre' %}full-width{% endif %}">
+              <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field }}
+              {% for e in field.errors %}<small class="field-error">{{ e }}</small>{% endfor %}
+            </div>
+            {% endfor %}
+          </div>
+          <div class="modal-footer">
+            <a href="{% url 'detalle_expediente' exp.pk %}" class="btn-secondary">Cancelar</a>
+            <button type="submit" class="btn-primary">Guardar cambios</button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

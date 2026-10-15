@@ -30,13 +30,15 @@
 
     <div class="content-body">
       <div class="actions-grid">
-        <button id="btn-abrir-modal" class="action-card-btn group">
-          <div class="action-icon-wrapper">
-            <i class=" text-3xl"><img src="{% static 'icons/icono_carpeta.svg' %}" alt="icono_carpeta"
-                class="iconos"></i>
-          </div>
-          <span class="action-title">Crear Expediente Clínico</span>
-        </button>
+        <a href="#modal-crear">
+          <button class="action-card-btn group">
+            <div class="action-icon-wrapper">
+              <i class=" text-3xl"><img src="{% static 'icons/icono_carpeta.svg' %}" alt="icono_carpeta"
+                  class="iconos"></i>
+            </div>
+            <span class="action-title">Crear Expediente Clínico</span>
+          </button>
+        </a>
 
         <form method="GET" action="#" class="search-card-form">
           <div class="search-header">
@@ -81,17 +83,17 @@
                 <td><span class="badge-blood-type">{{ exp.paciente.tipo_sangre|default:"—" }}</span></td>
                 <td>{{ exp.actualizado_en|date:"d/m/Y H:i" }}</td>
                 <td class="text-center">
-                  <span class="badge-files">{{ exp.paciente.documentos.count }} archivos</span>
+                  <span class="badge-files">{{ exp.docs_activos }} archivos</span>
                 </td>
-                <!-- <td class="text-right">
+                <td class="text-right">
                   <a href="{% url 'detalle_expediente' exp.pk %}" class="btn-action btn-view">Ver</a>
+                  {% if request.user.is_superuser or request.user.rol == 'MEDICO' %}
                   <a href="{% url 'editar_expediente' exp.pk %}" class="btn-action btn-edit">Editar</a>
-                  <form action="{% url 'eliminar_expediente' exp.pk %}" method="POST" class="inline-form">
-                    {% csrf_token %}
-                    <button type="submit" class="btn-action btn-delete"
-                      onclick="return confirm('¿Está seguro de eliminar este expediente?');">Eliminar</button>
-                  </form> -->
-                {% empty %}
+                  <a href="{% url 'descargar_expediente_pdf' exp.pk %}" class="btn-action btn-pdf">PDF</a>
+                  {% endif %}
+                </td>
+              </tr>
+              {% empty %}
               <tr>
                 <td colspan="6" class="empty-table-msg">No se encontraron expedientes registrados.</td>
               </tr>
@@ -99,66 +101,123 @@
             </tbody>
           </table>
         </div>
+        {% if pagina.has_other_pages %}
+        <div class="pagination">
+          {% if pagina.has_previous %}
+          <a href="?page={{ pagina.previous_page_number }}{% if query %}&q={{ query|urlencode }}{% endif %}">‹
+            Anterior</a>
+          {% endif %}
+          <span>Página {{ pagina.number }} de {{ pagina.paginator.num_pages }}</span>
+          {% if pagina.has_next %}
+          <a href="?page={{ pagina.next_page_number }}{% if query %}&q={{ query|urlencode }}{% endif %}">Siguiente ›</a>
+          {% endif %}
+        </div>
+        {% endif %}
       </section>
     </div>
-  </main>
 
+    <div id="modal-crear" class="modal-overlay">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 class="modal-title"><i class="icon-modal"></i> Crear Nuevo Expediente</h3>
+        </div>
 
-  <div id="modal-crear" class="modal-overlay hidden">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3 class="modal-title"><i class="icon-modal"></i> Crear Nuevo Expediente</h3>
-      </div>
+        <form action="{% url 'crear_expediente' %}" method="POST" enctype="multipart/form-data" class="modal-body">
+          {% csrf_token %}
 
-      <form action="{% url 'crear_expediente' %}" method="POST" enctype="multipart/form-data" class="modal-body">
-        {% csrf_token %}
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label class="form-label">Paciente</label>
-            <input type="text" id="paciente_input" class="form-input" list="pacientes-lista" placeholder="Escriba o seleccione un paciente..." required>
-            <datalist id="pacientes-lista">
-              {% for p in pacientes %}
-              <option value="{{ p.nombres }} {{ p.apellidos }}" data-id="{{ p.pk }}">
+          <div class="form-grid-2">
+            <div class="form-group full-width">
+              <label class="form-label">Paciente</label>
+              <input type="text" id="paciente_input" class="form-input" list="pacientes-lista"
+                placeholder="Escriba o seleccione un paciente..." required autocomplete="off">
+              <input type="hidden" name="paciente_id" id="paciente_id">
+              <datalist id="pacientes-lista">
+                {% for p in pacientes %}
+                <option value="{{ p.nombres }} {{ p.apellidos }}" data-id="{{ p.pk }}" data-sexo="{{ p.sexo }}"
+                  data-sangre="{{ p.tipo_sangre }}" data-edad="{{ p.fecha_nacimiento|date:'Y-m-d' }}"></option>
                 {% endfor %}
-            </datalist> 
-            <div><label class="form-label">Edad</label>
-              <input type="text" name="edad" id="edad" class="form-input" maxlength="3">
+              </datalist>
             </div>
-            <div><label class="form-label">Sexo</label>
-              <input type="text" name="sexo" id="sexo" class="form-input" maxlength="1">
+
+            <div class="form-group">
+              <label class="form-label">Fecha de nacimiento</label>
+              <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="form-input">
             </div>
-            <div><label class="form-label">Fecha de Apertura</label>
+
+            <div class="form-group">
+              <label class="form-label">Sexo</label>
+              <select name="sexo" id="sexo" class="form-select">
+                <option value="">---</option>
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Tipo de Sangre</label>
+              <select name="tipo_sangre" id="tipo_sangre" class="form-select">
+                <option value="">---</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Fecha de Apertura</label>
               <input type="date" name="fecha_apertura" class="form-input" value="{{ today_date }}">
             </div>
-            <div><label class="form-label">Tipo de Sangre</label>
-              <input type="text" name="tipo_sangre" id="tipo_sangre" class="form-input" maxlength="2">
+
+            <div class="form-group">
+              <label class="form-label">Cirugías</label>
+              <input type="text" name="cirugias" id="cirugias" class="form-input" maxlength="100">
+            </div>
+
+            <div class="form-group full-width">
+              <label class="form-label">Alergias</label>
+              <textarea name="alergias" rows="2" class="form-textarea"></textarea>
+            </div>
+
+            <div class="form-group full-width">
+              <label class="form-label">Antecedentes familiares</label>
+              <textarea name="antecedentes_familiares" rows="2" class="form-textarea"></textarea>
+            </div>
+
+            <div class="form-group full-width">
+              <label class="form-label">Antecedentes personales</label>
+              <textarea name="antecedentes" rows="3" class="form-textarea"></textarea>
+            </div>
+
+            <div class="form-group full-width">
+              <label class="form-label">Observaciones</label>
+              <textarea name="observaciones" rows="3" class="form-textarea"></textarea>
+            </div>
+
+            <div class="form-group full-width">
+              <label class="form-label">Tratamientos</label>
+              <textarea name="tratamientos" rows="3" class="form-textarea"></textarea>
+            </div>
+
+            <div class="form-group full-width">
+              <label class="form-label">Adjuntar Archivos / Estudios (PDF, PNG, JPG)</label>
+              <input type="file" name="archivos" multiple class="form-file-input">
             </div>
           </div>
-        </div>
-        </select>
 
-
-
-        <div class="form-group">
-          <label class="form-label">Alergias</label>
-          <textarea name="alergias" rows="2" class="form-textarea"></textarea>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Antecedentes personales</label>
-          <textarea name="antecedentes" rows="3" class="form-textarea"></textarea>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Adjuntar Archivos / Estudios (PDF, PNG, JPG)</label>
-          <input type="file" name="archivos" multiple class="form-file-input">
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" id="btn-cancelar-modal" class="btn-secondary">Cancelar</button>
-          <button type="submit" class="btn-primary">Guardar Expediente</button>
-        </div>
-      </form>
+          <div class="modal-footer">
+            <button type="button" id="btn-cancelar-modal" class="btn-secondary">Cancelar</button>
+            <button type="submit" class="btn-primary">Guardar Expediente</button>
+          </div>
+        </form>
+      </div>
     </div>
-  </div>
+
+  </main>
 
   <script src="{% static 'JS/expedientes.js' %}"></script>
 </body>

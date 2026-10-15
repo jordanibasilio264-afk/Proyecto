@@ -18,12 +18,11 @@ class Expediente(NoEliminable):
     alergias = models.TextField(blank=True)
     antecedentes_personales = models.TextField(blank=True)
     antecedentes_familiares = models.TextField(blank=True)
-    enfermedades_cronicas = models.TextField(blank=True)
     cirugias_previas = models.TextField(blank=True)
-    habitos = models.TextField("hábitos", blank=True)
     observaciones_generales = models.TextField(blank=True)
     activo = models.BooleanField(default=True)
     actualizado_en = models.DateTimeField(auto_now=True)
+    tratamientos = models.TextField(blank=True)
 
     class Meta:
         ordering = ["-fecha_apertura"]
