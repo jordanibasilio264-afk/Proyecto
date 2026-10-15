@@ -69,7 +69,6 @@ body.app-container{
 }
 
 .wrap {
-  max-width: 1180px;
   padding: 0 24px
 }
 
@@ -150,7 +149,7 @@ body.app-container{
 
 .panel {
   display: none;
-  grid-template-columns: 400px 1fr;
+  grid-template-columns: 50% 1fr;
   gap: 22px;
   align-items: start;
   margin-bottom: 22px
