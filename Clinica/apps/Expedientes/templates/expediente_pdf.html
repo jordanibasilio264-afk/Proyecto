@@ -20,21 +20,32 @@
   <h1>Expediente Clínico {{ exp.numero }}</h1>
   <p class="sub">Generado el {{ generado|date:"d/m/Y H:i" }} por {{ generado_por.get_full_name|default:generado_por.email }}</p>
 
-  <h2>Datos del paciente</h2>
-  <table>
-    <tr>
-      <td><span class="label">Paciente:</span> {{ exp.paciente.nombre_completo }}</td>
-      <td><span class="label">Cédula:</span> {{ exp.paciente.cedula|default:"—" }}</td>
-    </tr>
-    <tr>
-      <td><span class="label">Edad:</span> {{ exp.paciente.edad|default:"—" }}</td>
-      <td><span class="label">Sexo:</span> {{ exp.paciente.get_sexo_display|default:"—" }}</td>
-    </tr>
-    <tr>
-      <td><span class="label">Tipo de sangre:</span> {{ exp.paciente.tipo_sangre|default:"—" }}</td>
-      <td><span class="label">Apertura:</span> {{ exp.fecha_apertura|date:"d/m/Y" }}</td>
-    </tr>
-  </table>
+<h2>Datos del paciente</h2>
+<table>
+  <tr>
+    <td><span class="label">Paciente:</span> {{ exp.paciente.nombre_completo }}</td>
+    <td><span class="label">Cédula:</span> {{ exp.paciente.cedula|default:"—" }}</td>
+  </tr>
+  <tr>
+    <td><span class="label">Fecha de nacimiento:</span> {{ exp.paciente.fecha_nacimiento|date:"d/m/Y"|default:"—" }}</td>
+    <td><span class="label">Edad:</span> {{ exp.paciente.edad|default:"—" }}</td>
+  </tr>
+  <tr>
+    <td><span class="label">Sexo:</span> {{ exp.paciente.get_sexo_display|default:"—" }}</td>
+    <td><span class="label">Tipo de sangre:</span> {{ exp.paciente.tipo_sangre|default:"—" }}</td>
+  </tr>
+  <tr>
+    <td><span class="label">Teléfono:</span> {{ exp.paciente.telefono|default:"—" }}</td>
+    <td><span class="label">Apertura:</span> {{ exp.fecha_apertura|date:"d/m/Y" }}</td>
+  </tr>
+  <tr>
+    <td colspan="2"><span class="label">Dirección:</span> {{ exp.paciente.direccion|default:"—" }}</td>
+  </tr>
+  <tr>
+    <td><span class="label">Contacto de emergencia:</span> {{ exp.paciente.contacto_emergencia_nombre|default:"—" }}</td>
+    <td><span class="label">Tel. de emergencia:</span> {{ exp.paciente.contacto_emergencia_telefono|default:"—" }}</td>
+  </tr>
+</table>
 
   <h2>Información clínica</h2>
   <p class="label">Alergias</p><p>{{ exp.alergias|default:"—"|linebreaksbr }}</p>

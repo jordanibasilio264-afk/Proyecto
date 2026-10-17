@@ -134,7 +134,11 @@
               <datalist id="pacientes-lista">
                 {% for p in pacientes %}
                 <option value="{{ p.nombres }} {{ p.apellidos }}" data-id="{{ p.pk }}" data-sexo="{{ p.sexo }}"
-                  data-sangre="{{ p.tipo_sangre }}" data-edad="{{ p.fecha_nacimiento|date:'Y-m-d' }}"></option>
+                  data-sangre="{{ p.tipo_sangre }}" data-edad="{{ p.fecha_nacimiento|date:'Y-m-d' }}"
+                  data-cedula="{{ p.cedula|default_if_none:'' }}"
+                  data-telefono="{{ p.telefono }}" data-direccion="{{ p.direccion }}"
+                  data-contacto="{{ p.contacto_emergencia_nombre }}"
+                  data-tel-contacto="{{ p.contacto_emergencia_telefono }}"></option>
                 {% endfor %}
               </datalist>
             </div>
@@ -173,9 +177,36 @@
               <input type="date" name="fecha_apertura" class="form-input" value="{{ today_date }}">
             </div>
 
+            <div>
+              <label class="form-label">Cédula</label>
+              <input type="text" name="cedula" id="cedula" class="form-input" placeholder="Ingrese la cédula del paciente">
+            </div>
+
             <div class="form-group">
-              <label class="form-label">Cirugías</label>
-              <input type="text" name="cirugias" id="cirugias" class="form-input" maxlength="100">
+              <label class="form-label">Teléfono</label>
+              <input type="text" name="telefono" id="telefono" class="form-input" placeholder="Ingrese el teléfono del paciente">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Dirección</label>
+              <input type="text" name="direccion" id="direccion" class="form-input" placeholder="Ingrese la dirección del paciente">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Nombre del contacto de emergencia</label>
+              <input type="text" name="nombre_contacto" id="nombre_contacto" class="form-input"
+                placeholder="Ingrese el nombre del contacto de emergencia">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Teléfono del contacto de emergencia</label>
+              <input type="text" name="telefono_contacto" id="telefono_contacto" class="form-input"
+                placeholder="Ingrese el teléfono del contacto de emergencia">
+            </div>
+
+            <div class="form-group full-width">
+              <label class="form-label">Cirugías previas</label>
+              <textarea name="cirugias_previas" id="cirugias_previas" class="form-textarea" maxlength="2000"></textarea>
             </div>
 
             <div class="form-group full-width">

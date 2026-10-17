@@ -26,20 +26,22 @@
       </div>
     </header>
 
-    <div class="wrap">
+    <div class="wrap" data-url-consultas="{% url 'api_consultas' 0 %}"
+      data-url-documentos="{% url 'api_documentos' 0 %}" data-url-desactivar="{% url 'api_doc_desactivar' 0 %}">
       {% csrf_token %}
 
       <!-- Paciente: todo lo que se registre queda asociado a este paciente -->
       <section class="card patient">
         <div class="pick">
-          <select name="paciente" id="paciente" class="form-input">
-            <option value="">Seleccione un paciente...</option>
+          <input type="text" id="pacienteInput" class="form-input" list="listaPacientes"
+            placeholder="Buscar paciente por nombre..." autocomplete="off">
+          <input type="hidden" name="paciente_id" id="paciente_id">
+          <datalist id="listaPacientes">
             {% for p in pacientes %}
-            <option value="{{ p.pk }}" data-sangre="{{ p.tipo_sangre|default:'' }}" data-edad="{{ p.edad|default:'' }}">
-              {{ p.nombres }} {{ p.apellidos }}
-            </option>
+            <option value="{{ p.nombres }} {{ p.apellidos }}" data-id="{{ p.pk }}"
+              data-sangre="{{ p.tipo_sangre|default:'' }}" data-edad="{{ p.edad|default:'' }}"></option>
             {% endfor %}
-          </select>
+          </datalist>
         </div>
         <div class="patient-info" id="pInfo" hidden>
           <span>Tipo de sangre<b id="iSangre"></b></span>
@@ -62,6 +64,8 @@
             <input type="datetime-local" id="cFecha" required>
             <label for="cMotivo">Motivo de consulta</label>
             <input id="cMotivo" required>
+            <label for="cEnf">Enfermedad actual</label>
+            <textarea id="cEnf"></textarea>
 
             <div class="vitals">
               <h3>Signos vitales</h3>
@@ -79,6 +83,10 @@
             <textarea id="cTrat"></textarea>
             <label for="cObs">Observaciones médicas</label>
             <textarea id="cObs"></textarea>
+            <h3>Seguimiento</h3>
+            <label><input type="checkbox" id="cSeg"> Requiere seguimiento</label>
+            <label for="cFechaSeg">Fecha de seguimiento</label>
+            <input type="date" id="cFechaSeg" disabled>
             <button class="btn block">Guardar consulta</button>
           </fieldset>
         </form>
@@ -99,17 +107,23 @@
             <h2>Subir documento</h2>
             <label for="dTipo" style="margin-top:0">Tipo</label>
             <select id="dTipo">
-              <option>Laboratorio</option>
-              <option>Imagen / Rayos X</option>
-              <option>Receta</option>
-              <option>Informe médico</option>
-              <option>Otro</option>
+              <option value="LABORATORIO">Laboratorio</option>
+              <option value="IMAGEN">Imagen / Rayos X</option>
+              <option value="RECETA">Receta</option>
+              <option value="INFORME">Informe médico</option>
+              <option value="OTRO">Otro</option>
             </select>
+
+            <label for="dConsulta">Consulta asociada</label>
+            <select id="dConsulta">
+              <option value="">Sin consulta asociada</option>
+            </select>
+
             <label for="dFile">Archivo</label>
             <input type="file" id="dFile" required>
             <label for="dDesc">Descripción (opcional)</label>
             <input id="dDesc">
-            <p class="empty" style="text-align:left;padding:10px 0 0">Se asociará al paciente seleccionado arriba.</p>
+            <p class="empty" >Se asociará al paciente seleccionado arriba.</p>
             <button class="btn block">Subir documento</button>
           </fieldset>
         </form>

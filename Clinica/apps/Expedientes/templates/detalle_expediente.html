@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
   <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
   <link rel="stylesheet" href="{% static 'CSS/detalle_expediente.css' %}">
 </head>
+
 <body class="app-container">
   {% include 'includes/sidebar.html' %}
 
@@ -31,38 +33,90 @@
 
       <!-- Datos del paciente -->
       <section class="table-container">
-        <div class="table-header"><h3 class="table-title">Datos del paciente</h3></div>
+        <div class="table-header">
+          <h3 class="table-title">Datos del paciente</h3>
+        </div>
         <div class="detail-grid">
-          <div><span class="form-label">Paciente</span><p>{{ exp.paciente.nombre_completo }}</p></div>
-          <div><span class="form-label">Edad</span><p>{{ exp.paciente.edad|default:"—" }}</p></div>
-          <div><span class="form-label">Sexo</span><p>{{ exp.paciente.get_sexo_display|default:"—" }}</p></div>
-          <div><span class="form-label">Tipo de sangre</span><p>{{ exp.paciente.tipo_sangre|default:"—" }}</p></div>
-          <div><span class="form-label">Apertura</span><p>{{ exp.fecha_apertura|date:"d/m/Y" }}</p></div>
-          <div><span class="form-label">Última actualización</span><p>{{ exp.actualizado_en|date:"d/m/Y H:i" }}</p></div>
+          <div><span class="form-label">Paciente</span>
+            <p>{{ exp.paciente.nombre_completo }}</p>
+          </div>
+          <div><span class="form-label">Edad</span>
+            <p>{{ exp.paciente.edad|default:"—" }}</p>
+          </div>
+          <div><span class="form-label">Fecha de nacimiento</span>
+            <p>{{ exp.paciente.fecha_nacimiento|date:"d/m/Y"|default:"—" }}</p>
+          </div>
+          <div><span class="form-label">Sexo</span>
+            <p>{{ exp.paciente.get_sexo_display|default:"—" }}</p>
+          </div>
+          <div><span class="form-label">Tipo de sangre</span>
+            <p>{{ exp.paciente.tipo_sangre|default:"—" }}</p>
+          </div>
+          <div><span class="form-label">Apertura</span>
+            <p>{{ exp.fecha_apertura|date:"d/m/Y" }}</p>
+          </div>
+          <div><span class="form-label">Última actualización</span>
+            <p>{{ exp.actualizado_en|date:"d/m/Y H:i" }}</p>
+          </div>
+          <div><span class="form-label">Cédula</span>
+            <p>{{ exp.paciente.cedula|default:"—" }}</p>
+          </div>
+          <div><span class="form-label">Teléfono</span>
+            <p>{{ exp.paciente.telefono|default:"—" }}</p>
+          </div>
+          <div><span class="form-label">Dirección</span>
+            <p>{{ exp.paciente.direccion|default:"—" }}</p>
+          </div>
+          <div><span class="form-label">Contacto de emergencia</span>
+            <p>{{ exp.paciente.contacto_emergencia_nombre|default:"—" }}</p>
+          </div>
+          <div><span class="form-label">Tel. de emergencia</span>
+            <p>{{ exp.paciente.contacto_emergencia_telefono|default:"—" }}</p>
+          </div>
         </div>
       </section>
 
       <!-- Información clínica -->
       <section class="table-container">
-        <div class="table-header"><h3 class="table-title">Información clínica</h3></div>
+        <div class="table-header">
+          <h3 class="table-title">Información clínica</h3>
+        </div>
         <div class="detail-grid detail-grid-1">
-          <div><span class="form-label">Alergias</span><p>{{ exp.alergias|default:"—"|linebreaksbr }}</p></div>
-          <div><span class="form-label">Antecedentes personales</span><p>{{ exp.antecedentes_personales|default:"—"|linebreaksbr }}</p></div>
-          <div><span class="form-label">Antecedentes familiares</span><p>{{ exp.antecedentes_familiares|default:"—"|linebreaksbr }}</p></div>
-          <div><span class="form-label">Cirugías previas</span><p>{{ exp.cirugias_previas|default:"—"|linebreaksbr }}</p></div>
-          <div><span class="form-label">Tratamientos</span><p>{{ exp.tratamientos|default:"—"|linebreaksbr }}</p></div>
-          <div><span class="form-label">Observaciones</span><p>{{ exp.observaciones_generales|default:"—"|linebreaksbr }}</p></div>
+          <div><span class="form-label">Alergias</span>
+            <p>{{ exp.alergias|default:"—"|linebreaksbr }}</p>
+          </div>
+          <div><span class="form-label">Antecedentes personales</span>
+            <p>{{ exp.antecedentes_personales|default:"—"|linebreaksbr }}</p>
+          </div>
+          <div><span class="form-label">Antecedentes familiares</span>
+            <p>{{ exp.antecedentes_familiares|default:"—"|linebreaksbr }}</p>
+          </div>
+          <div><span class="form-label">Cirugías previas</span>
+            <p>{{ exp.cirugias_previas|default:"—"|linebreaksbr }}</p>
+          </div>
+          <div><span class="form-label">Tratamientos</span>
+            <p>{{ exp.tratamientos|default:"—"|linebreaksbr }}</p>
+          </div>
+          <div><span class="form-label">Observaciones</span>
+            <p>{{ exp.observaciones_generales|default:"—"|linebreaksbr }}</p>
+          </div>
         </div>
       </section>
 
       <!-- Historial médico -->
       <section class="table-container">
-        <div class="table-header"><h3 class="table-title">Historial médico</h3></div>
+        <div class="table-header">
+          <h3 class="table-title">Historial médico</h3>
+        </div>
         <div class="table-responsive">
           <table class="data-table">
             <thead>
               <tr>
-                <th>Fecha</th><th>Médico</th><th>Motivo</th><th>Diagnóstico</th><th>Tratamiento</th>
+                <th>Fecha</th>
+                <th>Médico</th>
+                <th>Motivo</th>
+                <th>Diagnóstico</th>
+                <th>Tratamiento</th>
               </tr>
             </thead>
             <tbody>
@@ -75,7 +129,9 @@
                 <td>{{ c.tratamiento|default:"—"|truncatechars:60 }}</td>
               </tr>
               {% empty %}
-              <tr><td colspan="5" class="empty-table-msg">Aún no hay consultas registradas.</td></tr>
+              <tr>
+                <td colspan="5" class="empty-table-msg">Aún no hay consultas registradas.</td>
+              </tr>
               {% endfor %}
             </tbody>
           </table>
@@ -91,11 +147,19 @@
 
       <!-- Documentos -->
       <section class="table-container">
-        <div class="table-header"><h3 class="table-title">Documentos médicos</h3></div>
+        <div class="table-header">
+          <h3 class="table-title">Documentos médicos</h3>
+        </div>
         <div class="table-responsive">
           <table class="data-table">
             <thead>
-              <tr><th>Título</th><th>Tipo</th><th>Subido</th><th>Tamaño</th><th class="text-right">Archivo</th></tr>
+              <tr>
+                <th>Título</th>
+                <th>Tipo</th>
+                <th>Subido</th>
+                <th>Tamaño</th>
+                <th class="text-right">Archivo</th>
+              </tr>
             </thead>
             <tbody>
               {% for d in documentos %}
@@ -104,18 +168,21 @@
                 <td>{{ d.get_tipo_display }}</td>
                 <td>{{ d.creado_en|date:"d/m/Y" }}</td>
                 <td>{{ d.tamano_bytes|filesizeformat }}</td>
-                <td class="text-right"><a href="{{ d.archivo.url }}" target="_blank" class="btn-action btn-view">Abrir</a></td>
+                <td class="text-right"><a href="{{ d.archivo.url }}" target="_blank"
+                    class="btn-action btn-view">Abrir</a></td>
               </tr>
               {% empty %}
-              <tr><td colspan="5" class="empty-table-msg">No hay documentos adjuntos.</td></tr>
+              <tr>
+                <td colspan="5" class="empty-table-msg">No hay documentos adjuntos.</td>
+              </tr>
               {% endfor %}
             </tbody>
           </table>
         </div>
 
         {% if perms_subir %}{% endif %}
-        <form action="{% url 'adjuntar_documento' exp.pk %}" method="POST"
-              enctype="multipart/form-data" class="modal-body doc-form">
+        <form action="{% url 'adjuntar_documento' exp.pk %}" method="POST" enctype="multipart/form-data"
+          class="modal-body doc-form">
           {% csrf_token %}
           <h4 class="table-title">Adjuntar documento</h4>
           <div class="form-grid-2">
@@ -135,4 +202,5 @@
     </div>
   </main>
 </body>
+
 </html>

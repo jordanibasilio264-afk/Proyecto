@@ -23,6 +23,7 @@ class Documento(ModeloBase):
     class Tipo(models.TextChoices):
         LABORATORIO = "LABORATORIO", "Resultado de laboratorio"
         IMAGEN = "IMAGEN", "Imagen / estudio"
+        RECETA = "RECETA", "Receta médica"
         INFORME = "INFORME", "Informe médico"
         CONSENTIMIENTO = "CONSENTIMIENTO", "Consentimiento"
         IDENTIFICACION = "IDENTIFICACION", "Identificación / seguro"
@@ -58,6 +59,8 @@ class Documento(ModeloBase):
         verbose_name_plural = "documentos médicos"
 
     def __str__(self):
+        if self.creado_en:
+            return f"{self.titulo} ({timezone.localtime(self.creado_en):%d/%m/%Y}) - {self.paciente}"
         return f"{self.titulo} - {self.paciente}"
 
     def save(self, *args, **kwargs):
