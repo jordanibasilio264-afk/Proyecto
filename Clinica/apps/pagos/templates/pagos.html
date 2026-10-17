@@ -31,11 +31,11 @@
                 </div>
 
                 <div class="pagos-usuario">
-                    <div class="pagos-notificacion" aria-hidden="true"><a href="{% url 'notificaciones' %}">🔔</a></div>
+                    <div class="pagos-notificacion" aria-hidden="true">🔔</div>
                     <div class="pagos-usuario-icono" aria-hidden="true">👤</div>
                     <div class="pagos-usuario-texto">
-                        <strong>{{ request.user.email|default:request.user.email }}</strong>
-                        <small>{{ request.user.rol|default:request.user.rol }}</small>
+                        <strong>Dr. Alejandro</strong>
+                        <small>Administrador</small>
                     </div>
                 </div>
             </header>
@@ -247,5 +247,9 @@
         </main>
     </div>
 
+<!-- JavaScript exclusivo de Pagos -->
+<script src="{% static 'js/pagos.js' %}"></script>
+
 </body>
+</html>
 </html>
