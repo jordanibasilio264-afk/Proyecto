@@ -44,9 +44,22 @@ class Medicamento(ModeloBase):
 
 class Receta(NoEliminable):
     """Receta emitida durante una consulta. No se elimina."""
+    class Estado(models.TextChoices):
+        VIGENTE = "vigente", "Vigente"
+        COMPLETADA = "completada", "Completada"
+        ANULADA = "anulada", "Anulada"
 
+    estado = models.CharField(
+        max_length=12,
+        choices=Estado.choices,
+        default=Estado.VIGENTE,
+    )
+
+    
     consulta = models.ForeignKey(
-        "Expedientes.Consulta", on_delete=models.PROTECT, related_name="recetas"
+        "Expedientes.Consulta",
+        on_delete=models.PROTECT,
+        related_name="recetas",
     )
     numero = models.CharField(max_length=20, unique=True, null=True, blank=True, editable=False)
     fecha = models.DateTimeField(default=timezone.now)

@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "apps.Auditoria.apps.AuditoriaConfig",
     "apps.Documentos.apps.DocumentosConfig",
     "apps.Configuracion.apps.ConfiguracionConfig",
+    "apps.Recetas.apps.RecetasConfig"
 ]
 
 MIDDLEWARE = [

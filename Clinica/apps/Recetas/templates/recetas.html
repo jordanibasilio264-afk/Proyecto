@@ -1,0 +1,333 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Gestión de Recetas Médicas</title>
+    <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
+    <link rel="stylesheet" href="{% static 'recetas.css' %}">
+</head>
+
+<body>
+
+    
+    {% include 'includes/sidebar.html' %}
+
+    <main class="recetas-page">
+
+        <!-- Encabezado -->
+        <header class="recetas-header">
+            <div>
+                <span class="recetas-eyebrow">
+                    GESTIÓN CLÍNICA
+                </span>
+
+                <h1>Recetas médicas</h1>
+
+                <p>
+                    Administra, consulta e imprime las prescripciones
+                    médicas de tus pacientes.
+                </p>
+            </div>
+
+            <a href="#"
+               class="recetas-btn recetas-btn-primary">
+                <span aria-hidden="true">＋</span>
+                Nueva receta
+            </a>
+        </header>
+
+        <!-- Indicadores -->
+        <section class="recetas-stats"
+                 aria-label="Resumen de recetas">
+
+            <article class="recetas-stat-card">
+                <div class="recetas-stat-icon recetas-icon-teal">
+                    ▤
+                </div>
+
+                <div>
+                    <span class="recetas-stat-label">
+                        Total de recetas
+                    </span>
+                    <strong>{{ total_recetas|default:"0" }}</strong>
+                    <small>Recetas registradas</small>
+                </div>
+            </article>
+
+            <article class="recetas-stat-card">
+                <div class="recetas-stat-icon recetas-icon-blue">
+                    ◷
+                </div>
+
+                <div>
+                    <span class="recetas-stat-label">
+                        Emitidas hoy
+                    </span>
+                    <strong>{{ recetas_hoy|default:"0" }}</strong>
+                    <small>Durante el día actual</small>
+                </div>
+            </article>
+
+            <article class="recetas-stat-card">
+                <div class="recetas-stat-icon recetas-icon-green">
+                    ✓
+                </div>
+
+                <div>
+                    <span class="recetas-stat-label">
+                        Vigentes
+                    </span>
+                    <strong>{{ recetas_vigentes|default:"0" }}</strong>
+                    <small>Según su vigencia registrada</small>
+                </div>
+            </article>
+        </section>
+
+        <!-- Listado principal -->
+        <section class="recetas-panel">
+
+            <div class="recetas-panel-heading">
+                <div>
+                    <h2>Listado de recetas</h2>
+                    <p>
+                        Consulta y administra las prescripciones
+                        registradas en el sistema.
+                    </p>
+                </div>
+
+                <span class="recetas-count">
+                    {{ total_recetas|default:"0" }} registros
+                </span>
+            </div>
+
+            <!-- Búsqueda y filtros -->
+            <form method="get"
+                  class="recetas-filters">
+
+                <div class="recetas-search">
+                    <label for="buscar-receta">
+                        Buscar recetas
+                    </label>
+
+                    <div class="recetas-search-field">
+                        <span aria-hidden="true">⌕</span>
+
+                        <input
+                            type="search"
+                            id="buscar-receta"
+                            name="buscar"
+                            value="{{ request.GET.buscar|default:'' }}"
+                            placeholder="Paciente, número o médico..."
+                        >
+                    </div>
+                </div>
+
+                <div class="recetas-filter-field">
+                    <label for="filtro-estado">Estado</label>
+
+                    
+<select id="filtro-estado" name="estado">
+    <option value="">Todos los estados</option>
+
+    <option value="vigente"
+        {% if estado_filtro == "vigente" %}selected{% endif %}>
+        Vigente
+    </option>
+
+    <option value="vencida"
+        {% if estado_filtro == "vencida" %}selected{% endif %}>
+        Vencida
+    </option>
+
+    <option value="completada"
+        {% if estado_filtro == "completada" %}selected{% endif %}>
+        Completada
+    </option>
+
+    <option value="anulada"
+        {% if estado_filtro == "anulada" %}selected{% endif %}>
+        Anulada
+    </option>
+</select>
+
+                </div>
+
+                <div class="recetas-filter-field">
+                    <label for="filtro-fecha">Fecha de emisión</label>
+
+                    <input
+                        type="date"
+                        id="filtro-fecha"
+                        name="fecha"
+                        value="value="{{ fecha_filtro }}""
+                    >
+                </div>
+
+                <div class="recetas-filter-actions">
+                    <button type="submit"
+                            class="recetas-btn recetas-btn-secondary">
+                        Filtrar
+                    </button>
+
+                    <a href="{% url 'recetas' %}"
+                       class="recetas-clear">
+                        Limpiar
+                    </a>
+                </div>
+
+            </form>
+
+            <!-- Tabla -->
+            <div class="recetas-table-container">
+                <table class="recetas-table">
+
+                    <thead>
+                        <tr>
+                            <th>N.º de receta</th>
+                            <th>Paciente</th>
+                            <th>Médico responsable</th>
+                            <th>Fecha</th>
+                            <th>Medicamentos</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for receta in recetas %}
+                        <tr>
+                            <td>
+                                <span class="recetas-number">
+                                    {{ receta.numero }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <div class="recetas-person">
+                                    <span class="recetas-avatar">
+                                        {{ receta.paciente.nombre_completo|slice:":1"|upper }}
+                                    </span>
+
+                                    <div>
+                                        <strong>
+                                            {{ receta.paciente.nombre_completo }}
+                                        </strong>
+                                        <small>
+                                            ID: {{ receta.paciente.id }}
+                                        </small>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                {{ receta.medico }}
+                            </td>
+
+                            <td>
+                                {{ receta.fecha|date:"d/m/Y" }}
+                            </td>
+
+                            <td>
+                                <span class="recetas-medicine-count">
+                                    {{ receta.detalles.count }}
+                                    medicamento(s)
+                                </span>
+                            </td>
+
+                            <td>
+                               
+<span class="recetas-status recetas-status-{{ receta.estado_codigo }}">
+    {{ receta.estado_display }}
+</span>
+
+                            </td>
+
+                            <td>
+                                <div class="recetas-actions">
+                                    <a href="#"
+                                       class="recetas-action"
+                                       title="Consultar receta"
+                                       aria-label="Consultar receta">
+                                        ◉
+                                    </a>
+
+                                    <a href="#"
+                                       class="recetas-action"
+                                       title="Editar receta"
+                                       aria-label="Editar receta">
+                                        ✎
+                                    </a>
+
+                                    <button type="button"
+                                            class="recetas-action"
+                                            onclick="window.print()"
+                                            title="Imprimir receta"
+                                            aria-label="Imprimir receta">
+                                        ⎙
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        {% empty %}
+                        <tr>
+                            <td colspan="7">
+                                <div class="recetas-empty">
+                                    <span aria-hidden="true">▤</span>
+                                    <strong>No hay recetas para mostrar</strong>
+                                    <p>
+                                        Cuando registres recetas médicas,
+                                        aparecerán en este listado.
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+            </div>
+
+            <!-- Pie de tabla -->
+            <footer class="recetas-table-footer">
+                <span>
+                    Mostrando {{ total_recetas|default:"0" }}
+                    receta(s)
+                </span>
+
+                <div class="recetas-pagination">
+                    {% if recetas.has_previous %}
+                    <a href="?pagina={{ recetas.previous_page_number }}"
+                       aria-label="Página anterior">
+                        ‹ Anterior
+                    </a>
+                    {% endif %}
+
+                    {% if recetas.has_next %}
+                    <a href="?pagina={{ recetas.next_page_number }}"
+                       aria-label="Página siguiente">
+                        Siguiente ›
+                    </a>
+                    {% endif %}
+                </div>
+            </footer>
+
+        </section>
+
+        
+<footer class="recetas-table-footer">
+    <span>
+        Mostrando {{ total_recetas }} receta(s)
+    </span>
+</footer>
+
+
+    </main>
+
+</body>
+</html>

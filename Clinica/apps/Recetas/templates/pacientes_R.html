@@ -1,0 +1,237 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mis Recetas Médicas - Clínica Médica</title>
+
+    <!-- CSS del sidebar compartido -->
+    <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
+
+    <!-- CSS propio de esta página -->
+    <link rel="stylesheet" href="{% static 'pacientes_R.css' %}">
+</head>
+
+<body>
+
+    {% include 'includes/sidebar.html' %}
+
+    <main class="main-content">
+
+        <!-- Cabecera -->
+        <header class="content-header">
+            <span class="section-tag">MI SALUD</span>
+            <h1>Mis Recetas Médicas</h1>
+            <p>
+                Consulta las prescripciones y los medicamentos
+                que tus médicos te han asignado.
+            </p>
+        </header>
+
+        <!-- Resumen dinámico -->
+        <section class="metrics-grid">
+
+            <div class="metric-card">
+                <div class="metric-icon bg-teal">
+                    <span>▤</span>
+                </div>
+
+                <div class="metric-info">
+                    <span class="metric-title">Total de recetas</span>
+                    <h3 class="metric-value">{{ total_recetas }}</h3>
+                    <span class="metric-subtitle">
+                        Según los filtros aplicados
+                    </span>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-icon bg-green">
+                    <span>✓</span>
+                </div>
+
+                <div class="metric-info">
+                    <span class="metric-title">Recetas vigentes</span>
+                    <h3 class="metric-value">{{ recetas_vigentes }}</h3>
+                    <span class="metric-subtitle">
+                        Disponibles según su vigencia
+                    </span>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Historial de recetas -->
+        <section class="card-container">
+
+            <div class="card-header-flex">
+                <div>
+                    <h2>Historial de prescripciones</h2>
+                    <p>
+                        Revisa los detalles de tus tratamientos médicos.
+                    </p>
+                </div>
+
+                <div class="badge-count">
+                    {{ total_recetas }} registro(s)
+                </div>
+            </div>
+
+            <!-- Búsqueda y filtros -->
+            <form method="get" class="filter-form">
+
+                <div class="filter-group">
+                    <label for="buscar">Buscar receta</label>
+
+                    <div class="search-input-wrapper">
+                        <span class="search-icon">🔍</span>
+
+                        <input
+                            type="text"
+                            id="buscar"
+                            name="q"
+                            value="{{ busqueda }}"
+                            placeholder="Buscar medicamento o médico..."
+                        >
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label for="estado">Estado</label>
+
+                    <select id="estado" name="estado">
+                        <option value=""
+                            {% if not estado_filtro %}selected{% endif %}>
+                            Todos los estados
+                        </option>
+
+                        <option value="vigente"
+                            {% if estado_filtro == "vigente" %}selected{% endif %}>
+                            Vigente
+                        </option>
+
+                        <option value="vencida"
+                            {% if estado_filtro == "vencida" %}selected{% endif %}>
+                            Vencida
+                        </option>
+
+                        <option value="completada"
+                            {% if estado_filtro == "completada" %}selected{% endif %}>
+                            Completada
+                        </option>
+
+                        <option value="anulada"
+                            {% if estado_filtro == "anulada" %}selected{% endif %}>
+                            Anulada
+                        </option>
+                    </select>
+                </div>
+
+                <div class="filter-actions">
+                    <button type="submit" class="btn-filter">
+                        Filtrar
+                    </button>
+
+                    <a href="{% url 'recetas' %}" class="btn-clear">
+                        Limpiar
+                    </a>
+                </div>
+
+            </form>
+
+            <!-- Tabla dinámica -->
+            <div class="table-responsive">
+                <table class="data-table">
+
+                    <thead>
+                        <tr>
+                            <th>N.º de receta</th>
+                            <th>Médico asignado</th>
+                            <th>Fecha</th>
+                            <th>Medicamentos</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for receta in recetas %}
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        {{ receta.numero|default:receta.id }}
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    {% if receta.medico.usuario.get_full_name %}
+                                        {{ receta.medico.usuario.get_full_name }}
+                                    {% else %}
+                                        {{ receta.medico }}
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {{ receta.fecha|date:"d/m/Y" }}
+                                </td>
+
+                                <td>
+                                    {% for detalle in receta.detalles.all %}
+
+                                        {% if detalle.medicamento.nombre_comercial %}
+                                            {{ detalle.medicamento.nombre_comercial }}
+                                        {% else %}
+                                            {{ detalle.medicamento.nombre_generico }}
+                                        {% endif %}
+
+                                        {% if not forloop.last %}, {% endif %}
+
+                                    {% empty %}
+                                        Sin medicamentos registrados
+                                    {% endfor %}
+                                </td>
+
+                                <td>
+                                    <span class="status-badge {{ receta.estado_codigo }}">
+                                        {{ receta.estado_display }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <a href="#"
+                                       class="btn-action"
+                                       aria-label="Ver detalle de la receta {{ receta.numero }}">
+                                        Ver detalle
+                                    </a>
+                                </td>
+
+                            </tr>
+
+                        {% empty %}
+                            <tr>
+                                <td colspan="6" style="text-align: center; padding: 30px;">
+                                    {% if busqueda or estado_filtro %}
+                                        No se encontraron recetas que coincidan
+                                        con los filtros seleccionados.
+                                    {% else %}
+                                        Todavía no tienes recetas médicas registradas.
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+</html>

@@ -61,6 +61,16 @@
         <span>Medicamentos</span>
     </a>{% endif %}
 
+
+{% if "recetas.ver" in permisos %}
+<a href="{% url 'recetas' %}"
+   class="sidebar-option {% if request.resolver_match.url_name == 'recetas' %}active{% endif %}">
+    <span class="sidebar-icon">▤</span>
+    <span>Recetas</span>
+</a>
+{% endif %}
+
+
     {% if "auditoria.ver" in permisos %}<a href="{% url 'auditoria' %}"
        class="sidebar-option {% if request.resolver_match.url_name == 'auditoria' %}active{% endif %}">
         <span class="sidebar-icon">◉</span>
