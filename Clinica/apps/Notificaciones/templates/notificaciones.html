@@ -1,569 +1,226 @@
-{% load static %}
-
-<!DOCTYPE html>
+{% load static %}<!DOCTYPE html>
 <html lang="es">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Notificaciones</title>
 
-    <link rel="stylesheet" href="{% static 'notificaciones.css' %}">
+    <!-- CSS compartido del sidebar (el mismo de Pagos) -->
+    <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
 
+    <!-- CSS exclusivo de la página de notificaciones -->
+    <link rel="stylesheet" href="{% static 'notificaciones.css' %}">
 </head>
 
 <body>
 
-<!-- Interruptor del menú en celular (sin JavaScript) -->
-<input type="checkbox" id="menu-toggle" class="menu-check">
+    <!-- Sidebar compartido (incluye el logo, igual que Pagos) -->
+    {% include 'includes/sidebar.html' %}
 
-<div class="pagina">
+    <!-- Contenido exclusivo de Notificaciones -->
+    <div class="notif-page">
+        <main class="notif-contenido">
 
-    <label for="menu-toggle" class="fondo-oscuro"></label>
-
-    <aside class="menu-lateral">
-
-        <div class="logo">
-
-            <img
-                src="{% static 'images/logo-clinica.png' %}"
-                alt="Clínica Médica General y Familiar"
-                width="120"
-                style="display:block; height:auto; max-width:100%; margin:0 auto;"
-            >
-
-        </div>
-
-        <nav class="menu">
-
-            <a href="{% url 'dashboard' %}" class="opcion">
-                <span>⌂</span>
-                Dashboard
-            </a>
-
-            <a href="{% url 'medicamentos' %}" class="opcion">
-                <span></span>
-                Medicamentos
-            </a>
-
-            <a href="{% url 'auditoria' %}">
-                <span></span>
-                Auditoria
-            </a>
-
-            <a href="{% url 'documentos' %}">
-                <span></span>
-                Consultas
-            </a>
-
-            <a href="{% url 'citas' %}" class="opcion">
-                <span>▣</span>
-                Citas
-            </a>
-
-            <a href="{% url 'reportes' %}" class="opcion">
-                <span>▥</span>
-                Reportes
-            </a>
-            
-            <a href="{% url 'seguros' %}" class="opcion">
-                <span>▧</span>
-                Seguros
-            </a>
-
-            <a href="{% url 'pagos' %}" class="opcion">
-                <span>$</span>
-                Pagos
-            </a>
-
-            <a href="#" class="opcion">
-                <span>⚙</span>
-                Configuración
-            </a>
-            
-        </nav>
-
-
-        <div class="cerrar">
-            ↪ Cerrar sesión
-        </div>
-
-    </aside>
-
-    <main class="contenido">
-
-        <header class="encabezado">
-
-            <label for="menu-toggle" class="menu-btn" aria-label="Abrir menú">☰</label>
-
-            <img
-                class="logo-movil"
-                src="{% static 'images/logo-clinica.png' %}"
-                alt="Clínica Médica General y Familiar"
-                style="height:40px; width:auto;"
-            >
-
-            <div class="encabezado-titulo">
-
-                <h1>
-                    Notificaciones
-                </h1>
-
-                <p>
-                    Gestiona recordatorios y alertas de la clínica.
-                </p>
-
-            </div>
-
-            <div class="usuario">
-
-                <div class="notificacion">
-                    🔔
+            <header class="notif-encabezado">
+                <div class="notif-encabezado-titulo">
+                    <h1>Notificaciones</h1>
+                    <p>Gestiona recordatorios y alertas de la clínica.</p>
                 </div>
 
-                <div class="usuario-icono">
-                    👤
+                <div class="notif-usuario">
+                    <div class="notif-campana" aria-hidden="true">🔔</div>
+                    <div class="notif-usuario-icono" aria-hidden="true">👤</div>
+                    <div class="notif-usuario-texto">
+                        <strong>{{ request.user.get_full_name|default:request.user.email }}</strong>
+                        <small>{{ request.user.rol }}</small>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Resumen -->
+            <section class="notif-resumen" aria-label="Resumen de notificaciones">
+
+                <article class="notif-resumen-card">
+                    <div class="notif-resumen-icono" aria-hidden="true">🔔</div>
+                    <div class="notif-resumen-datos">
+                        <span>Total Notificaciones</span>
+                        <strong>{{ total }}</strong>
+                    </div>
+                </article>
+
+                <article class="notif-resumen-card">
+                    <div class="notif-resumen-icono" aria-hidden="true">📅</div>
+                    <div class="notif-resumen-datos">
+                        <span>Recordatorios</span>
+                        <strong>{{ recordatorios }}</strong>
+                    </div>
+                </article>
+
+                <article class="notif-resumen-card">
+                    <div class="notif-resumen-icono" aria-hidden="true">⚠</div>
+                    <div class="notif-resumen-datos">
+                        <span>Alertas Médicas</span>
+                        <strong>{{ alertas }}</strong>
+                    </div>
+                </article>
+
+                <article class="notif-resumen-card">
+                    <div class="notif-resumen-icono" aria-hidden="true">!</div>
+                    <div class="notif-resumen-datos">
+                        <span>Cambios de Citas</span>
+                        <strong>{{ cancelaciones }}</strong>
+                    </div>
+                </article>
+
+            </section>
+
+            <!-- Enviar recordatorio -->
+            <section class="notif-panel">
+                <div class="notif-titulo">
+                    <h2>Enviar Recordatorio</h2>
+                    <p>Envía un recordatorio de cita a un paciente.</p>
                 </div>
 
-                <div class="usuario-texto">
+                {% if messages %}
+                <div class="notif-mensajes">
+                    {% for m in messages %}
+                    <p class="notif-mensaje {{ m.tags }}">{{ m }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
 
-                    <strong>
-                        {{ request.user.email|default:request.user.email }}
-                    </strong>
+                <form class="notif-formulario-grid" method="post">
+                    {% csrf_token %}
 
-                    <small>
-                        {{ request.user.email|default:request.user.email }}
-                    </small>
+                    <div class="notif-campo">
+                        <label for="notif-paciente">Paciente</label>
+                        <select id="notif-paciente" name="paciente" required>
+                            <option value="">Seleccionar paciente</option>
+                            {% for p in pacientes %}
+                            <option value="{{ p.pk }}">{{ p }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
 
+                    <div class="notif-campo">
+                        <label for="notif-fecha">Fecha de cita</label>
+                        <input id="notif-fecha" type="date" name="fecha" required>
+                    </div>
+
+                    <div class="notif-campo">
+                        <label for="notif-hora">Hora</label>
+                        <input id="notif-hora" type="time" name="hora" required>
+                    </div>
+
+                    <div class="notif-campo">
+                        <label for="notif-medio">Medio</label>
+                        <select id="notif-medio" name="medio" required>
+                            <option value="notificacion">Notificación</option>
+                            <option value="correo">Correo</option>
+                            <option value="sms">SMS</option>
+                        </select>
+                    </div>
+
+                    <button class="notif-boton" type="submit">
+                        🔔 Enviar
+                    </button>
+                </form>
+            </section>
+
+            <!-- Notificaciones recientes -->
+            <section class="notif-panel">
+                <div class="notif-titulo">
+                    <h2>Notificaciones Recientes</h2>
+                    <p>Consulta las últimas notificaciones del sistema.</p>
                 </div>
 
-            </div>
+                <div class="notif-lista">
 
-        </header>
+                    <article class="notif-item">
+                        <div class="notif-item-icono" aria-hidden="true">📅</div>
+                        <div class="notif-item-info">
+                            <h3>Recordatorio de cita</h3>
+                            <p>Juan Pérez tiene una cita mañana a las 10:00 AM.</p>
+                            <small>Hace 10 minutos</small>
+                        </div>
+                        <span class="notif-tipo">Recordatorio</span>
+                    </article>
 
-        <section class="resumen">
+                    <article class="notif-item">
+                        <div class="notif-item-icono alerta" aria-hidden="true">⚠</div>
+                        <div class="notif-item-info">
+                            <h3>Alerta médica</h3>
+                            <p>Se registró una alerta médica para María Rodríguez.</p>
+                            <small>Hace 30 minutos</small>
+                        </div>
+                        <span class="notif-tipo alerta">Alerta</span>
+                    </article>
 
-            <div class="resumen-card">
+                    <article class="notif-item">
+                        <div class="notif-item-icono cancelado" aria-hidden="true">!</div>
+                        <div class="notif-item-info">
+                            <h3>Cita cancelada</h3>
+                            <p>La cita de Carlos Martínez fue cancelada.</p>
+                            <small>Hace 1 hora</small>
+                        </div>
+                        <span class="notif-tipo cancelado">Cancelación</span>
+                    </article>
 
-                <div class="resumen-icono">
-                    🔔
-                </div>
-
-                <div>
-
-                    <span>
-                        Total Notificaciones
-                    </span>
-
-                    <strong>
-                        {{ total }}
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-            <div class="resumen-card">
-
-                <div class="resumen-icono">
-                    📅
-                </div>
-
-                <div>
-
-                    <span>
-                        Recordatorios
-                    </span>
-
-                    <strong>
-                        {{ recordatorios }}
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-            <div class="resumen-card">
-
-                <div class="resumen-icono">
-                    ⚠
-                </div>
-
-                <div>
-
-                    <span>
-                        Alertas Médicas
-                    </span>
-
-                    <strong>
-                        {{ alertas }}
-                    </strong>
+                    <article class="notif-item">
+                        <div class="notif-item-icono" aria-hidden="true">🔄</div>
+                        <div class="notif-item-info">
+                            <h3>Cita reprogramada</h3>
+                            <p>La cita de Ana Gómez fue reprogramada para el viernes.</p>
+                            <small>Hace 2 horas</small>
+                        </div>
+                        <span class="notif-tipo">Reprogramación</span>
+                    </article>
 
                 </div>
+            </section>
 
-            </div>
+            <!-- Notificaciones automáticas -->
+            <section class="notif-auto">
+                <div class="notif-auto-icono" aria-hidden="true">⚙</div>
 
-
-            <div class="resumen-card">
-
-                <div class="resumen-icono">
-                    !
+                <div class="notif-auto-texto">
+                    <h2>Notificaciones Automáticas</h2>
+                    <p>El sistema enviará automáticamente recordatorios antes de las citas.</p>
                 </div>
 
-                <div>
-
-                    <span>
-                        Cambios de Citas
-                    </span>
-
-                    <strong>
-                        {{ cancelaciones }}
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-        </section>
-
-        <section class="formulario">
-
-            <div class="titulo">
-
-                <h2>
-                    Enviar Recordatorio
-                </h2>
-
-                <p>
-                    Envía un recordatorio de cita a un paciente.
-                </p>
-
-            </div>
-
-            <div class="formulario-grid">
-
-
-                <div class="campo">
-
-                    <label>
-                        Paciente
-                    </label>
-
-                    <select>
-
-                        <option>
-                            Seleccionar paciente
-                        </option>
-
-                        <option>
-                            Juan Pérez
-                        </option>
-
-                        <option>
-                            María Rodríguez
-                        </option>
-
-                        <option>
-                            Carlos Martínez
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="campo">
-
-                    <label>
-                        Fecha de cita
-                    </label>
-
-                    <input type="date">
-
-                </div>
-
-
-                <div class="campo">
-
-                    <label>
-                        Hora
-                    </label>
-
-                    <input type="time">
-
-                </div>
-
-
-                <div class="campo">
-
-                    <label>
-                        Medio
-                    </label>
-
-                    <select>
-
-                        <option>
-                            Notificación
-                        </option>
-
-                        <option>
-                            Correo
-                        </option>
-
-                        <option>
-                            SMS
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <button class="boton-guardar">
-                    🔔 Enviar
+                <button class="notif-boton" id="notif-auto-btn" type="button" aria-pressed="true">
+                    ✓ Activadas
                 </button>
+            </section>
 
-
-            </div>
-
-        </section>
-
-        <section class="notificaciones">
-
-
-            <div class="titulo">
-
-                <h2>
-                    Notificaciones Recientes
-                </h2>
-
-                <p>
-                    Consulta las últimas notificaciones del sistema.
-                </p>
-
-            </div>
-
-
-            <div class="lista">
-
-                <div class="notificacion-card">
-
-                    <div class="notificacion-icono">
-                        📅
-                    </div>
-
-                    <div class="notificacion-info">
-
-                        <h3>
-                            Recordatorio de cita
-                        </h3>
-
-                        <p>
-                            Juan Pérez tiene una cita mañana
-                            a las 10:00 AM.
-                        </p>
-
-                        <small>
-                            Hace 10 minutos
-                        </small>
-
-                    </div>
-
-                    <span class="tipo">
-                        Recordatorio
-                    </span>
-
+            <!-- Información inferior -->
+            <footer class="notif-pie">
+                <div>
+                    <strong>Recordatorios</strong>
+                    <span>Avisos de próximas citas</span>
                 </div>
 
-                <div class="notificacion-card">
-
-                    <div class="notificacion-icono alerta">
-                        ⚠
-                    </div>
-
-                    <div class="notificacion-info">
-
-                        <h3>
-                            Alerta médica
-                        </h3>
-
-                        <p>
-                            Se registró una alerta médica
-                            para María Rodríguez.
-                        </p>
-
-                        <small>
-                            Hace 30 minutos
-                        </small>
-
-                    </div>
-
-                    <span class="tipo alerta-texto">
-                        Alerta
-                    </span>
-
+                <div>
+                    <strong>Alertas Médicas</strong>
+                    <span>Avisos importantes</span>
                 </div>
 
-                <div class="notificacion-card">
-
-                    <div class="notificacion-icono cancelado">
-                        !
-                    </div>
-
-                    <div class="notificacion-info">
-
-                        <h3>
-                            Cita cancelada
-                        </h3>
-
-                        <p>
-                            La cita de Carlos Martínez
-                            fue cancelada.
-                        </p>
-
-                        <small>
-                            Hace 1 hora
-                        </small>
-
-                    </div>
-
-                    <span class="tipo cancelado-texto">
-                        Cancelación
-                    </span>
-
+                <div>
+                    <strong>Cambios</strong>
+                    <span>Cancelaciones y cambios</span>
                 </div>
 
-                <div class="notificacion-card">
-
-                    <div class="notificacion-icono">
-                        🔄
-                    </div>
-
-                    <div class="notificacion-info">
-
-                        <h3>
-                            Cita reprogramada
-                        </h3>
-
-                        <p>
-                            La cita de Ana Gómez fue
-                            reprogramada para el viernes.
-                        </p>
-
-                        <small>
-                            Hace 2 horas
-                        </small>
-
-                    </div>
-
-                    <span class="tipo">
-                        Reprogramación
-                    </span>
-
+                <div>
+                    <strong>Automático</strong>
+                    <span>Notificaciones programadas</span>
                 </div>
+            </footer>
 
+        </main>
+    </div>
 
-            </div>
-
-        </section>
-
-        <section class="automaticas">
-
-
-            <div class="automaticas-icono">
-                ⚙
-            </div>
-
-
-            <div class="automaticas-texto">
-
-                <h2>
-                    Notificaciones Automáticas
-                </h2>
-
-                <p>
-                    El sistema enviará automáticamente
-                    recordatorios antes de las citas.
-                </p>
-
-            </div>
-
-
-            <button class="boton-activar">
-                ✓ Activadas
-            </button>
-
-
-        </section>
-
-        <footer>
-
-            <div>
-
-                <strong>
-                    Recordatorios
-                </strong>
-
-                <span>
-                    Avisos de próximas citas
-                </span>
-
-            </div>
-
-
-            <div>
-
-                <strong>
-                    Alertas Médicas
-                </strong>
-
-                <span>
-                    Avisos importantes
-                </span>
-
-            </div>
-
-
-            <div>
-
-                <strong>
-                    Cambios
-                </strong>
-
-                <span>
-                    Cancelaciones y cambios
-                </span>
-
-            </div>
-
-
-            <div>
-
-                <strong>
-                    Automático
-                </strong>
-
-                <span>
-                    Notificaciones programadas
-                </span>
-
-            </div>
-
-        </footer>
-
-
-    </main>
-
-</div>
-
+    <script src="{% static 'js/notificaciones.js' %}"></script>
 
 </body>
-
 </html>
