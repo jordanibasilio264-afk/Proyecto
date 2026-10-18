@@ -192,6 +192,15 @@ class FiltroCitaForm(FiltroFechasForm):
     estado = forms.ChoiceField(required=False, choices=[("", "Todos los estados"), *Cita.Estado.choices])
     field_order = ["q", "medico", "estado", "desde", "hasta"]
 
+    def __init__(self, *args, usuario=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        if usuario is not None and usuario.es_paciente:
+            # El paciente no busca por paciente/cédula ni elige entre todos los médicos.
+            self.fields["q"].widget.attrs["placeholder"] = "Motivo de la cita"
+            self.fields["medico"].queryset = Medico.objects.filter(
+                citas__paciente__usuario=usuario
+            ).distinct().select_related("usuario")
+
     def filtrar(self, qs):
         datos = self.cleaned_data
         qs = buscar_texto(qs, datos.get("q"),
@@ -200,4 +209,7 @@ class FiltroCitaForm(FiltroFechasForm):
             qs = qs.filter(medico=datos["medico"])
         if datos.get("estado"):
             qs = qs.filter(estado=datos["estado"])
+        campos = ["motivo"] if getattr(self, "usuario", None) and self.usuario.es_paciente else \
+         ["paciente__nombres", "paciente__apellidos", "paciente__cedula", "motivo"]
+        qs = buscar_texto(qs, datos.get("q"), campos)
         return self.filtrar_fechas(qs, "inicio")

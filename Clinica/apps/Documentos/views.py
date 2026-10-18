@@ -4,7 +4,6 @@ import json
 import re
 from functools import wraps
 from decimal import Decimal, InvalidOperation
-
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied, ValidationError
@@ -29,6 +28,19 @@ def _errores(exc):
     if hasattr(exc, "message_dict"):
         return exc.message_dict
     return {"__all__": exc.messages}
+
+def rol_requerido(*roles):
+    def decorador(vista):
+        @wraps(vista)
+        def wrapper(request, *args, **kwargs):
+            if not request.user.is_authenticated:
+                from django.contrib.auth.views import redirect_to_login
+                return redirect_to_login(request.get_full_path())
+            if request.user.rol not in roles:   # ajusta a como guardas el rol
+                raise PermissionDenied 
+            return vista(request, *args, **kwargs)
+        return wrapper
+    return decorador
 
 
 def _bad(errores, status=400):
@@ -108,15 +120,14 @@ def _documento_json(d):
     }
 
 
-# ---------- página ----------
-@login_required
-def documentos_page(request):
-    pacientes = Paciente.objects.all().order_by("apellidos", "nombres")
-    return render(request, "documentos.html", {"pacientes": pacientes})
+# Roles que pueden ver/registrar según la acción.
+ROLES_LECTURA = {"ADMIN", "MEDICO", "RECEPCIONISTA"}
+ROLES_ESCRITURA_CONSULTA = {"ADMIN", "MEDICO"}
+ROLES_ESCRITURA_DOCUMENTO = {"ADMIN", "MEDICO", "RECEPCIONISTA"}
 
 
 # ---------- consultas ----------
-@login_required
+@rol_requerido("ADMIN", "MEDICO", "RECEPCIONISTA")
 @_json_errors
 def consultas_api(request, paciente_id):
     """GET: lista las consultas del paciente. POST: crea una consulta."""
@@ -124,24 +135,33 @@ def consultas_api(request, paciente_id):
 
     if request.method == "GET":
         consultas = (
-            Consulta.objects.filter(expediente__paciente=paciente)
-            .select_related("medico", "expediente__paciente")
-            .order_by("-fecha")
-        )
+                    Consulta.objects.filter(expediente__paciente=paciente)
+                    .select_related("medico", "expediente__paciente")
+                    .order_by("-fecha")
+                )
         return JsonResponse({"consultas": [_consulta_json(c) for c in consultas]})
 
     if request.method != "POST":
         return JsonResponse({"errores": {"__all__": ["Método no permitido."]}}, status=405)
 
-    # Solo un médico registra consultas (se toma del usuario autenticado).
-    medico = Medico.objects.filter(usuario=request.user).first()
-    if medico is None:
-        return _bad({"__all__": ["Solo un usuario con rol Médico puede registrar consultas."]}, 403)
-
+    # Un médico registra consultas a su nombre; un ADMIN debe indicar el médico.
     try:
         data = json.loads(request.body or "{}")
     except json.JSONDecodeError:
         return _bad({"__all__": ["JSON inválido."]})
+
+    # Un médico registra consultas a su nombre; un ADMIN debe indicar el médico.
+    if request.user.rol == "ADMIN":
+        medico_id = str(data.get("medico_id") or "").strip()
+        if not medico_id.isdigit():
+            return _bad({"medico_id": ["Debes indicar el médico de la consulta."]})
+        medico = Medico.objects.filter(pk=medico_id, activo=True).first()
+        if medico is None:
+            return _bad({"medico_id": ["El médico indicado no existe o está inactivo."]})
+    else:
+        medico = Medico.objects.filter(usuario=request.user).first()
+        if medico is None:
+            return _bad({"__all__": ["Solo un usuario con rol Médico o Administrador puede registrar consultas."]}, 403)
 
     try:
         motivo = (data.get("motivo") or "").strip()
@@ -217,12 +237,14 @@ def documentos_api(request, paciente_id):
     paciente = get_object_or_404(Paciente, pk=paciente_id)
 
     if request.method == "GET":
+        
         docs = Documento.objects.filter(paciente=paciente, activo=True)
         return JsonResponse({"documentos": [_documento_json(d) for d in docs]})
 
     if request.method != "POST":
         return JsonResponse({"errores": {"__all__": ["Método no permitido."]}}, status=405)
 
+   
     archivo = request.FILES.get("archivo")
     if not archivo:
         return _bad({"archivo": ["Selecciona un archivo."]})
@@ -283,21 +305,20 @@ def documento_descargar(request, pk):
     except FileNotFoundError:
         raise Http404("Archivo no encontrado.")
 
-def rol_requerido(*roles):
-    def decorador(vista):
-        @wraps(vista)
-        def wrapper(request, *args, **kwargs):
-            if not request.user.is_authenticated:
-                from django.contrib.auth.views import redirect_to_login
-                return redirect_to_login(request.get_full_path())
-            if request.user.rol not in roles:   # ajusta a como guardas el rol
-                raise PermissionDenied 
-            return vista(request, *args, **kwargs)
-        return wrapper
-    return decorador
+def _medicos_para_selector(usuario):
+    """Solo el ADMIN elige médico: lista los perfiles Medico activos."""
+    if usuario.rol != "ADMIN":
+        return None
+    return (
+        Medico.objects.filter(activo=True)
+        .select_related("usuario")
+        .prefetch_related("especialidades")
+    )
 
-
-@rol_requerido("ADMIN", "RECEPCIONISTA", "MEDICO","PACIENTE")
-def documentos(request):
-    pacientes = Paciente.objects.order_by("apellidos", "nombres")
-    return render(request, "documentos.html", {"pacientes": pacientes})
+@rol_requerido("ADMIN", "RECEPCIONISTA", "MEDICO")
+def documentos_page(request):
+    contexto = {"pacientes": Paciente.objects.order_by("apellidos", "nombres")}
+    medicos = _medicos_para_selector(request.user)
+    if medicos is not None:
+        contexto["medicos"] = medicos
+    return render(request, "documentos.html", contexto)

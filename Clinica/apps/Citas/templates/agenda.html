@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda</title>
+    <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/agenda.css' %}">
+    <style>
+        
+    </style>
+</head>
+<body class="page-body">
+    {% include 'includes/sidebar.html' %}
+
+    <main class="main-content">
+        <section class="table-container">
+            <div class="table-header"><h2 class="table-title">Agenda</h2></div>
+
+            <div class="agenda-bar">
+                <a class="save-btn {% if vista == 'dia' %}activo{% endif %}" href="?vista=dia&fecha={{ fecha|date:'Y-m-d' }}">Día</a>
+                <a class="save-btn {% if vista == 'semana' %}activo{% endif %}" href="?vista=semana&fecha={{ fecha|date:'Y-m-d' }}">Semana</a>
+                <a class="save-btn {% if vista == 'mes' %}activo{% endif %}" href="?vista=mes&fecha={{ fecha|date:'Y-m-d' }}">Mes</a>
+
+                <a class="save-btn" href="?vista={{ vista }}&fecha={{ anterior|date:'Y-m-d' }}">◀</a>
+                <a class="save-btn" href="?vista={{ vista }}&fecha={{ hoy|date:'Y-m-d' }}">Hoy</a>
+                <a class="save-btn" href="?vista={{ vista }}&fecha={{ siguiente|date:'Y-m-d' }}">▶</a>
+
+                <span class="agenda-titulo">
+                    {% if vista == "dia" %}{{ fecha|date:"l d \d\e F Y" }}
+                    {% elif vista == "semana" %}{{ ini|date:"d/m" }} – {{ fin|date:"d/m/Y" }}
+                    {% else %}{{ fecha|date:"F Y" }}{% endif %}
+                    ({{ total }} cita{{ total|pluralize }})
+                </span>
+            </div>
+
+            {% if vista == "dia" %}
+                <div class="agenda-lista">
+                    {% for c in citas %}{% include 'includes/agenda_cita.html' %}
+                    {% empty %}<p>No hay citas para este día.</p>{% endfor %}
+                </div>
+
+            {% elif vista == "semana" %}
+                <div class="agenda-semana">
+                    {% for d in dias %}
+                    <div class="agenda-dia {% if d.fecha == hoy %}hoy{% endif %}">
+                        <h4><a href="?vista=dia&fecha={{ d.fecha|date:'Y-m-d' }}">{{ d.fecha|date:"D d" }}</a></h4>
+                        {% for c in d.citas %}{% include 'includes/agenda_cita.html' %}{% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+
+            {% else %}
+                <div class="agenda-mes">
+                    {% for n in "LMXJVSD" %}<div class="agenda-cabecera">{{ n }}</div>{% endfor %}
+                    {% for semana in semanas %}{% for d in semana %}
+                    <div class="agenda-dia {% if d.fecha == hoy %}hoy{% endif %} {% if not d.en_mes %}fuera{% endif %}">
+                        <h4><a href="?vista=dia&fecha={{ d.fecha|date:'Y-m-d' }}">{{ d.fecha.day }}</a></h4>
+                        {% for c in d.citas|slice:":3" %}{% include 'includes/agenda_cita.html' %}{% endfor %}
+                        {% if d.citas|length > 3 %}
+                            <a href="?vista=dia&fecha={{ d.fecha|date:'Y-m-d' }}">+{{ d.citas|length|add:"-3" }} más</a>
+                        {% endif %}
+                    </div>
+                    {% endfor %}{% endfor %}
+                </div>
+            {% endif %}
+        </section>
+    </main>
+    <script src="{% static 'js/base.js' %}"></script>
+</body>
+</html>

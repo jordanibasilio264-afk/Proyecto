@@ -11,131 +11,152 @@
 
     {# Estilos nuevos que tu style.css aún no tiene. Muévelos a style.css cuando quieras. #}
     <style>
-        
+
     </style>
 </head>
 
 <body class="page-body">
-        
-         {% include 'includes/sidebar.html' %}
-    
 
-        <main class="main-content">
+    {% include 'includes/sidebar.html' %}
 
-            <header class="main-header">
-                
-                <div class="user-status-container">
-                    <a href="{% url 'notificaciones' %}">🔔</a>
-                    <div class="user-profile">
-                        <span>{{ request.user.email|default:request.user.email }}</span>
-                        <i class="user-avatar"></i>
-                    </div>
+
+    <main class="main-content">
+
+        <header class="main-header">
+
+            <div class="user-status-container">
+                <a href="{% url 'notificaciones' %}">🔔</a>
+                <div class="user-profile">
+                    <span>{{ request.user.email|default:request.user.email }}</span>
+                    <i class="user-avatar"></i>
                 </div>
-            </header>
+            </div>
+        </header>
 
-            {# Mensajes de éxito / error #}
-            {% for m in messages %}
-                <div class="alerta {{ m.tags }}">{{ m }}</div>
-            {% endfor %}
+        {# Mensajes de éxito / error #}
+        {% for m in messages %}
+        <div class="alerta {{ m.tags }}">{{ m }}</div>
+        {% endfor %}
 
-            <section class="card-grid">
-                {% if "citas.crear" in permisos %}
-                <button class="shortcut-card" id="openRegistro">
-                    <img src="{% static 'images/registro_citas.png' %}" alt="Icono_de_citas">
-                    <span class="card-text">Registrar Citas</span>
-                </button>
-                {% endif %}
+        <section class="card-grid">
+            {% if "citas.crear" in permisos %}
+            <button class="shortcut-card" id="openRegistro">
+                <img src="{% static 'images/registro_citas.png' %}" alt="Icono_de_citas">
+                <span class="card-text">Registrar Citas</span>
+            </button>
+            {% endif %}
 
-                {# Agenda de hoy: aplica el filtro de fecha #}
-                <a href="{% url 'citas' %}?desde={{ hoy|date:'Y-m-d' }}&hasta={{ hoy|date:'Y-m-d' }}" class="shortcut-card">
-                    <img src="{% static 'images/Agenda_imagen.png' %}" alt="Icono_de_agenda">
-                    <span class="card-text">Consultar Agenda</span>
-                </a>
-            </section>
+            {# Agenda de hoy: aplica el filtro de fecha #}
+            {% if "citas.atender" in permisos %}
+            <a href="{% url 'agenda' %}" class="shortcut-card">
+                <img src="{% static 'images/Agenda_imagen.png' %}" alt="Icono_de_agenda">
+                <span class="card-text">Consultar Agenda</span>
+            </a>
+            {% endif %}
+        </section>
 
-            <section class="table-container">
-                <div class="table-header">
-                    <h2 class="table-title">{% if mostrando_todas %}Citas{% else %}Citas Recientes{% endif %}</h2>
-                </div>
+        <section class="table-container">
+            <div class="table-header">
+                <h2 class="table-title">{% if mostrando_todas %}Citas{% else %}Citas Recientes{% endif %}</h2>
+            </div>
 
-                {# Búsqueda y filtros (GET: no lleva csrf_token) #}
-                <form method="get" class="filter-bar">
-                    {% for campo in filtro %}
-                        <div>{{ campo.label_tag }} {{ campo }}</div>
-                    {% endfor %}
-                    <div><button type="submit" class="save-btn">Filtrar</button></div>
-                    <div><a href="{% url 'citas' %}" class="save-btn">Limpiar</a></div>
-                </form>
+            {# Búsqueda y filtros (GET: no lleva csrf_token) #}
+            <form method="get" class="filter-bar">
+                {% for campo in filtro %}
+                    {% if not request.user.es_paciente or campo.name != "medico" %}
+                    <div>{{ campo.label_tag }} {{ campo }}</div>
+                    {% endif %}
+                {% endfor %}    
+                <div><button type="submit" class="save-btn">Filtrar</button></div>
+                <div><a href="{% url 'citas' %}" class="save-btn">Limpiar</a></div>
+            </form>
 
-                <div class="table-wrapper">
-                    <table class="data-table">
-                        <thead>
-                            <tr class="table-head-row">
-                                <th class="table-th">ID</th>
-                                <th class="table-th">Paciente</th>
-                                <th class="table-th">Doctor</th>
-                                <th class="table-th">Especialidades</th>
-                                <th class="table-th">Fecha</th>
-                                <th class="table-th">Hora</th>
-                                <th class="table-th">Estado</th>
-                                <th class="table-th th-center">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-body">
+            <div class="table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr class="table-head-row">
+                            <th class="table-th">ID</th>
+                            <th class="table-th">Paciente</th>
+                            <th class="table-th">Doctor</th>
+                            <th class="table-th">Especialidades</th>
+                            <th class="table-th">Fecha</th>
+                            <th class="table-th">Hora</th>
+                            <th class="table-th">Estado</th>
+                            <th class="table-th th-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-body">
 
-                            {% for c in citas %}
-                            <tr class="table-row">
-                                <td class="table-td td-muted">{{ c.pk }}</td>
-                                <td class="table-td td-highlight">{{ c.paciente }}</td>
-                                <td class="table-td td-muted">{{ c.medico }}</td>
-                                <td class="table-td td-muted">
-                                    {% for e in c.medico.especialidades.all %}{{ e.nombre }}{% if not forloop.last %}, {% endif %}{% empty %}-{% endfor %}
-                                </td>
-                                <td class="table-td td-muted">{{ c.inicio|date:"d/m/Y" }}</td>
-                                <td class="table-td td-muted">{{ c.inicio|time:"H:i" }}</td>
-                                <td class="table-td">
-                                    {% if c.estado == "CONFIRMADA" %}<span class="status-badge status-confirmada">Confirmada</span>
-                                    {% elif c.estado == "PROGRAMADA" %}<span class="status-badge status-pendiente">Pendiente</span>
-                                    {% elif c.estado == "REPROGRAMADA" %}<span class="status-badge status-reprogramada">Reprogramada</span>
-                                    {% elif c.estado == "CANCELADA" %}<span class="status-badge status-cancelada">Cancelada</span>
-                                    {% elif c.estado == "ATENDIDA" %}<span class="status-badge status-atendida">Atendida</span>
-                                    {% else %}<span class="status-badge status-noasistio">No asistió</span>{% endif %}
-                                </td>
-                                <td class="table-td td-center">
-                                    {% if c.estado == "PROGRAMADA" or c.estado == "CONFIRMADA" %}
-                                    <details class="acciones">
-                                        <summary class="action-btn">:</summary>
-                                        <div class="acciones-menu">
-                                            {% if c.estado == "PROGRAMADA" and "citas.confirmar" in permisos %}
-                                            <form method="post" action="{% url 'cita_confirmar' c.pk %}">
-                                                {% csrf_token %}<button type="submit">Confirmar</button>
-                                            </form>
-                                            {% endif %}
-                                            {% if "citas.editar" in permisos %}<a href="{% url 'cita_editar' c.pk %}">Editar</a>{% endif %}
-                                            {% if "citas.reprogramar" in permisos %}<a href="{% url 'cita_reprogramar' c.pk %}">Reprogramar</a>{% endif %}
-                                            {% if "citas.cancelar" in permisos %}<a href="{% url 'cita_cancelar' c.pk %}">Cancelar</a>{% endif %}
-                                        </div>
-                                    </details>
-                                    {% else %}-{% endif %}
-                                </td>
-                            </tr>
-                            {% empty %}
-                            <tr>
-                                <td colspan="8" class="table-td-empty">No hay citas registradas.</td>
-                            </tr>
-                            {% endfor %}
+                        {% for c in citas %}
+                        <tr class="table-row">
+                            <td class="table-td td-muted">{{ c.pk }}</td>
+                            <td class="table-td td-highlight">{{ c.paciente }}</td>
+                            <td class="table-td td-muted">{{ c.medico }}</td>
+                            <td class="table-td td-muted">
+                                {% for e in c.medico.especialidades.all %}{{ e.nombre }}{% if not forloop.last %}, 
+                                {%endif %}{% empty %}-{% endfor %}
+                            </td>
+                            <td class="table-td td-muted">{{ c.inicio|date:"d/m/Y" }}</td>
+                            <td class="table-td td-muted">{{ c.inicio|time:"H:i" }}</td>
+                            <td class="table-td">
+                                {% if c.estado == "CONFIRMADA" %}<span
+                                    class="status-badge status-confirmada">Confirmada</span>
+                                {% elif c.estado == "PROGRAMADA" %}<span
+                                    class="status-badge status-pendiente">Pendiente</span>
+                                {% elif c.estado == "REPROGRAMADA" %}<span
+                                    class="status-badge status-reprogramada">Reprogramada</span>
+                                {% elif c.estado == "CANCELADA" %}<span
+                                    class="status-badge status-cancelada">Cancelada</span>
+                                {% elif c.estado == "ATENDIDA" %}<span
+                                    class="status-badge status-atendida">Atendida</span>
+                                {% else %}<span class="status-badge status-noasistio">No asistió</span>{% endif %}
+                            </td>
+                            <td class="table-td td-center">
+                                {% if c.estado == "PROGRAMADA" or c.estado == "CONFIRMADA" %}
+                                <details class="acciones">
+                                    <summary class="action-btn">:</summary>
+                                    <div class="acciones-menu">
+                                        {% if c.estado == "PROGRAMADA" and "citas.confirmar" in permisos %}
+                                        <form method="post" action="{% url 'cita_confirmar' c.pk %}">
+                                            {% csrf_token %}<button type="submit">Confirmar</button>
+                                        </form>
+                                        {% if "citas.atender" in permisos %}
+                                        <form method="post" action="{% url 'cita_atender' c.pk %}">
+                                            {% csrf_token %}<button type="submit">Atendida</button>
+                                        </form>
+                                        <form method="post" action="{% url 'cita_no_asistio' c.pk %}">
+                                            {% csrf_token %}<button type="submit">No asistió</button>
+                                        </form>
+                                        {% endif %}
+                                        {% endif %}
+                                        {% if "citas.editar" in permisos %}<a
+                                            href="{% url 'cita_editar' c.pk %}">Editar</a>{% endif %}
+                                        {% if "citas.reprogramar" in permisos %}<a
+                                            href="{% url 'cita_reprogramar' c.pk %}">Reprogramar</a>{% endif %}
+                                        {% if "citas.cancelar" in permisos %}<a
+                                            href="{% url 'cita_cancelar' c.pk %}">Cancelar</a>{% endif %}
+                                    </div>
+                                </details>
+                                {% else %}-{% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="8" class="table-td-empty">No hay citas registradas.</td>
+                        </tr>
+                        {% endfor %}
 
-                        </tbody>
-                    </table>
-                </div>
+                    </tbody>
+                </table>
+            </div>
 
-                {% if not mostrando_todas %}
-                <div class="table-footer">
-                    <a href="?todas=1" class="link-view-all">Ver mas.</a>
-                </div>
-                {% endif %}
-            </section>
-        </main>
+            {% if not mostrando_todas %}
+            <div class="table-footer">
+                <a href="?todas=1" class="link-view-all">Ver mas.</a>
+            </div>
+            {% endif %}
+        </section>
+    </main>
     </div>
 
     {% if "citas.crear" in permisos %}

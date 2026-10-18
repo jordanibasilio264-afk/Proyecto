@@ -134,5 +134,17 @@ class Cita(ModeloBase):
         self.save()
 
     def marcar_atendida(self):
+        if self.estado not in ("PROGRAMADA", "CONFIRMADA"):
+            raise ValidationError("Solo se pueden atender citas programadas o confirmadas.")
+        if self.inicio > timezone.now():
+            raise ValidationError("No puedes marcar como atendida una cita que aún no ha comenzado.")
         self.estado = self.Estado.ATENDIDA
+        self.save()
+
+    def marcar_no_asistio(self):
+        if self.estado not in ("PROGRAMADA", "CONFIRMADA"):
+            raise ValidationError("Solo se puede marcar 'No asistió' en citas programadas o confirmadas.")
+        if self.inicio > timezone.now():
+            raise ValidationError("La cita aún no ha ocurrido.")
+        self.estado = self.Estado.NO_ASISTIO
         self.save()

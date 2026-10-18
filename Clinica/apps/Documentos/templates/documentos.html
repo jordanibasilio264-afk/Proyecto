@@ -60,6 +60,20 @@
         <form class="card form" id="formConsulta">
           <fieldset id="fsConsulta" disabled>
             <h2>Nueva consulta</h2>
+            {% if request.user.rol == "ADMIN" %}
+            <div class="form-group">
+              <label for="consultaMedico">Médico</label>
+              <input type="text" id="consultaMedico" class="form-control" list="listaMedicos"
+                placeholder="Buscar médico..." autocomplete="off" required>
+              <datalist id="listaMedicos">
+                {% for m in medicos %}
+                <option value="{{ m }}" data-pk="{{ m.pk }}"></option>
+                {% endfor %}
+              </datalist>
+
+              <input type="hidden" name="medico" id="consultaMedicoPk">
+            </div>
+            {% endif %}
             <label for="cFecha" style="margin-top:0">Fecha y hora</label>
             <input type="datetime-local" id="cFecha" required>
             <label for="cMotivo">Motivo de consulta</label>
@@ -123,7 +137,7 @@
             <input type="file" id="dFile" required>
             <label for="dDesc">Descripción (opcional)</label>
             <input id="dDesc">
-            <p class="empty" >Se asociará al paciente seleccionado arriba.</p>
+            <p class="empty">Se asociará al paciente seleccionado arriba.</p>
             <button class="btn block">Subir documento</button>
           </fieldset>
         </form>

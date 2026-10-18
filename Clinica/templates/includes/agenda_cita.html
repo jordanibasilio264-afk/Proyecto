@@ -1,0 +1,5 @@
+<div class="agenda-cita">
+    <strong>{{ c.inicio|time:"H:i" }}</strong> {{ c.paciente }}
+    {% if vista != "mes" %}<br><small>{{ c.medico }}</small>{% endif %}
+    <span class="status-badge status-{{ c.estado|lower }}">{{ c.get_estado_display }}</span>
+</div>

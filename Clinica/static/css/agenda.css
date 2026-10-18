@@ -1,0 +1,75 @@
+.agenda-bar {
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+}
+
+.agenda-bar .activo {
+    font-weight: 700;
+}
+
+.agenda-titulo {
+    margin-left: 42%;
+    font-size: 1.1rem;
+}
+
+.agenda-semana {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: .5rem;
+}
+
+.agenda-mes {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: .25rem;
+}
+
+.agenda-dia {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: .5rem;
+    min-height: 90px;
+    background: #fff;
+}
+
+.agenda-dia.hoy {
+    border-color: #2563eb;
+}
+
+.agenda-dia.fuera {
+    opacity: .4;
+}
+
+.agenda-dia h4 {
+    margin: 0 0 .4rem;
+    font-size: .85rem;
+}
+
+.agenda-cita {
+    font-size: .8rem;
+    padding: .25rem;
+    margin-bottom: .25rem;
+    background: #f3f4f6;
+    border-radius: 4px;
+}
+
+.agenda-cabecera {
+    text-align: center;
+    font-weight: 600;
+    font-size: .85rem;
+}
+
+.agenda-lista .agenda-cita {
+    font-size: .95rem;
+    padding: .6rem;
+}
+
+@media (max-width: 1024px) {
+    .agenda-titulo{
+        margin: 0 1rem;
+    }
+}

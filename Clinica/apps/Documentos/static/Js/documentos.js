@@ -74,6 +74,15 @@ function seleccionarPaciente() {
 }
 $("#pacienteInput").addEventListener("input", seleccionarPaciente);
 
+/* ---------- Médico (solo ADMIN) ---------- */
+function seleccionarMedico() {
+  const input = $("#consultaMedico"), hidden = $("#consultaMedicoPk");
+  if (!input || !hidden) return;
+  const opt = [...$("#listaMedicos").options].find(o => o.value === input.value.trim());
+  hidden.value = opt ? opt.dataset.pk : "";
+}
+$("#consultaMedico")?.addEventListener("input", seleccionarMedico);
+
 /* ---------- Pestañas ---------- */
 document.querySelectorAll(".tab").forEach(t => t.onclick = () => {
   document.querySelectorAll(".tab").forEach(x => x.classList.toggle("active", x === t));
@@ -91,19 +100,30 @@ $("#formConsulta").onsubmit = async ev => {
   if (!pid) return;
   const v = id => $(id)?.value.trim() ?? "";
   const form = ev.target, btn = form.querySelector("button");
+
+  const payload = {
+    fecha: v("#cFecha"), motivo: v("#cMotivo"), presion: v("#vPA"),
+    fc: v("#vFC"), temp: v("#vTemp"), fr: v("#vFR"), sat: v("#vSat"), peso: v("#vPeso"),
+    diagnostico: v("#cDiag"), tratamiento: v("#cTrat"), observaciones: v("#cObs"),
+    enfermedad_actual: v("#cEnf"),
+    requiere_seguimiento: $("#cSeg")?.checked ?? false,
+    fecha_seguimiento: $("#cFechaSeg")?.value ?? "",
+  };
+
+  // Solo existe para el ADMIN
+  if ($("#consultaMedico")) {
+    seleccionarMedico();   // por si el navegador autocompletó sin disparar "input"
+    const medicoPk = $("#consultaMedicoPk").value;
+    if (!medicoPk) { toast("Selecciona un médico de la lista."); return; }
+    payload.medico_id = medicoPk;
+  }
+
   btn.disabled = true;
   try {
     const r = await api(withId(URLS.consultas, pid), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        fecha: v("#cFecha"), motivo: v("#cMotivo"), presion: v("#vPA"),
-        fc: v("#vFC"), temp: v("#vTemp"), fr: v("#vFR"), sat: v("#vSat"), peso: v("#vPeso"),
-        diagnostico: v("#cDiag"), tratamiento: v("#cTrat"), observaciones: v("#cObs"),
-        enfermedad_actual: v("#cEnf"),
-        requiere_seguimiento: $("#cSeg")?.checked ?? false,
-        fecha_seguimiento: $("#cFechaSeg")?.value ?? "",
-      }),
+      body: JSON.stringify(payload),
     });
     form.reset(); $("#cFecha").value = fechaLocal();
     consultaPreferida = r.consulta.id;
