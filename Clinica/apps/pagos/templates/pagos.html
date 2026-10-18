@@ -162,8 +162,43 @@
                     <p>Consulta los pagos realizados por los pacientes.</p>
                 </div>
 
+                <!-- Filtros de la tabla -->
+                <form class="pagos-tabla-filtros" id="pagos-tabla-filtros" autocomplete="off">
+                    <div class="pagos-campo">
+                        <label for="filtro-paciente">Buscar paciente</label>
+                        <input id="filtro-paciente" type="search" placeholder="Nombre del paciente">
+                    </div>
+
+                    <div class="pagos-campo">
+                        <label for="filtro-estado">Estado</label>
+                        <select id="filtro-estado">
+                            <option value="">Todos</option>
+                            <option value="pagado">Pagado</option>
+                            <option value="pendiente">Pendiente</option>
+                        </select>
+                    </div>
+
+                    <div class="pagos-campo">
+                        <label for="filtro-metodo">Método</label>
+                        <select id="filtro-metodo">
+                            <option value="">Todos</option>
+                            <option value="efectivo">Efectivo</option>
+                            <option value="tarjeta">Tarjeta</option>
+                            <option value="transferencia">Transferencia</option>
+                        </select>
+                    </div>
+
+                    <button class="pagos-boton pagos-boton-principal" type="submit">
+                        🔎 Filtrar
+                    </button>
+
+                    <button class="pagos-boton pagos-boton-secundario" type="reset" id="filtro-limpiar">
+                        Limpiar
+                    </button>
+                </form>
+
                 <div class="pagos-tabla-contenedor">
-                    <table class="pagos-tabla">
+                    <table class="pagos-tabla" id="pagos-tabla">
                         <thead>
                             <tr>
                                 <th>Paciente</th>
@@ -205,6 +240,29 @@
                         </tbody>
                     </table>
                 </div>
+
+                <p class="pagos-sin-resultados" id="pagos-sin-resultados" hidden>
+                    No se encontraron pagos con esos filtros.
+                </p>
+
+                <!-- Paginación -->
+                <nav class="pagos-paginacion" aria-label="Paginación de pagos">
+                    <div class="pagos-paginacion-info">
+                        <span id="pagos-info"></span>
+
+                        <label for="pagos-por-pagina">
+                            Filas por página
+                            <select id="pagos-por-pagina">
+                                <option value="5" selected>5</option>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <div class="pagos-paginacion-botones" id="pagos-paginacion-botones"></div>
+                </nav>
             </section>
 
             <!-- Generar recibos -->
@@ -249,7 +307,8 @@
 
 <!-- JavaScript exclusivo de Pagos -->
 <script src="{% static 'js/pagos.js' %}"></script>
+<!-- Filtro y paginación de la tabla de pagos -->
+<script src="{% static 'js/pagos-tabla.js' %}"></script>
 
 </body>
-</html>
 </html>
