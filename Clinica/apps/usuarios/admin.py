@@ -13,14 +13,14 @@ class UsuariosAdmin(UserAdmin):
 
     # Todo lo que usaba 'username' se reemplaza por 'email'
     ordering = ("email",)
-    list_display = ("email", "first_name", "last_name", "rol", "is_active")
+    list_display = ("email", "first_name", "last_name", "cedula", "rol", "is_active")
     list_filter = ("rol", "is_active", "is_staff")
-    search_fields = ("email", "first_name", "last_name")
+    search_fields = ("email", "first_name", "last_name","cedula")
     filter_horizontal = ()  # sin widget de grupos/permisos
 
     fieldsets = (
         (None, {"fields": ("email", "password")}),
-        ("Información personal", {"fields": ("first_name", "last_name", "telefono")}),
+        ("Información personal", {"fields": ("first_name", "last_name", "cedula", "telefono")}),
         ("Rol y estado", {"fields": ("rol", "is_active", "is_staff", "is_superuser")}),
         ("Fechas importantes", {"fields": ("last_login", "date_joined")}),
     )
@@ -28,7 +28,7 @@ class UsuariosAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             "classes": ("wide",),
-            "fields": ("email", "first_name", "last_name", "telefono",
+            "fields": ("email", "first_name", "last_name", "cedula", "telefono",
                        "rol", "password1", "password2"),
         }),
     )

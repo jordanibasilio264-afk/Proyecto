@@ -5,7 +5,7 @@
   --fondo: #f4f7f7;
   --superficie: #ffffff;
   --borde: #d8e1e2;
-  --primario: #0f5c63;
+  --primario: #00A896;
   --primario-oscuro: #0a444a;
   --peligro: #b3261e;
   --peligro-oscuro: #8c1d17;
@@ -27,19 +27,19 @@ body {
   background: var(--fondo);
 }
 
-a { color: var(--primario); }
-a:hover { color: var(--primario-oscuro); }
+.main-content{
+  margin-left: 240px;
+}
 
 h1 { font-size: 1.6rem; margin: 0 0 .25rem; }
 .subtitulo { margin: 0; color: var(--tinta-suave); }
 
-.contenedor { max-width: 960px; margin: 0 auto; padding: 1.5rem 1rem; }
+.contenedor { margin: 0 auto; padding: 1.5rem 1rem; }
 .contenedor-estrecho { max-width: 560px; }
 
 /* ---------- Barra superior ---------- */
 .barra {
-  background: var(--primario);
-  color: #fff;
+  color: #000;
 }
 .barra-interna {
   max-width: 960px;
@@ -171,7 +171,14 @@ h1 { font-size: 1.6rem; margin: 0 0 .25rem; }
 .paginacion { display: flex; justify-content: center; align-items: center; gap: .75rem; margin-top: 1rem; }
 
 /* ---------- Móvil ---------- */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .barra-interna { gap: .75rem; flex-wrap: wrap; }
   .barra-usuario { margin-left: 0; }
+
+  .main-content{
+    margin-left: 0px;
+    width: 100%;
+    max-width: 100%;
+  }
 }
+

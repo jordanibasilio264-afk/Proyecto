@@ -1,36 +1,40 @@
-{% load static %}<!doctype html>
+{% load static %}
+<!doctype html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Clínica{% endblock %} · Clínica</title>
   <link rel="stylesheet" href="{% static 'css/clinica.css' %}">
+  <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
 </head>
+
 <body>
 
-  <header class="barra">
-    <div class="barra-interna">
-      <span class="barra-marca">Clínica</span>
-      <nav>
-        <a href="{% url 'usuarios:especialidad_lista' %}">Especialidades</a>
-      </nav>
-      {% if user.is_authenticated %}
-        <span class="barra-usuario">{{ user.get_full_name|default:user.email }}</span>
-      {% endif %}
-    </div>
-  </header>
+  {% include 'includes/sidebar.html' %}
 
-  <main>
-    {% if messages %}
-      <div class="contenedor" style="padding-bottom: 0;">
-        {% for message in messages %}
-          <div class="mensaje mensaje-{{ message.tags }}" role="alert">{{ message }}</div>
-        {% endfor %}
+  <main class="main-content">
+    <header class="barra">
+      <div class="barra-interna">
+        
+        {% if user.is_authenticated %}
+        <span class="barra-usuario">{{ user.get_full_name|default:user.email }}</span>
+        {% endif %}
       </div>
+    </header>
+
+    {% if messages %}
+    <div class="contenedor" style="padding-bottom: 0;">
+      {% for message in messages %}
+      <div class="mensaje mensaje-{{ message.tags }}" role="alert">{{ message }}</div>
+      {% endfor %}
+    </div>
     {% endif %}
 
     {% block content %}{% endblock %}
   </main>
 
 </body>
+
 </html>
