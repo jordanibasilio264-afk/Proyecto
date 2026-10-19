@@ -62,34 +62,35 @@
 
                 <div class="filtros-form">
                     <div class="campo">
-                        <label>
+                        <label for="tipo-reporte">
                             Tipo de Reporte
                         </label>
-                        <select>
-                            <option>Pacientes</option>
-                            <option>Citas</option>
-                            <option>Consultas</option>
-                            <option>Pagos</option>
-                            <option>Diagnósticos</option>
-                            <option>Médicos</option>
+                        <select id="tipo-reporte">
+                            <option value="todos">Todos los reportes</option>
+                            <option value="pacientes">Pacientes</option>
+                            <option value="citas">Citas</option>
+                            <option value="consultas">Consultas</option>
+                            <option value="pagos">Pagos</option>
+                            <option value="diagnosticos">Diagnósticos</option>
+                            <option value="medicos">Médicos</option>
                         </select>
                     </div>
 
                     <div class="campo">
-                        <label>
+                        <label for="fecha-desde">
                             Desde
                         </label>
-                        <input type="date">
+                        <input type="date" id="fecha-desde">
                     </div>
 
                     <div class="campo">
-                        <label>
+                        <label for="fecha-hasta">
                             Hasta
                         </label>
-                        <input type="date">
+                        <input type="date" id="fecha-hasta">
                     </div>
 
-                    <button class="boton-consultar">
+                    <button type="button" class="boton-consultar" id="btn-consultar">
                         🔎 Consultar
                     </button>
                 </div>
@@ -107,7 +108,7 @@
 
                 <div class="tarjetas">
                     <!-- Tarjeta Pacientes -->
-                    <div class="tarjeta">
+                    <div class="tarjeta" data-tipo="pacientes">
                         <div class="icono-reporte">♟</div>
                         <div class="informacion">
                             <h3>Reporte de Pacientes</h3>
@@ -123,7 +124,7 @@
                     </div>
 
                     <!-- Tarjeta Citas -->
-                    <div class="tarjeta">
+                    <div class="tarjeta" data-tipo="citas">
                         <div class="icono-reporte">▣</div>
                         <div class="informacion">
                             <h3>Reporte de Citas</h3>
@@ -139,7 +140,7 @@
                     </div>
 
                     <!-- Tarjeta Consultas -->
-                    <div class="tarjeta">
+                    <div class="tarjeta" data-tipo="consultas">
                         <div class="icono-reporte">♡</div>
                         <div class="informacion">
                             <h3>Reporte de Consultas</h3>
@@ -155,7 +156,7 @@
                     </div>
 
                     <!-- Tarjeta Pagos -->
-                    <div class="tarjeta">
+                    <div class="tarjeta" data-tipo="pagos">
                         <div class="icono-reporte">$</div>
                         <div class="informacion">
                             <h3>Reporte de Pagos</h3>
@@ -171,7 +172,7 @@
                     </div>
 
                     <!-- Tarjeta Diagnósticos -->
-                    <div class="tarjeta">
+                    <div class="tarjeta" data-tipo="diagnosticos">
                         <div class="icono-reporte">+</div>
                         <div class="informacion">
                             <h3>Reporte de Diagnósticos</h3>
@@ -187,7 +188,7 @@
                     </div>
 
                     <!-- Tarjeta Médicos -->
-                    <div class="tarjeta">
+                    <div class="tarjeta" data-tipo="medicos">
                         <div class="icono-reporte">⚕</div>
                         <div class="informacion">
                             <h3>Reporte de Médicos</h3>
@@ -272,6 +273,7 @@
         </main>
     </div>
 
+    <script src="{% static 'js/reportes.js' %}" defer></script>
 </body>
 
 </html>
