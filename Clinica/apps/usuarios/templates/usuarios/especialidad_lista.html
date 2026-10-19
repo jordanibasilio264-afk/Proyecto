@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Especialidades{% endblock %}
+
+{% block content %}
+<div class="contenedor">
+  <div class="encabezado">
+    <div>
+      <h1>Especialidades</h1>
+      <p class="subtitulo">Áreas médicas disponibles para asignar a los médicos.</p>
+    </div>
+    {% if puede_crear %}
+      <a href="{% url 'usuarios:especialidad_create' %}" class="btn btn-primario">Nueva especialidad</a>
+    {% endif %}
+  </div>
+
+  <div class="tarjeta">
+    <div class="tabla-scroll">
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th class="centro">Médicos</th>
+            <th>Estado</th>
+            {% if puede_editar or puede_eliminar %}<th class="derecha">Acciones</th>{% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for esp in object_list %}
+            <tr>
+              <td><strong>{{ esp.nombre }}</strong></td>
+              <td class="suave">{{ esp.descripcion|default:"—" }}</td>
+              <td class="centro">{{ esp.total_medicos }}</td>
+              <td>
+                {% if esp.activa %}
+                  <span class="etiqueta etiqueta-activa">Activa</span>
+                {% else %}
+                  <span class="etiqueta etiqueta-inactiva">Inactiva</span>
+                {% endif %}
+              </td>
+              {% if puede_editar or puede_eliminar %}
+                <td class="derecha">
+                  {% if puede_editar %}
+                    <a href="{% url 'usuarios:especialidad_update' esp.pk %}" class="btn btn-chico">Editar</a>
+                  {% endif %}
+                  {% if puede_eliminar %}
+                    <a href="{% url 'usuarios:especialidad_delete' esp.pk %}" class="btn btn-chico btn-borde-peligro">Eliminar</a>
+                  {% endif %}
+                </td>
+              {% endif %}
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="5" class="vacio">
+                Todavía no hay especialidades registradas.
+                {% if puede_crear %}<a href="{% url 'usuarios:especialidad_create' %}">Registra la primera</a>.{% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {% if is_paginated %}
+    <nav class="paginacion" aria-label="Paginación">
+      {% if page_obj.has_previous %}<a class="btn btn-chico" href="?page={{ page_obj.previous_page_number }}">Anterior</a>{% endif %}
+      <span class="suave">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+      {% if page_obj.has_next %}<a class="btn btn-chico" href="?page={{ page_obj.next_page_number }}">Siguiente</a>{% endif %}
+    </nav>
+  {% endif %}
+</div>
+{% endblock %}

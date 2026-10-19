@@ -11,6 +11,8 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Count, Q
 from django.utils import timezone
+from django.core.validators import RegexValidator
+from django.db import transaction
 
 from .base import ModeloBase
 
@@ -54,8 +56,9 @@ PERMISOS_POR_ROL = {
         "medicos.ver", "medicos.crear", "medicos.editar", "medicos.eliminar",
         "citas.ver", "citas.crear", "citas.editar", "citas.confirmar",
         "citas.cancelar", "citas.reprogramar","citas.atender",
-        "consultas.ver","consultas.ver", "consultas.crear", "consultas.editar",
-        "expedientes.ver","expedientes.ver", "expedientes.crear", "expedientes.editar",
+        "consultas.ver", "consultas.crear", "consultas.editar",
+        "expedientes.ver", "expedientes.crear", "expedientes.editar",
+        "especialidades.ver", "especialidades.crear","especialidades.editar", "especialidades.eliminar",
         "expedientes.descargar_pdf", "recetas.ver","medicamentos.ver", 
         "medicamentos.crear", "medicamentos.editar","medicamentos.eliminar",
         "pagos.ver", "pagos.crear", "pagos.generar_recibo", "pagos.ver_ingresos",
@@ -96,6 +99,13 @@ PERMISOS_POR_ROL = {
     },
 }
 
+cedula_validator = RegexValidator(
+    r"^\d{11}$", "La cédula debe tener 11 dígitos, sin guiones."
+)
+
+def solo_digitos(valor):
+    """Devuelve solo los dígitos, o None si queda vacío."""
+    return "".join(c for c in (valor or "") if c.isdigit()) or None
 
 class Usuarios (AbstractUser):
     class Roles(models.TextChoices):
@@ -117,6 +127,23 @@ class Usuarios (AbstractUser):
     REQUIRED_FIELDS = ["first_name", "last_name"]
 
     objects = UsuarioManager()
+
+    cedula = models.CharField(
+        "cédula",
+        max_length=11,
+        unique=True,
+        null=True,
+        blank=True,
+        validators=[cedula_validator],
+    )
+
+    def clean(self):
+        super().clean()
+        self.cedula = solo_digitos(self.cedula)
+
+    def save(self, *args, **kwargs):
+        self.cedula = solo_digitos(self.cedula)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "usuario"
@@ -182,7 +209,6 @@ class Medico(ModeloBase):
     exequatur = models.CharField(
         "exequátur / No. de colegiatura", max_length=30, unique=True, null=True, blank=True
     )
-    cedula = models.CharField(max_length=20, blank=True)
     consultorio = models.CharField("consultorio / sala", max_length=50, blank=True)
     duracion_cita_minutos = models.PositiveSmallIntegerField(default=30)
     activo = models.BooleanField(default=True)
@@ -198,6 +224,10 @@ class Medico(ModeloBase):
     @property
     def nombre_completo(self):
         return self.usuario.get_full_name() or self.usuario.email
+
+    @property
+    def cedula(self):
+        return self.usuario.cedula
 
     def clean(self):
         if self.usuario_id and self.usuario.rol != Usuarios.Roles.MEDICO:
@@ -283,7 +313,7 @@ class Paciente(ModeloBase):
     )
     nombres = models.CharField(max_length=100)
     apellidos = models.CharField(max_length=100)
-    cedula = models.CharField("cédula", max_length=20, unique=True, null=True, blank=True)
+    cedula = models.CharField("cédula", max_length=11, unique=True, null=True, blank=True, validators=[cedula_validator],)
     fecha_nacimiento = models.DateField(null=True, blank=True)
     sexo = models.CharField(max_length=1, choices=Sexo.choices, blank=True)
     telefono = models.CharField(max_length=20, blank=True)
@@ -295,6 +325,25 @@ class Paciente(ModeloBase):
     activo = models.BooleanField(default=True)
 
     objects = PacienteQuerySet.as_manager()
+
+    def save(self, *args, **kwargs):
+        self.cedula = solo_digitos(self.cedula)
+        with transaction.atomic():
+            super().save(*args, **kwargs)
+            self._sincronizar_usuario()
+
+    def _sincronizar_usuario(self):
+        if not self.usuario_id:
+            return
+        cambios = {
+            "first_name": self.nombres,
+            "last_name": self.apellidos,
+            "telefono": self.telefono,
+            "cedula": self.cedula,
+        }
+        if self.email:  # el email del usuario es unique y obligatorio
+            cambios["email"] = self.email
+        Usuarios.objects.filter(pk=self.usuario_id).update(**cambios)
 
     class Meta:
         ordering = ["apellidos", "nombres"]
@@ -318,5 +367,13 @@ class Paciente(ModeloBase):
         return hoy.year - n.year - ((hoy.month, hoy.day) < (n.month, n.day))
 
     def clean(self):
-        if self.usuario_id and self.usuario.rol != Usuarios.Roles.PACIENTE:
+        self.cedula = solo_digitos(self.cedula)
+        if not self.usuario_id:
+            return
+        if self.usuario.rol != Usuarios.Roles.PACIENTE:
             raise ValidationError({"usuario": "El usuario debe tener rol Paciente."})
+        otros = Usuarios.objects.exclude(pk=self.usuario_id)
+        if self.cedula and otros.filter(cedula=self.cedula).exists():
+            raise ValidationError({"cedula": "Otro usuario ya tiene esta cédula."})
+        if self.email and otros.filter(email__iexact=self.email).exists():
+            raise ValidationError({"email": "Otro usuario ya usa este correo."})

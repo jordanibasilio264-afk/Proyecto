@@ -11,7 +11,7 @@ from django.contrib.auth.forms import (
 from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.forms import BaseInlineFormSet, inlineformset_factory
-
+from .models import Especialidad, HorarioMedico, Medico, Paciente, solo_digitos
 from .forms_base import EstiloFormMixin, buscar_texto, limpiar_nombre, limpiar_telefono
 from .models import Especialidad, HorarioMedico, Medico, Paciente
 
@@ -45,7 +45,7 @@ class UsuarioEditarForm(EstiloFormMixin, forms.ModelForm):
 
     class Meta:
         model = Usuario
-        fields = ("first_name", "last_name", "email", "telefono", "rol", "is_active")
+        fields = ("first_name", "last_name", "email", "cedula", "telefono", "rol", "is_active")
         labels = {
             "first_name": "Nombre", "last_name": "Apellido",
             "telefono": "Teléfono", "is_active": "Activo",
@@ -108,8 +108,8 @@ class EspecialidadForm(EstiloFormMixin, forms.ModelForm):
 class MedicoForm(EstiloFormMixin, forms.ModelForm):
     class Meta:
         model = Medico
-        fields = ("usuario", "especialidades", "exequatur", "cedula",
-                  "consultorio", "duracion_cita_minutos", "activo")
+        fields = ("usuario", "especialidades", "exequatur",
+        "consultorio", "duracion_cita_minutos", "activo")
         widgets = {"especialidades": forms.SelectMultiple(attrs={"size": 6})}
         labels = {"usuario": "Usuario (rol Médico)", "duracion_cita_minutos": "Duración de cita (min)"}
 
@@ -188,11 +188,12 @@ class PacienteForm(EstiloFormMixin, forms.ModelForm):
         return limpiar_nombre(self.cleaned_data["apellidos"])
 
     def clean_cedula(self):
-        valor = re.sub(r"[\s-]", "", self.cleaned_data.get("cedula") or "")
-        return valor or None  # vacío = NULL (evita choques con el campo único)
+        return solo_digitos(self.cleaned_data.get("cedula"))
 
     def clean_fecha_nacimiento(self):
-        fecha = self.cleaned_data["fecha_nacimiento"]
+        fecha = self.cleaned_data.get("fecha_nacimiento")
+        if not fecha:
+            return fecha
         hoy = date.today()
         if fecha > hoy:
             raise ValidationError("La fecha de nacimiento no puede ser futura.")

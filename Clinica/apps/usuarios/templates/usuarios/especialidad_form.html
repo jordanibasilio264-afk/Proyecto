@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}{% if object %}Editar especialidad{% else %}Nueva especialidad{% endif %}{% endblock %}
+
+{% block content %}
+<div class="contenedor contenedor-estrecho">
+  <h1 style="margin-bottom: 1rem;">{% if object %}Editar especialidad{% else %}Nueva especialidad{% endif %}</h1>
+
+  <form method="post" novalidate class="tarjeta tarjeta-cuerpo">
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+      <div class="mensaje mensaje-error">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    {% for field in form %}
+      <div class="campo{% if field.field.widget.input_type == 'checkbox' %} campo-check{% endif %}{% if field.errors %} con-error{% endif %}">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.help_text %}<div class="ayuda">{{ field.help_text }}</div>{% endif %}
+        {% for error in field.errors %}<div class="error">{{ error }}</div>{% endfor %}
+      </div>
+    {% endfor %}
+
+    <div class="acciones">
+      <button type="submit" class="btn btn-primario">
+        {% if object %}Guardar cambios{% else %}Registrar especialidad{% endif %}
+      </button>
+      <a href="{% url 'usuarios:especialidad_lista' %}" class="btn">Cancelar</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

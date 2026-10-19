@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Eliminar especialidad{% endblock %}
+
+{% block content %}
+<div class="contenedor contenedor-estrecho">
+  <h1 style="margin-bottom: 1rem;">Eliminar especialidad</h1>
+
+  <div class="tarjeta tarjeta-cuerpo">
+    <p>¿Seguro que quieres eliminar <strong>{{ object.nombre }}</strong>?</p>
+    <p class="suave">
+      Esta acción no se puede deshacer. Si solo quieres que deje de aparecer al asignar médicos,
+      desactívala desde <a href="{% url 'usuarios:especialidad_update' object.pk %}">Editar</a>.
+    </p>
+
+    <form method="post" class="acciones">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-peligro">Eliminar especialidad</button>
+      <a href="{% url 'usuarios:especialidad_lista' %}" class="btn">Cancelar</a>
+    </form>
+  </div>
+</div>
+{% endblock %}
