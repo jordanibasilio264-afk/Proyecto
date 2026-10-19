@@ -69,9 +69,9 @@ PERMISOS_POR_ROL = {
         "auditoria.ver", "configuracion.ver", "configuracion.editar",
     },
     "MEDICO": {
-        "pacientes.ver", "medicos.ver",
+        "pacientes.ver", "medicos.ver","especialidades.ver",
         "citas.ver", "citas.editar", "citas.confirmar","citas.atender",
-        "consultas.ver", "consultas.crear", "consultas.editar",
+        "consultas.ver", "citas.crear", "consultas.crear", "consultas.editar",
         "expedientes.ver", "expedientes.crear", "expedientes.editar",
         "expedientes.descargar_pdf",
         "recetas.ver", "recetas.crear", "recetas.editar", "recetas.imprimir",
@@ -82,7 +82,7 @@ PERMISOS_POR_ROL = {
     },
     "RECEPCIONISTA": {
         "pacientes.ver", "pacientes.crear", "pacientes.editar",
-        "medicos.ver",
+        "medicos.ver","especialidades.ver",
         "citas.ver", "citas.crear", "citas.editar", "citas.confirmar",
         "citas.cancelar", "citas.reprogramar","citas.atender",
         "seguros.ver", "seguros.crear", "seguros.editar",

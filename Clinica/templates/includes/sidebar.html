@@ -113,6 +113,11 @@
         <span>Pagos</span>
     </a>{% endif %}
 
+    {% if "especialidades.ver" in permisos %}<a href="{% url 'usuarios:especialidad_lista' %}"
+       class="sidebar-option {% if request.resolver_match.url_name == 'especialidades' %}active{% endif %}">
+        <span class="sidebar-icon">▣</span>
+        <span>Especialidades</span>
+    </a>{% endif %}
     
     {% if "configuracion.ver" in permisos %}<a href="{% url 'configuracion' %}"
        class="sidebar-option {% if request.resolver_match.url_name == 'configuracion' %}active{% endif %}">
