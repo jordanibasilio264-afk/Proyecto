@@ -107,11 +107,13 @@
         <span>Seguros</span>
     </a>{% endif %}
 
-    {% if "pagos.ver" in permisos %}<a href="{% url 'pagos' %}"
-       class="sidebar-option {% if request.resolver_match.url_name == 'pagos' %}active{% endif %}">
-        <span class="sidebar-icon">$</span>
-        <span>Pagos</span>
-    </a>{% endif %}
+    {% if "pagos.ver" in permisos %}
+    {% if request.user.rol == "PACIENTE" %}{% url 'mis_pagos' as url_pagos %}{% else %}{% url 'pagos' as url_pagos %}{% endif %}
+    <a href="{{ url_pagos }}" class="sidebar-option {% if request.path == url_pagos %}active{% endif %}">
+    <span class="sidebar-icon">$</span>
+    <span>{% if request.user.rol == "PACIENTE" %}Mis pagos{% else %}Pagos{% endif %}</span>
+    </a>
+    {% endif %}
 
     {% if "especialidades.ver" in permisos %}<a href="{% url 'usuarios:especialidad_lista' %}"
        class="sidebar-option {% if request.resolver_match.url_name == 'especialidades' %}active{% endif %}">

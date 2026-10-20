@@ -1,0 +1,180 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mis pagos</title>
+
+    <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
+    <link rel="stylesheet" href="{% static 'pagos.css' %}">
+    <link rel="stylesheet" href="{% static 'css/mis-pagos.css' %}">
+</head>
+
+<body>
+
+    {% include 'includes/sidebar.html' %}
+
+    <div class="pagos-page">
+        <main class="pagos-contenido">
+
+            <header class="pagos-encabezado">
+                <div class="pagos-encabezado-titulo">
+                    <h1>Mis pagos</h1>
+                    <p>Consulta lo que has pagado y descarga tus recibos.</p>
+                </div>
+
+                <div class="pagos-usuario">
+                    <div class="pagos-usuario-icono" aria-hidden="true">👤</div>
+                    <div class="pagos-usuario-texto">
+                        <strong>{{ paciente_nombre }}</strong>
+                        <small>Paciente</small>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Resumen -->
+            <section class="pagos-resumen" aria-label="Resumen de mis pagos">
+
+                <article class="pagos-resumen-card">
+                    <div class="pagos-resumen-icono" aria-hidden="true">✓</div>
+                    <div class="pagos-resumen-datos">
+                        <span>Total pagado</span>
+                        <strong>{{ total_pagado }}</strong>
+                    </div>
+                </article>
+
+                <article class="pagos-resumen-card">
+                    <div class="pagos-resumen-icono" aria-hidden="true">!</div>
+                    <div class="pagos-resumen-datos">
+                        <span>Por pagar</span>
+                        <strong>{{ total_pendiente }}</strong>
+                    </div>
+                </article>
+
+                <article class="pagos-resumen-card">
+                    <div class="pagos-resumen-icono" aria-hidden="true">$</div>
+                    <div class="pagos-resumen-datos">
+                        <span>Pagos registrados</span>
+                        <strong>{{ cantidad }}</strong>
+                    </div>
+                </article>
+
+                <article class="pagos-resumen-card">
+                    <div class="pagos-resumen-icono" aria-hidden="true">📅</div>
+                    <div class="pagos-resumen-datos">
+                        <span>Último pago</span>
+                        <strong>{{ ultimo_pago }}</strong>
+                    </div>
+                </article>
+
+            </section>
+
+            <!-- Filtros -->
+            <section class="pagos-panel">
+                <div class="pagos-titulo">
+                    <h2>Historial de pagos</h2>
+                    <p>Filtra por estado o por fecha.</p>
+                </div>
+
+                <form class="pagos-tabla-filtros" method="get" autocomplete="off">
+                    <div class="pagos-campo">
+                        <label for="{{ filtro.estado.id_for_label }}">Estado</label>
+                        {{ filtro.estado }}
+                    </div>
+
+                    <div class="pagos-campo">
+                        <label for="{{ filtro.desde.id_for_label }}">Desde</label>
+                        {{ filtro.desde }}
+                    </div>
+
+                    <div class="pagos-campo">
+                        <label for="{{ filtro.hasta.id_for_label }}">Hasta</label>
+                        {{ filtro.hasta }}
+                    </div>
+
+                    <button class="pagos-boton pagos-boton-principal" type="submit">🔎 Filtrar</button>
+                    <a class="pagos-boton pagos-boton-secundario" href="{% url 'mis_pagos' %}">Limpiar</a>
+                </form>
+
+                <div class="pagos-tabla-contenedor">
+                    <table class="pagos-tabla" id="pagos-tabla">
+                        <thead>
+                            <tr>
+                                <th>Recibo</th>
+                                <th>Fecha</th>
+                                <th>Concepto</th>
+                                <th>Método</th>
+                                <th>Total</th>
+                                <th>Cubierto por el seguro</th>
+                                <th>Tu parte</th>
+                                <th>Estado</th>
+                                <th>Recibo PDF</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for pago in page_obj %}
+                            <tr data-recibo="{{ pago.numero_recibo }}" data-fecha="{{ pago.fecha_pago|date:'d/m/Y' }}"
+                                data-concepto="{{ pago.concepto }}" data-metodo="{{ pago.get_metodo_display }}"
+                                data-total="{{ pago.monto_formateado }}" data-seguro="{{ pago.cubierto_formateado }}"
+                                data-tuparte="{{ pago.tu_parte_formateada }}" data-estado="{{ pago.estado|lower }}">
+                                <td>{{ pago.numero_recibo }}</td>
+                                <td>{{ pago.fecha_pago|date:"d/m/Y" }}</td>
+                                <td>{{ pago.concepto }}</td>
+                                <td>{{ pago.get_metodo_display }}</td>
+                                <td>{{ pago.monto_formateado }}</td>
+                                <td>{{ pago.cubierto_formateado }}</td>
+                                <td><strong>{{ pago.tu_parte_formateada }}</strong></td>
+                                <td><span class="pagos-estado {{ pago.estado|lower }}">{{ pago.get_estado_display }}</span></td>
+                                <td>
+                                    {% if pago.estado == "PAGADO" %}
+                                    <button class="pagos-boton-recibo" type="button">PDF</button>
+                                    {% else %}
+                                    <span class="mis-pagos-sin-recibo">No disponible</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="9" class="mis-pagos-vacio">
+                                    {% if request.GET %}
+                                    No hay pagos con esos filtros. Prueba con otras fechas o pulsa Limpiar.
+                                    {% else %}
+                                    Aún no tienes pagos registrados.
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                {% if page_obj.paginator.num_pages > 1 %}
+                <nav class="pagos-paginacion" aria-label="Paginación de pagos">
+                    <span>{{ resumen_paginas }}</span>
+                    {% if page_obj.has_previous %}
+                    <a href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.previous_page_number }}">‹ Anterior</a>
+                    {% endif %}
+                    {% if page_obj.has_next %}
+                    <a href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.next_page_number }}">Siguiente ›</a>
+                    {% endif %}
+                </nav>
+                {% endif %}
+            </section>
+
+            <p class="mis-pagos-nota">
+                ¿Algo no coincide con lo que pagaste? Comunícate con recepción y menciona el número de recibo.
+            </p>
+
+        </main>
+    </div>
+
+    <div id="mis-pagos-datos" data-paciente="{{ paciente_nombre }}" hidden></div>
+    <script src="{% static 'js/mis-pagos.js' %}"></script>
+
+</body>
+
+</html>

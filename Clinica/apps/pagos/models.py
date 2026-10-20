@@ -71,6 +71,25 @@ class Pago(NoEliminable):
         """Lo que realmente paga el paciente."""
         return self.monto - self.monto_cubierto_seguro
 
+    @property
+    def monto_formateado(self):
+        return f"RD${self.monto:,.2f}"
+
+    @property
+    def cubierto_formateado(self):
+        return f"RD${self.monto_cubierto_seguro:,.2f}"
+
+    @property
+    def tu_parte_formateada(self):
+        return f"RD${self.monto_paciente:,.2f}"
+
+    def marcar_pagado(self):
+        if self.estado != self.Estado.PENDIENTE:
+            raise ValidationError("Solo un pago pendiente se puede marcar como pagado.")
+        self.estado = self.Estado.PAGADO
+        self.fecha_pago = timezone.now()   # quita esta línea si prefieres conservar la fecha original
+        self.save()
+
     def clean(self):
         if self.monto_cubierto_seguro and self.monto_cubierto_seguro > self.monto:
             raise ValidationError({"monto_cubierto_seguro": "No puede superar el monto total."})

@@ -28,6 +28,10 @@ class PagoForm(EstiloFormMixin, forms.ModelForm):
         labels = {"monto": "Monto total", "monto_cubierto_seguro": "Cubierto por el seguro",
                   "metodo": "Método de pago", "fecha_pago": "Fecha y hora del pago",
                   "referencia": "Referencia / No. de transacción"}
+        widgets = {
+        "fecha_pago": forms.DateTimeInput(
+        attrs={"type": "datetime-local"}, format="%Y-%m-%dT%H:%M"),
+        }   
 
     def __init__(self, *args, usuario=None, paciente=None, **kwargs):
         super().__init__(*args, **kwargs)
@@ -36,15 +40,26 @@ class PagoForm(EstiloFormMixin, forms.ModelForm):
         self.fields["monto_cubierto_seguro"].initial = Decimal("0.00")
         self.fields["monto"].widget.attrs.update({"min": "0.01", "step": "0.01"})
         self.fields["monto_cubierto_seguro"].widget.attrs.update({"min": "0", "step": "0.01"})
+        self.fields["fecha_pago"].input_formats = ["%Y-%m-%dT%H:%M"]
 
+        self.paciente_texto = ""
         if paciente is not None:
             del self.fields["paciente"]
             self.instance.paciente = paciente
             paciente_id = paciente.pk
         else:
             self.fields["paciente"].queryset = Paciente.objects.filter(activo=True)
+            self.fields["paciente"].widget = forms.HiddenInput()   # <- esto quita el select
             bruto = self.data.get(self.add_prefix("paciente")) if self.is_bound else None
             paciente_id = bruto or self.instance.paciente_id
+
+        if paciente_id and str(paciente_id).isdigit():
+            p = Paciente.objects.filter(pk=paciente_id).first()
+            self.paciente_texto = str(p) if p else ""
+            self.fields["cita"].queryset = Cita.objects.filter(
+                paciente_id=paciente_id).exclude(estado="CANCELADA")
+            self.fields["seguro_paciente"].queryset = SeguroPaciente.objects.filter(
+                paciente_id=paciente_id, activo=True).select_related("seguro")
 
         # Si ya se conoce el paciente, solo sus citas y seguros.
         if paciente_id and str(paciente_id).isdigit():
@@ -52,6 +67,10 @@ class PagoForm(EstiloFormMixin, forms.ModelForm):
                 paciente_id=paciente_id).exclude(estado="CANCELADA")
             self.fields["seguro_paciente"].queryset = SeguroPaciente.objects.filter(
                 paciente_id=paciente_id, activo=True).select_related("seguro")
+
+        else:
+            self.fields["cita"].queryset = Cita.objects.none()
+            self.fields["seguro_paciente"].queryset = SeguroPaciente.objects.none()
 
     def clean_monto_cubierto_seguro(self):
         return self.cleaned_data.get("monto_cubierto_seguro") or Decimal("0.00")

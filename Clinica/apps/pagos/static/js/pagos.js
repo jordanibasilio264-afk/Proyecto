@@ -12,7 +12,7 @@
        false = cuando tengas la base de datos: el JavaScript solo
                valida, y Django guarda, filtra y calcula.
     ===================================================== */
-    const MODO_DEMO = true;
+    const MODO_DEMO = false;
 
     const CLINICA = 'Clínica Médica General y Familiar';
 
@@ -20,16 +20,17 @@
     const $ = (selector, contexto = document) => contexto.querySelector(selector);
     const $$ = (selector, contexto = document) => Array.from(contexto.querySelectorAll(selector));
 
-    const campoPaciente = $('#pago-paciente');
-    const campoMonto = $('#pago-monto');
-    const campoFecha = $('#pago-fecha');
-    const campoMetodo = $('#pago-metodo');
+    const campoPaciente = $('#id_paciente');
+    const campoMonto = $('#id_monto');
+    const campoBuscar   = $('#pago-paciente-buscar');
+    const campoFecha = $('#id_fecha_pago');
+    const campoMetodo = $('#id_metodo');
     const campoDesde = $('#pagos-desde');
     const campoHasta = $('#pagos-hasta');
     const tbody = $('.pagos-tabla tbody');
 
     // Si falta algo de la página, no hacemos nada (así no se rompe)
-    if (!campoPaciente || !campoMonto || !campoFecha || !campoMetodo ||
+    if (!campoPaciente || !campoBuscar || !campoMonto || !campoFecha || !campoMetodo ||
         !campoDesde || !campoHasta || !tbody) {
         return;
     }
@@ -134,7 +135,7 @@
     }
 
     // En cuanto el usuario corrige un campo, se quita su error
-    [campoPaciente, campoMonto, campoFecha, campoMetodo, campoDesde, campoHasta].forEach((campo) => {
+    [campoPaciente,campoBuscar ,campoMonto, campoFecha, campoMetodo, campoDesde, campoHasta].forEach((campo) => {
         campo.addEventListener('input', () => limpiarError(campo));
         campo.addEventListener('change', () => limpiarError(campo));
     });
@@ -156,7 +157,7 @@
 
         fila.dataset.id = siguienteId++;
         fila.dataset.fecha = displayAISO(celdas[1].textContent);
-        fila.dataset.monto = textoANumero(celdas[3].textContent);
+        fila.dataset.monto = fila.dataset.monto || textoANumero(celdas[3].textContent);
         fila.dataset.estado = estado === 'pagado' ? 'pagado' : 'pendiente';
 
         // En modo demostración, un pago pendiente se puede marcar como pagado
@@ -211,13 +212,10 @@
 
         todas.forEach((fila) => {
             const f = fila.dataset.fecha;
-            const dentro = (!filtro.desde || f >= filtro.desde) &&
-                           (!filtro.hasta || f <= filtro.hasta);
-
-            fila.style.display = dentro ? '' : 'none';
-
-            if (dentro) {
-                visibles++;
+            const dentro = (!filtro.desde || f >= filtro.desde) && 
+                    (!filtro.hasta || f <= filtro.hasta);
+            fila.dataset.fuera = dentro ? '' : '1';      // en vez de style.display
+            if (dentro) { visibles++;
                 if (fila.dataset.estado === 'pagado') {
                     ingresos += Number(fila.dataset.monto);
                     pagosVisibles++;
@@ -226,23 +224,14 @@
         });
 
         // Fila "no hay pagos"
-        let vacia = $('.pagos-sin-datos', tbody);
-        if (visibles === 0) {
-            if (!vacia) {
-                vacia = document.createElement('tr');
-                vacia.className = 'pagos-sin-datos';
-                vacia.innerHTML = '<td colspan="6" style="text-align:center;padding:24px;color:#71858c;">No hay pagos en ese período.</td>';
-                tbody.appendChild(vacia);
-            }
-        } else if (vacia) {
-            vacia.remove();
-        }
+        
 
         setResumen('total de pagos', todas.length);
         setResumen('pagos de hoy', todas.filter((f) => f.dataset.fecha === hoy).length);
         setResumen('pendientes', todas.filter((f) => f.dataset.estado === 'pendiente').length);
         setResumen('ingresos', dinero(ingresos));
 
+        document.dispatchEvent(new Event('pagos:actualizado'));
         return { visibles, pagosVisibles, ingresos };
     }
 
@@ -251,9 +240,6 @@
        FORMULARIO: REGISTRAR PAGO
     ===================================================== */
 
-    // La fecha empieza en "hoy" y no se puede elegir una fecha futura
-    campoFecha.value = hoyISO();
-    campoFecha.max = hoyISO();
 
     // Al salir del campo, el monto queda con 2 decimales (1500 -> 1500.00)
     campoMonto.addEventListener('blur', () => {
@@ -268,7 +254,7 @@
             if (!primero) primero = campo;
         };
 
-        if (!campoPaciente.value) fallo(campoPaciente, 'Elige un paciente.');
+        if (!campoPaciente.value) fallo(campoBuscar, 'Elige un paciente de la lista.');
 
         const monto = parseFloat(campoMonto.value);
         if (!campoMonto.value || isNaN(monto) || monto <= 0) {
@@ -279,7 +265,7 @@
 
         if (!campoFecha.value) {
             fallo(campoFecha, 'Elige la fecha.');
-        } else if (campoFecha.value > hoyISO()) {
+        } else if (campoFecha.value.slice(0, 10) > hoyISO()) {
             fallo(campoFecha, 'Fecha futura no permitida.');
         }
 
@@ -293,9 +279,9 @@
     }
 
     function agregarPago() {
-        const nombre = campoPaciente.options[campoPaciente.selectedIndex].text;
         const metodo = campoMetodo.options[campoMetodo.selectedIndex].text;
         const monto = Math.round(parseFloat(campoMonto.value) * 100) / 100;
+        const nombre = campoBuscar.value.trim();
 
         const fila = document.createElement('tr');
         fila.innerHTML =
@@ -319,6 +305,7 @@
         fila.classList.add('pagos-fila-nueva');
         fila.scrollIntoView({ behavior: 'smooth', block: 'center' });
         setTimeout(() => fila.classList.remove('pagos-fila-nueva'), 2600);
+        
 
         mensaje(`Pago de ${dinero(monto)} registrado para ${nombre}.`, 'exito');
     }
@@ -332,6 +319,8 @@
         if (MODO_DEMO) {
             evento.preventDefault();
             agregarPago();
+            const selCita = $('#id_cita'), selSeguro = $('#id_seguro_paciente');
+            [selCita, selSeguro].forEach(s => { if (s) s.innerHTML = '<option value="">---------</option>'; });
             formPago.reset();
             campoFecha.value = hoyISO();
         }
@@ -494,7 +483,7 @@
     if (botonExportar) {
         botonExportar.addEventListener('click', () => {
             const lista = filasPagos()
-                .filter((fila) => fila.style.display !== 'none' && fila.dataset.estado === 'pagado')
+                .filter((fila) => fila.dataset.fuera !== '1' && fila.dataset.estado === 'pagado')
                 .map(datosDeFila);
             imprimirRecibos(lista);
         });

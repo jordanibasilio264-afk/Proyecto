@@ -1,0 +1,25 @@
+/* Complementa pagos.css: solo lo que esa hoja no cubre. */
+
+.pagos-estado.anulado {
+    background: #f6e4e4;
+    color: #a13a3a;
+}
+
+.mis-pagos-sin-recibo {
+    color: #71858c;
+    font-size: 12px;
+}
+
+.mis-pagos-vacio {
+    text-align: center;
+    padding: 28px 12px;
+    color: #71858c;
+}
+
+.mis-pagos-nota {
+    max-width: 70ch;
+    margin: 4px 0 0;
+    color: #71858c;
+    font-size: 13px;
+    line-height: 1.5;
+}

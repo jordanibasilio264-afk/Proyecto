@@ -1,7 +1,7 @@
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
 
     <!-- CSS exclusivo de la página de pagos -->
-    <link rel="stylesheet" href="{% static 'pagos.css' %}">
+    <link rel="stylesheet" href="{% static 'css/pagos.css' %}">
 </head>
 
 <body>
@@ -34,65 +34,65 @@
                     <div class="pagos-notificacion" aria-hidden="true">🔔</div>
                     <div class="pagos-usuario-icono" aria-hidden="true">👤</div>
                     <div class="pagos-usuario-texto">
-                        <strong>Dr. Alejandro</strong>
-                        <small>Administrador</small>
+                        <strong>{{ request.user.email|default:request.user.email }}</strong>
+                        <small>{{ request.user.rol|default:request.user.rol }}</small>
                     </div>
                 </div>
             </header>
 
             <!-- Registrar pago -->
-            <section class="pagos-panel">
-                <div class="pagos-titulo">
-                    <h2>Registrar Pago</h2>
-                    <p>Ingresa los datos del pago del paciente.</p>
+            {% if puede_cobrar %}
+            <form class="pagos-formulario-grid pagos-panel" method="post">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+
+                <div class="pagos-campo">
+                    <label for="pago-paciente-buscar">Paciente</label>
+                    <div style="position:relative">
+                        <input type="text" id="pago-paciente-buscar" autocomplete="off"
+                            placeholder="Escribe nombre o apellido…" value="{{ form.paciente_texto }}"
+                            data-url-buscar="{% url 'buscar_pacientes' %}">
+                        {{ form.paciente }}
+                        <ul id="pago-paciente-resultados" hidden
+                            style="position:absolute;z-index:10;left:0;right:0;margin:0;padding:0;list-style:none;background:#fff;border:1px solid #ccc">
+                        </ul>
+                    </div>
+                    {{ form.paciente.errors }}
                 </div>
 
-                <form class="pagos-formulario-grid" method="post">
-                    {% csrf_token %}
+                <div class="pagos-campo">
+                    <label for="{{ form.concepto.id_for_label }}">Concepto</label>
+                    {{ form.concepto }}{{ form.concepto.errors }}
+                </div>
 
-                    <div class="pagos-campo">
-                        <label for="pago-paciente">Paciente</label>
-                        <select id="pago-paciente" name="paciente" required>
-                            <option value="">Seleccionar paciente</option>
-                            <option value="juan">Juan Pérez</option>
-                            <option value="maria">María Rodríguez</option>
-                            <option value="carlos">Carlos Martínez</option>
-                        </select>
-                    </div>
+                <div class="pagos-campo">
+                    <label for="{{ form.monto.id_for_label }}">Monto (RD$)</label>
+                    {{ form.monto }}{{ form.monto.errors }}
+                </div>
 
-                    <div class="pagos-campo">
-                        <label for="pago-monto">Monto (RD$)</label>
-                        <input
-                            id="pago-monto"
-                            type="number"
-                            name="monto"
-                            min="0.01"
-                            step="0.01"
-                            placeholder="0.00"
-                            required
-                        >
-                    </div>
+                <div class="pagos-campo">
+                    <label for="{{ form.fecha_pago.id_for_label }}">Fecha y hora</label>
+                    {{ form.fecha_pago }}{{ form.fecha_pago.errors }}
+                </div>
 
-                    <div class="pagos-campo">
-                        <label for="pago-fecha">Fecha</label>
-                        <input id="pago-fecha" type="date" name="fecha" required>
-                    </div>
+                <div class="pagos-campo">
+                    <label for="{{ form.metodo.id_for_label }}">Método de pago</label>
+                    {{ form.metodo }}{{ form.metodo.errors }}
+                </div>
 
-                    <div class="pagos-campo">
-                        <label for="pago-metodo">Método de pago</label>
-                        <select id="pago-metodo" name="metodo" required>
-                            <option value="">Seleccionar</option>
-                            <option value="efectivo">Efectivo</option>
-                            <option value="tarjeta">Tarjeta</option>
-                            <option value="transferencia">Transferencia</option>
-                        </select>
-                    </div>
+                <div class="pagos-campo">
+                    <label for="{{ form.referencia.id_for_label }}">Referencia (tarjeta, transferencia o cheque)</label>
+                    {{ form.referencia }}{{ form.referencia.errors }}
+                </div>
 
-                    <button class="pagos-boton pagos-boton-principal" type="submit">
-                        + Registrar pago
-                    </button>
-                </form>
-            </section>
+                <div class="pagos-campo">
+                    <label for="{{ form.estado.id_for_label }}">Estado</label>
+                    {{ form.estado }}{{ form.estado.errors }}
+                </div>
+
+                <button class="pagos-boton pagos-boton-principal" type="submit">+ Registrar pago</button>
+            </form>
+            {% endif %}
 
             <!-- Filtros de ingresos -->
             <section class="pagos-panel">
@@ -160,41 +160,52 @@
                 <div class="pagos-titulo">
                     <h2>Pagos Registrados</h2>
                     <p>Consulta los pagos realizados por los pacientes.</p>
+
                 </div>
 
                 <!-- Filtros de la tabla -->
-                <form class="pagos-tabla-filtros" id="pagos-tabla-filtros" autocomplete="off">
+                <form class="pagos-tabla-filtros" method="get" autocomplete="off">
+                    <input type="hidden" name="desde" value="{{ request.GET.desde }}">
+                    <input type="hidden" name="hasta" value="{{ request.GET.hasta }}">
+
                     <div class="pagos-campo">
                         <label for="filtro-paciente">Buscar paciente</label>
-                        <input id="filtro-paciente" type="search" placeholder="Nombre del paciente">
+                        <input id="filtro-paciente" type="search" name="q" value="{{ request.GET.q }}"
+                            list="lista-pacientes" placeholder="Nombre, recibo o concepto"
+                            data-url-buscar="{% url 'buscar_pacientes' %}">
+                        <datalist id="lista-pacientes"></datalist>
                     </div>
 
                     <div class="pagos-campo">
                         <label for="filtro-estado">Estado</label>
-                        <select id="filtro-estado">
+                        <select id="filtro-estado" name="estado">
                             <option value="">Todos</option>
-                            <option value="pagado">Pagado</option>
-                            <option value="pendiente">Pendiente</option>
+                            <option value="PAGADO" {% if request.GET.estado == "PAGADO" %}selected{% endif %}>Pagado
+                            </option>
+                            <option value="PENDIENTE" {% if request.GET.estado == "PENDIENTE" %}selected{% endif %}>
+                                Pendiente</option>
+                            <option value="ANULADO" {% if request.GET.estado == "ANULADO" %}selected{% endif %}>Anulado
+                            </option>
                         </select>
                     </div>
 
                     <div class="pagos-campo">
                         <label for="filtro-metodo">Método</label>
-                        <select id="filtro-metodo">
+                        <select id="filtro-metodo" name="metodo">
                             <option value="">Todos</option>
-                            <option value="efectivo">Efectivo</option>
-                            <option value="tarjeta">Tarjeta</option>
-                            <option value="transferencia">Transferencia</option>
+                            <option value="EFECTIVO" {% if request.GET.metodo == "EFECTIVO" %}selected{% endif %}>Efectivo
+                            </option>
+                            <option value="TARJETA" {% if request.GET.metodo == "TARJETA" %}selected{% endif %}>Tarjeta
+                            </option>
+                            <option value="TRANSFERENCIA" {% if request.GET.metodo == "TRANSFERENCIA" %}selected{%endif%}>
+                                Transferencia</option>
+                            <option value="CHEQUE" {% if request.GET.metodo == "CHEQUE" %}selected{% endif %}>Cheque
+                            </option>
                         </select>
                     </div>
 
-                    <button class="pagos-boton pagos-boton-principal" type="submit">
-                        🔎 Filtrar
-                    </button>
-
-                    <button class="pagos-boton pagos-boton-secundario" type="reset" id="filtro-limpiar">
-                        Limpiar
-                    </button>
+                    <button class="pagos-boton pagos-boton-principal" type="submit">🔎 Filtrar</button>
+                    <a class="pagos-boton pagos-boton-secundario" href="{% url 'pagos' %}">Limpiar</a>
                 </form>
 
                 <div class="pagos-tabla-contenedor">
@@ -211,32 +222,29 @@
                         </thead>
 
                         <tbody>
-                            <tr>
-                                <td>Juan Pérez</td>
-                                <td>20/08/2026</td>
-                                <td>Efectivo</td>
-                                <td>RD$1,500.00</td>
-                                <td><span class="pagos-estado pagado">Pagado</span></td>
+                            {% for pago in page_obj %}
+                            <tr data-id="{{ pago.pk }}" data-estado="{{ pago.estado|lower }}"
+                                data-fecha="{{ pago.fecha_pago|date:'Y-m-d' }}"
+                                data-monto="{{ pago.monto|stringformat:'.2f' }}" data-recibo="{{ pago.numero_recibo }}">
+                                <td>{{ pago.paciente }}</td>
+                                <td>{{ pago.fecha_pago|date:"d/m/Y" }}</td>
+                                <td>{{ pago.get_metodo_display }}</td>
+                                <td>{{ pago.monto_formateado }}</td>
+                                <td>
+                                    <span class="pagos-estado {{ pago.estado|lower }}">{{ pago.get_estado_display}}</span>
+                                    {% if puede_cobrar and pago.estado == "PENDIENTE" %}
+                                    <form method="post" action="{% url 'marcar_pagado' pago.pk %}"
+                                        style="display:inline"
+                                        onsubmit="return confirm('¿Marcar este pago como pagado?')">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                                        <button class="pagos-boton-recibo" type="submit">Marcar pagado</button>
+                                    </form>
+                                    {% endif %}
+                                </td>
                                 <td><button class="pagos-boton-recibo" type="button">PDF</button></td>
                             </tr>
-
-                            <tr>
-                                <td>María Rodríguez</td>
-                                <td>21/08/2026</td>
-                                <td>Tarjeta</td>
-                                <td>RD$2,000.00</td>
-                                <td><span class="pagos-estado pagado">Pagado</span></td>
-                                <td><button class="pagos-boton-recibo" type="button">PDF</button></td>
-                            </tr>
-
-                            <tr>
-                                <td>Carlos Martínez</td>
-                                <td>22/08/2026</td>
-                                <td>Transferencia</td>
-                                <td>RD$1,250.00</td>
-                                <td><span class="pagos-estado pendiente">Pendiente</span></td>
-                                <td><button class="pagos-boton-recibo" type="button">PDF</button></td>
-                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -246,22 +254,21 @@
                 </p>
 
                 <!-- Paginación -->
+                {% if not page_obj %}
+                <p class="pagos-sin-resultados">No se encontraron pagos con esos filtros.</p>
+                {% endif %}
+
                 <nav class="pagos-paginacion" aria-label="Paginación de pagos">
-                    <div class="pagos-paginacion-info">
-                        <span id="pagos-info"></span>
-
-                        <label for="pagos-por-pagina">
-                            Filas por página
-                            <select id="pagos-por-pagina">
-                                <option value="5" selected>5</option>
-                                <option value="10">10</option>
-                                <option value="20">20</option>
-                                <option value="50">50</option>
-                            </select>
-                        </label>
-                    </div>
-
-                    <div class="pagos-paginacion-botones" id="pagos-paginacion-botones"></div>
+                    <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }} ({{page_obj.paginator.count}} pagos)</span>
+                    {% if page_obj.has_previous %}
+                    <a
+                        href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.previous_page_number }}">‹
+                        Anterior</a>
+                    {% endif %}
+                    {% if page_obj.has_next %}
+                    <a href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.next_page_number }}">Siguiente
+                        ›</a>
+                    {% endif %}
                 </nav>
             </section>
 
@@ -305,10 +312,12 @@
         </main>
     </div>
 
-<!-- JavaScript exclusivo de Pagos -->
-<script src="{% static 'js/pagos.js' %}"></script>
-<!-- Filtro y paginación de la tabla de pagos -->
-<script src="{% static 'js/pagos-tabla.js' %}"></script>
+    <!-- JavaScript exclusivo de Pagos -->
+    <script src="{% static 'js/pagos.js' %}"></script>
+    <!-- Filtro y paginación de la tabla de pagos -->
+    <script src="{% static 'js/pagos-tabla.js' %}"></script>
+    <script src="{% static 'js/pagos-autocompletar.js' %}"></script>
 
 </body>
+
 </html>
