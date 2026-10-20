@@ -101,12 +101,6 @@
         <span>Reportes</span>
     </a>{% endif %}
 
-    {% if "seguros.ver" in permisos %}<a href="{% url 'seguros' %}"
-       class="sidebar-option {% if request.resolver_match.url_name == 'seguros' %}active{% endif %}">
-        <span class="sidebar-icon">▧</span>
-        <span>Seguros</span>
-    </a>{% endif %}
-
     {% if "pagos.ver" in permisos %}
     {% if request.user.rol == "PACIENTE" %}{% url 'mis_pagos' as url_pagos %}{% else %}{% url 'pagos' as url_pagos %}{% endif %}
     <a href="{{ url_pagos }}" class="sidebar-option {% if request.path == url_pagos %}active{% endif %}">

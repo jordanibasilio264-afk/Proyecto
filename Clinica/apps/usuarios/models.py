@@ -66,7 +66,8 @@ PERMISOS_POR_ROL = {
         "documentos.ver", "documentos.subir", "documentos.eliminar",
         "notificaciones.ver", "notificaciones.enviar",
         "dashboard.ver", "reportes.ver", "reportes.exportar",
-        "auditoria.ver", "configuracion.ver", "configuracion.editar",
+        "reportes.crear","auditoria.ver", "configuracion.ver", 
+        "configuracion.editar",
     },
     "MEDICO": {
         "pacientes.ver", "medicos.ver","especialidades.ver",
@@ -89,7 +90,7 @@ PERMISOS_POR_ROL = {
         "documentos.ver", "documentos.subir",
         "pagos.ver", "pagos.crear", "pagos.generar_recibo",
         "notificaciones.ver", "notificaciones.enviar",
-        "dashboard.ver",
+        "dashboard.ver","reportes.ver", "reportes.exportar",
     },
     # Solo ve lo suyo: filtra por paciente=request.user en las vistas.
     "PACIENTE": {
