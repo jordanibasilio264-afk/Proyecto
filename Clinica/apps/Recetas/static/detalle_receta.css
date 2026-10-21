@@ -1,0 +1,638 @@
+
+.detalle-receta-page {
+    margin-left: 260px;
+    padding: 32px;
+    min-height: 100vh;
+    background: #f8fafc;
+    color: #243342;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+}
+
+.detalle-receta-page * {
+    box-sizing: border-box;
+}
+
+.detalle-receta-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.detalle-receta-eyebrow {
+    color: #108b83;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1.4px;
+}
+
+.detalle-receta-header h1 {
+    margin: 8px 0;
+    color: #193b45;
+    font-size: 28px;
+}
+
+.detalle-receta-header p,
+.detalle-receta-section-heading p {
+    margin: 0;
+    color: #718096;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.detalle-receta-back {
+    color: #108b83;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.detalle-receta-back:hover {
+    text-decoration: underline;
+}
+
+.detalle-receta-card {
+    margin-bottom: 22px;
+    padding: 24px;
+    border: 1px solid #e3ecef;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 3px 12px rgba(25, 59, 69, 0.04);
+}
+
+.detalle-receta-title-row,
+.detalle-receta-section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.detalle-receta-title-row h2,
+.detalle-receta-section-heading h2 {
+    margin: 8px 0 0;
+    color: #193b45;
+    font-size: 21px;
+}
+
+.detalle-receta-estado {
+    display: inline-block;
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.detalle-receta-estado.estado-vigente {
+    background: #e6f6f5;
+    color: #108b83;
+}
+
+.detalle-receta-estado.estado-vencida {
+    background: #fff0d8;
+    color: #98610b;
+}
+
+.detalle-receta-estado.estado-anulada {
+    background: #fde8e8;
+    color: #a52c39;
+}
+
+.detalle-receta-estado.estado-completada {
+    background: #e8eefc;
+    color: #3659a7;
+}
+
+.detalle-receta-datos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.detalle-receta-datos > div {
+    min-width: 0;
+    padding: 14px;
+    border-radius: 8px;
+    background: #f8fbfc;
+}
+
+.detalle-receta-datos span {
+    display: block;
+    margin-bottom: 7px;
+    color: #718096;
+    font-size: 12px;
+}
+
+.detalle-receta-datos strong {
+    display: block;
+    overflow-wrap: anywhere;
+    color: #263b46;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.detalle-receta-indicaciones {
+    margin-top: 22px;
+    padding-top: 20px;
+    border-top: 1px solid #e7eef1;
+}
+
+.detalle-receta-indicaciones h3 {
+    margin: 0 0 10px;
+    color: #193b45;
+    font-size: 16px;
+}
+
+.detalle-receta-indicaciones p {
+    margin: 0;
+    color: #526673;
+    line-height: 1.7;
+}
+
+.detalle-receta-medicamento {
+    margin-top: 16px;
+    padding: 20px;
+    border: 1px solid #e1ebee;
+    border-radius: 10px;
+    background: #fbfdfd;
+}
+
+.detalle-receta-medicamento-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.detalle-receta-medicamento-title h3 {
+    margin: 0 0 6px;
+    color: #193b45;
+    font-size: 17px;
+}
+
+.detalle-receta-medicamento-title p {
+    margin: 0;
+    color: #718096;
+    font-size: 13px;
+}
+
+.detalle-receta-medicamento-title > span {
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: #e6f6f5;
+    color: #108b83;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.detalle-receta-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 28px;
+}
+
+.detalle-receta-actions button,
+.detalle-receta-actions a {
+    display: inline-block;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 7px;
+    background: #149d94;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.detalle-receta-actions button:hover,
+.detalle-receta-actions a:hover {
+    background: #108b83;
+}
+
+@media (max-width: 1000px) {
+    .detalle-receta-page {
+        padding: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .detalle-receta-page {
+        margin-left: 0;
+        padding: 18px 14px;
+    }
+
+    .detalle-receta-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .detalle-receta-header h1 {
+        font-size: 23px;
+    }
+
+    .detalle-receta-card {
+        padding: 17px;
+    }
+
+    .detalle-receta-datos {
+        grid-template-columns: 1fr;
+    }
+
+    .detalle-receta-title-row,
+    .detalle-receta-section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .detalle-receta-medicamento-title {
+        flex-direction: column;
+    }
+
+    .detalle-receta-actions {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+}
+
+
+@media print {
+    /* Configuración de la página impresa */
+    @page {
+        size: A4;
+        margin: 15mm;
+    }
+
+    html,
+    body {
+        width: 100%;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+        color: #222222 !important;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 11pt;
+    }
+
+    /* Ocultar menú lateral y controles de navegación */
+    .sidebar-wrapper,
+    .sidebar,
+    .sidebar-overlay,
+    .sidebar-menu-check,
+    #sidebar,
+    #sidebarOverlay,
+    #sidebar-menu-toggle,
+    #menuBtn,
+    .detalle-receta-header a,
+    .detalle-receta-actions {
+        display: none !important;
+    }
+
+    /* Usar todo el ancho de la hoja */
+    .detalle-receta-page {
+        width: 100% !important;
+        max-width: none !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+        color: #222222 !important;
+    }
+
+    .detalle-receta-header {
+        margin-bottom: 18px;
+    }
+
+    .detalle-receta-header h1 {
+        color: #193b45 !important;
+        font-size: 20pt;
+    }
+
+    .detalle-receta-header p {
+        color: #444444 !important;
+    }
+
+    /* Tarjetas limpias, sin sombras */
+    .detalle-receta-card {
+        margin-bottom: 15px;
+        padding: 16px;
+        border: 1px solid #cccccc;
+        border-radius: 0;
+        background: #ffffff !important;
+        box-shadow: none !important;
+        break-inside: auto;
+    }
+
+    .detalle-receta-title-row {
+        break-inside: avoid;
+    }
+
+    .detalle-receta-title-row h2,
+    .detalle-receta-section-heading h2,
+    .detalle-receta-indicaciones h3,
+    .detalle-receta-medicamento-title h3 {
+        color: #193b45 !important;
+    }
+
+    .detalle-receta-estado {
+        border: 1px solid #999999;
+        background: #ffffff !important;
+        color: #222222 !important;
+    }
+
+    .detalle-receta-datos {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .detalle-receta-datos > div {
+        padding: 9px;
+        background: #ffffff !important;
+        border: 1px solid #eeeeee;
+    }
+
+    .detalle-receta-datos span {
+        color: #555555 !important;
+    }
+
+    .detalle-receta-datos strong {
+        color: #222222 !important;
+        overflow-wrap: anywhere;
+    }
+
+    .detalle-receta-medicamento {
+        margin-top: 12px;
+        padding: 14px;
+        border: 1px solid #cccccc;
+        border-radius: 0;
+        background: #ffffff !important;
+        box-shadow: none !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .detalle-receta-medicamento-title > span {
+        background: #ffffff !important;
+        color: #222222 !important;
+        border: 1px solid #cccccc;
+    }
+
+    .detalle-receta-indicaciones {
+        break-inside: avoid;
+    }
+
+    a {
+        color: #222222 !important;
+        text-decoration: none !important;
+    }
+}
+
+/* =========================================
+   DOCUMENTO FORMAL DE RECETA MÉDICA
+   ========================================= */
+
+.receta-documento-impresion {
+    display: none;
+    background: #ffffff;
+    color: #1d2935;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.receta-documento-encabezado {
+    padding-bottom: 18px;
+    border-bottom: 2px solid #168f89;
+}
+
+.receta-documento-encabezado h1 {
+    margin: 0;
+    color: #193b45;
+    font-size: 23px;
+    letter-spacing: 1px;
+}
+
+.receta-documento-encabezado p {
+    margin: 5px 0 0;
+    color: #647481;
+    font-size: 12px;
+}
+
+.receta-documento-titulo {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.receta-documento-titulo h2 {
+    margin: 0 0 8px;
+    color: #193b45;
+    font-size: 22px;
+    letter-spacing: 1px;
+}
+
+.receta-documento-titulo strong {
+    font-size: 14px;
+}
+
+.receta-documento-paciente,
+.receta-documento-indicaciones,
+.receta-documento-listado {
+    margin-top: 22px;
+}
+
+.receta-documento-impresion h3 {
+    margin: 0 0 12px;
+    padding: 9px 11px;
+    background: #edf5f7;
+    color: #193b45;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+}
+
+.receta-documento-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px 20px;
+}
+
+.receta-documento-grid p,
+.receta-documento-indicaciones p,
+.receta-documento-medicamento p {
+    margin: 0;
+    font-size: 11px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.receta-documento-indicaciones > p {
+    padding: 0 3px;
+}
+
+.receta-documento-medicamento {
+    margin: 0 0 14px;
+    padding: 12px 3px;
+    border-bottom: 1px solid #d8e1e5;
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+.receta-documento-medicamento h4 {
+    margin: 0 0 9px;
+    color: #193b45;
+    font-size: 13px;
+}
+
+.receta-documento-pauta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 14px;
+    margin: 8px 0;
+}
+
+.receta-documento-pie {
+    margin-top: 35px;
+}
+
+.receta-documento-firma {
+    width: 240px;
+    margin-left: auto;
+    text-align: center;
+    font-size: 11px;
+}
+
+.receta-documento-linea {
+    height: 36px;
+    border-bottom: 1px solid #333333;
+    margin-bottom: 8px;
+}
+
+.receta-documento-firma p {
+    margin: 5px 0 0;
+}
+
+.receta-documento-nota {
+    margin-top: 28px;
+    padding-top: 10px;
+    border-top: 1px solid #cbd5db;
+    color: #526673;
+    font-size: 9px;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.receta-documento-nota p {
+    margin: 3px 0;
+}
+
+/* =========================================
+   IMPRESIÓN Y GUARDADO COMO PDF
+   ========================================= */
+
+@page {
+    size: A4;
+    margin: 15mm;
+}
+
+@media print {
+    html,
+    body {
+        width: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+    }
+
+    /* Ocultar la interfaz web completa */
+    .detalle-receta-page > * {
+        display: none !important;
+    }
+
+    /* Mostrar solamente el documento formal */
+    .detalle-receta-page > .receta-documento-impresion {
+        display: block !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+        color: #1d2935 !important;
+        font-family: Arial, Helvetica, sans-serif !important;
+    }
+
+    .detalle-receta-page {
+        display: block !important;
+        width: 100% !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+    }
+
+    .receta-documento-impresion h3 {
+        background: #edf5f7 !important;
+        color: #193b45 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .receta-documento-medicamento {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .receta-documento-pie {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+}
+/* La plantilla independiente muestra directamente el documento formal */
+.pagina-impresion-receta .receta-documento-impresion {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    background: #ffffff;
+}
+
+/* ==========================================
+   MODO DE IMPRESIÓN DIRECTA
+   ========================================== */
+
+/* Ocultar el sidebar y sus elementos relacionados */
+body.modo-impresion-body .sidebar,
+body.modo-impresion-body .sidebar-wrapper,
+body.modo-impresion-body .sidebar-overlay,
+body.modo-impresion-body .sidebar-menu-check,
+body.modo-impresion-body #sidebar,
+body.modo-impresion-body #sidebarOverlay,
+body.modo-impresion-body #sidebar-menu-toggle {
+    display: none !important;
+}
+
+/* Quitar el espacio reservado para el sidebar */
+.detalle-receta-page.modo-impresion {
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+}
+
+/* Ocultar todos los elementos de la página */
+.detalle-receta-page.modo-impresion > * {
+    display: none !important;
+}
+
+/* Mostrar solamente el documento formal */
+.detalle-receta-page.modo-impresion > .receta-documento-impresion {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    background: #fff !important;
+}

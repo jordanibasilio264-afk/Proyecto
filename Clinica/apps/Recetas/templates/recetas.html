@@ -14,7 +14,7 @@
 
 <body>
 
-    
+
     {% include 'includes/sidebar.html' %}
 
     <main class="recetas-page">
@@ -34,11 +34,13 @@
                 </p>
             </div>
 
-            <a href="#"
-               class="recetas-btn recetas-btn-primary">
-                <span aria-hidden="true">＋</span>
-                Nueva receta
-            </a>
+
+<a href="{% url 'crear_receta' %}"
+   class="recetas-btn recetas-btn-primary">
+    <span aria-hidden="true">＋</span>
+    Nueva receta
+</a>
+
         </header>
 
         <!-- Indicadores -->
@@ -130,7 +132,7 @@
                 <div class="recetas-filter-field">
                     <label for="filtro-estado">Estado</label>
 
-                    
+
 <select id="filtro-estado" name="estado">
     <option value="">Todos los estados</option>
 
@@ -160,12 +162,14 @@
                 <div class="recetas-filter-field">
                     <label for="filtro-fecha">Fecha de emisión</label>
 
-                    <input
-                        type="date"
-                        id="filtro-fecha"
-                        name="fecha"
-                        value="value="{{ fecha_filtro }}""
-                    >
+
+<input
+    type="date"
+    id="filtro-fecha"
+    name="fecha"
+    value="{{ fecha_filtro }}"
+>
+
                 </div>
 
                 <div class="recetas-filter-actions">
@@ -240,7 +244,7 @@
                             </td>
 
                             <td>
-                               
+
 <span class="recetas-status recetas-status-{{ receta.estado_codigo }}">
     {{ receta.estado_display }}
 </span>
@@ -249,27 +253,39 @@
 
                             <td>
                                 <div class="recetas-actions">
-                                    <a href="#"
-                                       class="recetas-action"
-                                       title="Consultar receta"
-                                       aria-label="Consultar receta">
-                                        ◉
+                                   <a href="{% url 'detalle_receta' receta.id %}"
+                                      class="recetas-action"
+                                    title="Consultar receta"
+                                    aria-label="Consultar receta">
+                                      ◉
+                                     </a>
+
+                                    <a href="{% url 'editar_receta' receta.pk %}"
+                                    class="recetas-action"
+                                     title="Editar receta"
+                                     aria-label="Editar receta">
+                                     ✎
                                     </a>
 
-                                    <a href="#"
-                                       class="recetas-action"
-                                       title="Editar receta"
-                                       aria-label="Editar receta">
-                                        ✎
-                                    </a>
 
-                                    <button type="button"
-                                            class="recetas-action"
-                                            onclick="window.print()"
-                                            title="Imprimir receta"
-                                            aria-label="Imprimir receta">
-                                        ⎙
-                                    </button>
+
+
+
+
+
+
+<button type="button"
+        class="recetas-action"
+        data-url="{% url 'detalle_receta' receta.pk %}?imprimir=1"
+        onclick="abrirImpresionReceta(this)"
+        title="Imprimir receta"
+        aria-label="Imprimir receta">
+    ⎙
+</button>
+
+
+
+
                                 </div>
                             </td>
                         </tr>
@@ -319,7 +335,7 @@
 
         </section>
 
-        
+
 <footer class="recetas-table-footer">
     <span>
         Mostrando {{ total_recetas }} receta(s)
@@ -328,6 +344,18 @@
 
 
     </main>
+
+<script>
+    function abrirImpresionReceta(boton) {
+        const url = boton.dataset.url;
+
+        window.open(
+            url,
+            "imprimirReceta",
+            "width=1000,height=800"
+        );
+    }
+</script>
 
 </body>
 </html>

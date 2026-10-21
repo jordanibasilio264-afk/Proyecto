@@ -202,13 +202,15 @@
                                     </span>
                                 </td>
 
-                                <td>
-                                    <a href="#"
-                                       class="btn-action"
-                                       aria-label="Ver detalle de la receta {{ receta.numero }}">
-                                        Ver detalle
-                                    </a>
-                                </td>
+
+<td>
+    <a href="{% url 'detalle_receta' receta.pk %}"
+       class="btn-action"
+       aria-label="Ver detalle de la receta {{ receta.numero }}">
+        Ver detalle
+    </a>
+</td>
+
 
                             </tr>
 

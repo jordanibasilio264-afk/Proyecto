@@ -1,0 +1,353 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva receta médica | Clínica Médica</title>
+
+    <!-- CSS compartido del sidebar -->
+    <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
+
+    <!-- CSS exclusivo de esta página -->
+    <link rel="stylesheet" href="{% static 'crear_receta.css' %}">
+</head>
+<body>
+
+    {% include "includes/sidebar.html" %}
+
+    <main class="receta-page">
+        <div class="receta-container">
+
+            <header class="receta-header">
+                <div>
+                    <span class="receta-eyebrow">GESTIÓN CLÍNICA</span>
+                    <h1>Nueva receta médica</h1>
+                    <p>
+                        Registra las indicaciones y los medicamentos
+                        correspondientes a una consulta médica.
+                    </p>
+                </div>
+
+                <a href="{% url 'recetas' %}" class="btn btn-secondary">
+                    <span aria-hidden="true">&larr;</span>
+                    Volver a recetas
+                </a>
+            </header>
+
+            {% if errores %}
+                <div class="alert alert-error" role="alert">
+                    <strong>No se pudo guardar la receta.</strong>
+                    <ul>
+                        {% for error in errores %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            {% if consultas and medicamentos %}
+
+                <form method="post"
+                      action="{% url 'crear_receta' %}"
+                      id="formReceta">
+
+                    {% csrf_token %}
+
+                    <section class="receta-card">
+                        <div class="card-heading">
+                            <div class="section-icon" aria-hidden="true">01</div>
+                            <div>
+                                <h2>Datos de la consulta</h2>
+                                <p>Selecciona una consulta atendida por ti.</p>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group form-group-full">
+                                <label for="consulta">Consulta médica *</label>
+                                <select id="consulta"
+                                        name="consulta"
+                                        class="form-control"
+                                        required>
+                                    <option value="">Selecciona una consulta</option>
+
+                                    {% for consulta in consultas %}
+                                        <option value="{{ consulta.pk }}"
+                                            {% if request.POST.consulta == consulta.pk|stringformat:"s" %}selected{% endif %}>
+                                            Consulta #{{ consulta.pk }}
+                                            — {{ consulta.expediente.paciente.nombre_completo }}
+                                            — {{ consulta.fecha|date:"d/m/Y" }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                                <small>
+                                    Solo aparecen consultas que pertenecen
+                                    a tu perfil médico.
+                                </small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="vigente_hasta">Válida hasta</label>
+                                <input type="date"
+                                       id="vigente_hasta"
+                                       name="vigente_hasta"
+                                       class="form-control"
+                                       min="{{ hoy }}"
+                                       value="{{ request.POST.vigente_hasta|default:'' }}">
+                                <small>Campo opcional.</small>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="receta-card">
+                        <div class="card-heading">
+                            <div class="section-icon" aria-hidden="true">02</div>
+                            <div>
+                                <h2>Medicamentos prescritos</h2>
+                                <p>
+                                    Añade cada medicamento con su dosis,
+                                    frecuencia y duración.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div id="medicamentosContainer">
+
+                            <div class="medicamento-row">
+                                <div class="medicamento-row-header">
+                                    <h3>Medicamento <span class="numero-fila">1</span></h3>
+                                    <button type="button"
+                                            class="btn-remove"
+                                            aria-label="Eliminar medicamento"
+                                            title="Eliminar medicamento"
+                                            disabled>
+                                        &times;
+                                    </button>
+                                </div>
+
+                                <div class="form-grid">
+                                    <div class="form-group form-group-full">
+                                        <label>Medicamento *</label>
+                                        <select name="medicamento_id[]"
+                                                class="form-control"
+                                                required>
+                                            <option value="">Selecciona un medicamento</option>
+                                            {% for medicamento in medicamentos %}
+                                                <option value="{{ medicamento.pk }}">
+                                                    {{ medicamento.nombre_comercial }}
+                                                    — {{ medicamento.concentracion }}
+                                                    ({{ medicamento.get_forma_display }})
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Dosis *</label>
+                                        <input type="text"
+                                               name="dosis[]"
+                                               class="form-control"
+                                               maxlength="100"
+                                               placeholder="Ej. 500 mg"
+                                               required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Frecuencia *</label>
+                                        <input type="text"
+                                               name="frecuencia[]"
+                                               class="form-control"
+                                               maxlength="100"
+                                               placeholder="Según indicación médica"
+                                               required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Duración (días)</label>
+                                        <input type="number"
+                                               name="duracion_dias[]"
+                                               class="form-control"
+                                               min="1"
+                                               max="32767"
+                                               placeholder="Ej. 7">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Vía de administración</label>
+                                        <input type="text"
+                                               name="via_administracion[]"
+                                               class="form-control"
+                                               maxlength="50"
+                                               placeholder="Ej. Oral">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Cantidad *</label>
+                                        <input type="number"
+                                               name="cantidad[]"
+                                               class="form-control"
+                                               min="1"
+                                               max="32767"
+                                               value="1"
+                                               required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Instrucciones adicionales</label>
+                                        <input type="text"
+                                               name="instrucciones[]"
+                                               class="form-control"
+                                               maxlength="255"
+                                               placeholder="Indicaciones específicas">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <button type="button"
+                                id="agregarMedicamento"
+                                class="btn btn-add">
+                            <span aria-hidden="true">+</span>
+                            Agregar medicamento
+                        </button>
+                    </section>
+
+                    <section class="receta-card">
+                        <div class="card-heading">
+                            <div class="section-icon" aria-hidden="true">03</div>
+                            <div>
+                                <h2>Indicaciones generales</h2>
+                                <p>Incluye recomendaciones adicionales para el paciente.</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="indicaciones_generales">
+                                Indicaciones generales
+                            </label>
+                            <textarea id="indicaciones_generales"
+                                      name="indicaciones_generales"
+                                      class="form-control"
+                                      rows="4"
+                                      placeholder="Escribe las recomendaciones generales de la receta...">{{ request.POST.indicaciones_generales|default:'' }}</textarea>
+                        </div>
+                    </section>
+
+                    <div class="receta-actions">
+                        <a href="{% url 'recetas' %}" class="btn btn-secondary">
+                            Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-primary" id="guardarReceta">
+                            Guardar receta
+                        </button>
+                    </div>
+
+                </form>
+
+            {% else %}
+                <section class="receta-card empty-state">
+                    <div class="empty-icon" aria-hidden="true">!</div>
+                    <h2>No se puede completar la receta</h2>
+
+                    {% if not consultas %}
+                        <p>
+                            No hay consultas disponibles asociadas a tu perfil
+                            médico. Verifica que exista una consulta válida
+                            y que el expediente esté activo.
+                        </p>
+                    {% endif %}
+
+                    {% if not medicamentos %}
+                        <p>
+                            No hay medicamentos activos en el catálogo.
+                            Debes registrar medicamentos antes de crear una receta.
+                        </p>
+                    {% endif %}
+
+                    <a href="{% url 'recetas' %}" class="btn btn-secondary">
+                        Volver a recetas
+                    </a>
+                </section>
+            {% endif %}
+
+            <footer class="receta-footer">
+                <p>Clínica Médica · Gestión de recetas</p>
+                <p>Verifica las indicaciones antes de guardar.</p>
+            </footer>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const container = document.getElementById("medicamentosContainer");
+            const addButton = document.getElementById("agregarMedicamento");
+            const form = document.getElementById("formReceta");
+            const saveButton = document.getElementById("guardarReceta");
+
+            if (!container || !addButton || !form) {
+                return;
+            }
+
+            function actualizarFilas() {
+                const filas = container.querySelectorAll(".medicamento-row");
+
+                filas.forEach(function (fila, index) {
+                    fila.querySelector(".numero-fila").textContent = index + 1;
+
+                    const botonEliminar = fila.querySelector(".btn-remove");
+                    botonEliminar.disabled = filas.length === 1;
+                });
+            }
+
+            function prepararFila(fila) {
+                fila.querySelector(".btn-remove").addEventListener("click", function () {
+                    const filas = container.querySelectorAll(".medicamento-row");
+
+                    if (filas.length > 1) {
+                        fila.remove();
+                        actualizarFilas();
+                    }
+                });
+            }
+
+            prepararFila(container.querySelector(".medicamento-row"));
+
+            addButton.addEventListener("click", function () {
+                const primeraFila = container.querySelector(".medicamento-row");
+                const nuevaFila = primeraFila.cloneNode(true);
+
+                nuevaFila.querySelectorAll("input").forEach(function (campo) {
+                    if (campo.name === "cantidad[]") {
+                        campo.value = "1";
+                    } else {
+                        campo.value = "";
+                    }
+                });
+
+                nuevaFila.querySelectorAll("select").forEach(function (campo) {
+                    campo.selectedIndex = 0;
+                });
+
+                container.appendChild(nuevaFila);
+                prepararFila(nuevaFila);
+                actualizarFilas();
+            });
+
+            form.addEventListener("submit", function () {
+                if (saveButton) {
+                    saveButton.disabled = true;
+                    saveButton.textContent = "Guardando...";
+                }
+            });
+
+            actualizarFilas();
+        });
+    </script>
+
+</body>
+</html>

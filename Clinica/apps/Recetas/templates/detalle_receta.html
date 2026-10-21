@@ -1,0 +1,292 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de receta | Clínica Médica</title>
+
+    <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
+    <link rel="stylesheet" href="{% static 'detalle_receta.css' %}">
+</head>
+<body{% if modo_impresion %} class="modo-impresion-body"{% endif %}>
+    {% include "includes/sidebar.html" %}
+
+   <main class="detalle-receta-page{% if modo_impresion %} modo-impresion{% endif %}">
+        <header class="detalle-receta-header">
+            <div>
+                <span class="detalle-receta-eyebrow">GESTIÓN CLÍNICA</span>
+                <h1>Detalle de receta médica</h1>
+                <p>Información de la prescripción y medicamentos asignados.</p>
+            </div>
+
+            <a class="detalle-receta-back" href="{% url 'recetas' %}">
+                ← Volver a recetas
+            </a>
+        </header>
+
+        <section class="detalle-receta-card">
+            <div class="detalle-receta-title-row">
+                <div>
+                    <span class="detalle-receta-eyebrow">RECETA MÉDICA</span>
+                    <h2>{{ receta.numero }}</h2>
+                </div>
+
+                <span class="detalle-receta-estado estado-{{ receta.estado_codigo }}">
+                    {{ receta.estado_display }}
+                </span>
+            </div>
+
+            <div class="detalle-receta-datos">
+                <div>
+                    <span>Paciente</span>
+                    <strong>{{ receta.paciente }}</strong>
+                </div>
+                <div>
+                    <span>Médico responsable</span>
+                    <strong>{{ receta.medico }}</strong>
+                </div>
+                <div>
+                    <span>Fecha de emisión</span>
+                    <strong>{{ receta.fecha|date:"d/m/Y H:i" }}</strong>
+                </div>
+                <div>
+                    <span>Válida hasta</span>
+                    <strong>{{ receta.vigente_hasta|date:"d/m/Y"|default:"Sin fecha límite" }}</strong>
+                </div>
+            </div>
+
+            <div class="detalle-receta-indicaciones">
+                <h3>Indicaciones generales</h3>
+                <p>{{ receta.indicaciones_generales|default:"Sin indicaciones generales."|linebreaksbr }}</p>
+            </div>
+        </section>
+
+        <section class="detalle-receta-card">
+            <div class="detalle-receta-section-heading">
+                <div>
+                    <h2>Medicamentos prescritos</h2>
+                    <p>{{ receta.detalles.count }} medicamento(s) registrado(s)</p>
+                </div>
+            </div>
+
+            <div class="detalle-receta-medicamentos">
+                {% for detalle in receta.detalles.all %}
+                    <article class="detalle-receta-medicamento">
+                        <div class="detalle-receta-medicamento-title">
+                            <div>
+                                <h3>{{ detalle.medicamento.nombre_comercial }}</h3>
+                                <p>{{ detalle.medicamento.nombre_generico }}</p>
+                            </div>
+
+                            {% if detalle.medicamento.concentracion %}
+                                <span>{{ detalle.medicamento.concentracion }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="detalle-receta-datos">
+                            <div>
+                                <span>Dosis</span>
+                                <strong>{{ detalle.dosis }}</strong>
+                            </div>
+                            <div>
+                                <span>Frecuencia</span>
+                                <strong>{{ detalle.frecuencia }}</strong>
+                            </div>
+                            <div>
+                                <span>Duración</span>
+                                <strong>{% if detalle.duracion_dias %}{{ detalle.duracion_dias }} días{% else %}No especificada{% endif %}</strong>
+                            </div>
+                            <div>
+                                <span>Vía de administración</span>
+                                <strong>{{ detalle.via_administracion|default:"No especificada" }}</strong>
+                            </div>
+                            <div>
+                                <span>Cantidad</span>
+                                <strong>{{ detalle.cantidad }}</strong>
+                            </div>
+                            <div>
+                                <span>Instrucciones</span>
+                                <strong>{{ detalle.instrucciones|default:"Sin instrucciones adicionales." }}</strong>
+                            </div>
+                        </div>
+                    </article>
+                {% empty %}
+                    <p>No hay medicamentos registrados en esta receta.</p>
+                {% endfor %}
+            </div>
+        </section>
+
+       <footer class="detalle-receta-actions">
+    <button
+        type="button"
+        onclick="window.print()"
+        class="btn-imprimir-receta">
+        Imprimir / Guardar PDF
+    </button>
+
+    {% if puede_editar %}
+        <a href="{% url 'editar_receta' receta.pk %}">
+            Editar receta
+        </a>
+    {% endif %}
+</footer>
+
+<section class="receta-documento-impresion">
+
+    <header class="receta-documento-encabezado">
+        <div>
+            <h1>CLÍNICA MÉDICA</h1>
+            <p>Documento de prescripción médica</p>
+        </div>
+
+        <div class="receta-documento-titulo">
+            <h2>RECETA MÉDICA</h2>
+            <strong>N.º {{ receta.numero }}</strong>
+        </div>
+    </header>
+
+    <section class="receta-documento-paciente">
+        <h3>DATOS DE LA PRESCRIPCIÓN</h3>
+
+        <div class="receta-documento-grid">
+            <p>
+                <strong>Paciente:</strong>
+                {{ receta.paciente }}
+            </p>
+
+            <p>
+                <strong>Médico responsable:</strong>
+                {{ receta.medico }}
+            </p>
+
+            <p>
+                <strong>Fecha de emisión:</strong>
+                {{ receta.fecha|date:"d/m/Y H:i" }}
+            </p>
+
+            <p>
+                <strong>Válida hasta:</strong>
+                {{ receta.vigente_hasta|date:"d/m/Y"|default:"Sin fecha límite" }}
+            </p>
+
+            <p>
+                <strong>Estado:</strong>
+                {{ receta.estado_display }}
+            </p>
+        </div>
+    </section>
+
+    <section class="receta-documento-indicaciones">
+        <h3>INDICACIONES GENERALES</h3>
+        <p>{{ receta.indicaciones_generales|default:"Sin indicaciones generales."|linebreaksbr }}</p>
+    </section>
+
+    <section class="receta-documento-listado">
+        <h3>MEDICAMENTOS PRESCRITOS</h3>
+
+        {% for detalle in receta.detalles.all %}
+            <article class="receta-documento-medicamento">
+                <h4>
+                    {{ forloop.counter }}.
+                    {{ detalle.medicamento.nombre_comercial }}
+                </h4>
+
+                {% if detalle.medicamento.nombre_generico %}
+                    <p>
+                        <strong>Nombre genérico:</strong>
+                        {{ detalle.medicamento.nombre_generico }}
+                    </p>
+                {% endif %}
+
+                {% if detalle.medicamento.concentracion %}
+                    <p>
+                        <strong>Concentración:</strong>
+                        {{ detalle.medicamento.concentracion }}
+                    </p>
+                {% endif %}
+
+                <div class="receta-documento-pauta">
+                    <p>
+                        <strong>Dosis:</strong>
+                        {{ detalle.dosis }}
+                    </p>
+
+                    <p>
+                        <strong>Frecuencia:</strong>
+                        {{ detalle.frecuencia }}
+                    </p>
+
+                    <p>
+                        <strong>Duración:</strong>
+                        {% if detalle.duracion_dias %}
+                            {{ detalle.duracion_dias }} días
+                        {% else %}
+                            No especificada
+                        {% endif %}
+                    </p>
+
+                    <p>
+                        <strong>Vía:</strong>
+                        {{ detalle.via_administracion|default:"No especificada" }}
+                    </p>
+
+                    <p>
+                        <strong>Cantidad:</strong>
+                        {{ detalle.cantidad }}
+                    </p>
+                </div>
+
+                {% if detalle.instrucciones %}
+                    <p>
+                        <strong>Instrucciones:</strong>
+                        {{ detalle.instrucciones|linebreaksbr }}
+                    </p>
+                {% endif %}
+            </article>
+        {% empty %}
+            <p>No hay medicamentos registrados en esta receta.</p>
+        {% endfor %}
+    </section>
+
+    <footer class="receta-documento-pie">
+        <div class="receta-documento-firma">
+            <div class="receta-documento-linea"></div>
+            <strong>{{ receta.medico }}</strong>
+            <p>Médico responsable</p>
+            <p>Firma y sello</p>
+        </div>
+
+        <div class="receta-documento-nota">
+            <p>
+                Este documento corresponde a la prescripción registrada
+                en el sistema de Clínica Médica.
+            </p>
+            <p>
+                En caso de dudas sobre el tratamiento, consulte con su médico.
+            </p>
+        </div>
+    </footer>
+
+</section>
+
+    </main>
+
+
+{% if modo_impresion %}
+<script>
+    window.addEventListener("afterprint", function () {
+        window.close();
+    });
+
+    window.addEventListener("load", function () {
+        window.print();
+    });
+</script>
+{% endif %}
+
+
+</body>
+</html>

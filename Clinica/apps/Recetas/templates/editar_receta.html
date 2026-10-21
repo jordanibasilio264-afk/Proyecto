@@ -1,0 +1,315 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar receta | Clínica Médica</title>
+
+    <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
+    <link rel="stylesheet" href="{% static 'editar_receta.css' %}">
+</head>
+<body>
+    {% include "includes/sidebar.html" %}
+
+    <main class="editar-receta-page">
+        <header class="editar-receta-header">
+            <div>
+                <span class="editar-receta-eyebrow">GESTIÓN CLÍNICA</span>
+                <h1>Editar receta médica</h1>
+                <p>Actualiza la prescripción sin perder el historial de la receta.</p>
+            </div>
+
+            <a class="editar-receta-back" href="{% url 'detalle_receta' receta.pk %}">
+                ← Volver al detalle
+            </a>
+        </header>
+
+        <section class="editar-receta-identificacion">
+            <div>
+                <span>Número de receta</span>
+                <strong>{{ receta.numero }}</strong>
+            </div>
+            <div>
+                <span>Paciente</span>
+                <strong>{{ receta.paciente }}</strong>
+            </div>
+            <div>
+                <span>Médico</span>
+                <strong>{{ receta.medico }}</strong>
+            </div>
+        </section>
+
+        {% if errores %}
+            <div class="editar-receta-errores" role="alert">
+                <strong>No se pudo completar la actualización.</strong>
+                <ul>
+                    {% for error in errores %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <form method="post" action="{% url 'editar_receta' receta.pk %}"
+              id="formEditarReceta">
+            {% csrf_token %}
+
+            <section class="editar-receta-card">
+                <div class="editar-receta-card-heading">
+                    <div>
+                        <h2>Información de la receta</h2>
+                        <p>La consulta, el paciente y el médico originales se conservan.</p>
+                    </div>
+                </div>
+
+                <div class="editar-receta-fields">
+                    <label>
+                        Número de receta
+                        <input type="text" value="{{ receta.numero }}" disabled>
+                    </label>
+
+                    <label>
+                        Fecha de emisión
+                        <input type="text"
+                               value="{{ receta.fecha|date:'d/m/Y H:i' }}"
+                               disabled>
+                    </label>
+
+                    <label>
+                        Válida hasta
+                        <input type="date" name="vigente_hasta"
+                               value="{{ vigente_hasta }}">
+                    </label>
+                </div>
+
+                <label class="editar-receta-label-block">
+                    Indicaciones generales
+                    <textarea name="indicaciones_generales" rows="4"
+                              placeholder="Indicaciones adicionales para el paciente...">{{ indicaciones_generales }}</textarea>
+                </label>
+            </section>
+
+            <section class="editar-receta-card">
+                <div class="editar-receta-card-heading editar-receta-medicamentos-heading">
+                    <div>
+                        <h2>Medicamentos prescritos</h2>
+                        <p>Evita repetir un mismo medicamento en la receta.</p>
+                    </div>
+                    <button type="button" id="agregarMedicamento"
+                            class="editar-receta-add">
+                        + Agregar medicamento
+                    </button>
+                </div>
+
+                <div id="listaMedicamentos">
+                    {% if filas %}
+                        {% for fila in filas %}
+                            <div class="editar-receta-medicamento">
+                                <div class="editar-receta-row-heading">
+                                    <strong>Medicamento <span class="numero-fila">{{ forloop.counter }}</span></strong>
+                                    <button type="button" class="editar-receta-remove">Quitar</button>
+                                </div>
+
+                                <label>
+                                    Medicamento
+                                    <select name="medicamento_id[]" required>
+                                        <option value="">Selecciona un medicamento</option>
+                                        {% for medicamento in medicamentos %}
+                                            <option value="{{ medicamento.pk }}"
+                                                {% if fila.medicamento_id == medicamento.pk %}selected{% endif %}>
+                                                {{ medicamento.nombre_comercial }} — {{ medicamento.nombre_generico }}{% if medicamento.concentracion %} ({{ medicamento.concentracion }}){% endif %}{% if not medicamento.activo %} — Inactivo{% endif %}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </label>
+
+                                <div class="editar-receta-fields">
+                                    <label>Dosis
+                                        <input name="dosis[]" maxlength="100" required
+                                               value="{{ fila.dosis }}">
+                                    </label>
+                                    <label>Frecuencia
+                                        <input name="frecuencia[]" maxlength="100" required
+                                               value="{{ fila.frecuencia }}">
+                                    </label>
+                                    <label>Duración (días)
+                                        <input type="number" name="duracion_dias[]"
+                                               min="1" max="32767"
+                                               value="{{ fila.duracion_dias }}">
+                                    </label>
+                                    <label>Vía de administración
+                                        <input name="via_administracion[]" maxlength="50"
+                                               value="{{ fila.via_administracion }}">
+                                    </label>
+                                    <label>Cantidad
+                                        <input type="number" name="cantidad[]"
+                                               min="1" max="32767" required
+                                               value="{{ fila.cantidad }}">
+                                    </label>
+                                    <label>Instrucciones
+                                        <input name="instrucciones[]" maxlength="255"
+                                               value="{{ fila.instrucciones }}">
+                                    </label>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="editar-receta-medicamento">
+                            <div class="editar-receta-row-heading">
+                                <strong>Medicamento <span class="numero-fila">1</span></strong>
+                                <button type="button" class="editar-receta-remove">Quitar</button>
+                            </div>
+
+                            <label>
+                                Medicamento
+                                <select name="medicamento_id[]" required>
+                                    <option value="">Selecciona un medicamento</option>
+                                    {% for medicamento in medicamentos %}
+                                        <option value="{{ medicamento.pk }}">
+                                            {{ medicamento.nombre_comercial }} — {{ medicamento.nombre_generico }}{% if medicamento.concentracion %} ({{ medicamento.concentracion }}){% endif %}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </label>
+
+                            <div class="editar-receta-fields">
+                                <label>Dosis
+                                    <input name="dosis[]" maxlength="100" required>
+                                </label>
+                                <label>Frecuencia
+                                    <input name="frecuencia[]" maxlength="100" required>
+                                </label>
+                                <label>Duración (días)
+                                    <input type="number" name="duracion_dias[]" min="1" max="32767">
+                                </label>
+                                <label>Vía de administración
+                                    <input name="via_administracion[]" maxlength="50">
+                                </label>
+                                <label>Cantidad
+                                    <input type="number" name="cantidad[]" min="1" max="32767"
+                                           value="1" required>
+                                </label>
+                                <label>Instrucciones
+                                    <input name="instrucciones[]" maxlength="255">
+                                </label>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </section>
+
+            <div class="editar-receta-actions">
+                <a href="{% url 'detalle_receta' receta.pk %}">Cancelar</a>
+                <button type="submit" id="guardarCambiosReceta">
+                    Guardar cambios
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <template id="plantillaMedicamento">
+        <div class="editar-receta-medicamento">
+            <div class="editar-receta-row-heading">
+                <strong>Medicamento <span class="numero-fila"></span></strong>
+                <button type="button" class="editar-receta-remove">Quitar</button>
+            </div>
+
+            <label>
+                Medicamento
+                <select name="medicamento_id[]" required>
+                    <option value="">Selecciona un medicamento</option>
+                    {% for medicamento in medicamentos %}
+                        {% if medicamento.activo %}
+                            <option value="{{ medicamento.pk }}">
+                                {{ medicamento.nombre_comercial }} — {{ medicamento.nombre_generico }}{% if medicamento.concentracion %} ({{ medicamento.concentracion }}){% endif %}
+                            </option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </label>
+
+            <div class="editar-receta-fields">
+                <label>Dosis
+                    <input name="dosis[]" maxlength="100" required>
+                </label>
+                <label>Frecuencia
+                    <input name="frecuencia[]" maxlength="100" required>
+                </label>
+                <label>Duración (días)
+                    <input type="number" name="duracion_dias[]" min="1" max="32767">
+                </label>
+                <label>Vía de administración
+                    <input name="via_administracion[]" maxlength="50">
+                </label>
+                <label>Cantidad
+                    <input type="number" name="cantidad[]" min="1" max="32767"
+                           value="1" required>
+                </label>
+                <label>Instrucciones
+                    <input name="instrucciones[]" maxlength="255">
+                </label>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        const lista = document.getElementById("listaMedicamentos");
+        const plantilla = document.getElementById("plantillaMedicamento");
+        const botonAgregar = document.getElementById("agregarMedicamento");
+        const formulario = document.getElementById("formEditarReceta");
+        const botonGuardar = document.getElementById("guardarCambiosReceta");
+
+        function actualizarFilas() {
+            const filas = lista.querySelectorAll(".editar-receta-medicamento");
+
+            filas.forEach((fila, indice) => {
+                fila.querySelector(".numero-fila").textContent = indice + 1;
+                fila.querySelector(".editar-receta-remove").disabled =
+                    filas.length === 1;
+            });
+        }
+
+        botonAgregar.addEventListener("click", () => {
+            lista.appendChild(plantilla.content.cloneNode(true));
+            actualizarFilas();
+        });
+
+        lista.addEventListener("click", (evento) => {
+            const boton = evento.target.closest(".editar-receta-remove");
+
+            if (boton && lista.querySelectorAll(
+                ".editar-receta-medicamento"
+            ).length > 1) {
+                boton.closest(".editar-receta-medicamento").remove();
+                actualizarFilas();
+            }
+        });
+
+        formulario.addEventListener("submit", (evento) => {
+            const seleccionados = Array.from(
+                lista.querySelectorAll('select[name="medicamento_id[]"]')
+            ).map(select => select.value);
+
+            if (seleccionados.some(id => !id)) {
+                evento.preventDefault();
+                alert("Selecciona un medicamento en cada fila.");
+                return;
+            }
+
+            if (new Set(seleccionados).size !== seleccionados.length) {
+                evento.preventDefault();
+                alert("No puedes repetir un medicamento en la misma receta.");
+                return;
+            }
+
+            botonGuardar.disabled = true;
+            botonGuardar.textContent = "Guardando...";
+        });
+
+        actualizarFilas();
+    </script>
+</body>
+</html>
