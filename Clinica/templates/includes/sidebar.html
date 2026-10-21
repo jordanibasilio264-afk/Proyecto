@@ -48,12 +48,13 @@
         <!-- Navegación -->
         <nav class="sidebar-menu">
 
-    {% if "dashboard.ver" in permisos %}<a href="{% url 'dashboard' %}"
-       class="sidebar-option {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+    {% if "dashboard.ver" in permisos %}
+    {% if request.user.rol == "PACIENTE" %}{% url 'mi_dashboard' as url_dashboard %}{% else %}{% url 'dashboard' as url_dashboard %}{% endif %}
+       <a href="{{ url_dashboard }}"class="sidebar-option {% if request.path == url_dashboard %}active{% endif %}">
         <span class="sidebar-icon">⌂</span>
-        <span>Dashboard</span>
-        {% endif %}
+        <span>{% if request.user.rol == "PACIENTE" %}Mis dashboard{% else %}Dashboard{% endif %}</span>
     </a>
+    {% endif %}
 
     {% if "medicamentos.ver" in permisos %}<a href="{% url 'medicamentos' %}"
        class="sidebar-option {% if request.resolver_match.url_name == 'medicamentos' %}active{% endif %}">

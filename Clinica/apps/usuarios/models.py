@@ -78,7 +78,7 @@ PERMISOS_POR_ROL = {
         "expedientes.ver", "expedientes.crear", "expedientes.editar",
         "expedientes.descargar_pdf",
         "recetas.ver", "recetas.crear", "recetas.editar", "recetas.imprimir",
-        "medicamentos.ver",
+        "medicamentos.ver","configuracion.ver",
         "documentos.ver", "documentos.subir",
         "notificaciones.ver", "dashboard.ver",
         "reportes.ver", "reportes.exportar",
