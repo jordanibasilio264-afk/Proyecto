@@ -1,37 +1,20 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const modalCrear = document.getElementById('modal-crear');
-  const btnAbrirModal = document.getElementById('btn-abrir-modal');
-  const btnCancelarModal = document.getElementById('btn-cancelar-modal');
+const data = JSON.parse(document.getElementById("chart-data").textContent);
 
-  const sidebar = document.getElementById('sidebar');
-  const btnToggleSidebar = document.getElementById('btn-toggle-sidebar');
-  const sidebarOverlay = document.getElementById('sidebar-overlay');
+new Chart(document.getElementById("chartConsultas"), {
+  type: "bar",
+  data: {
+    labels: data.meses,
+    datasets: [{ label: "Consultas", data: data.consultas }],
+  },
+  options: { responsive: true, maintainAspectRatio: false,
+             scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } },
+});
 
-  function abrirModal() {
-    if (modalCrear) modalCrear.classList.remove('hidden');
-  }
-
-  function cerrarModal() {
-    if (modalCrear) modalCrear.classList.add('hidden');
-  }
-
-  function abrirSidebar() {
-    if (sidebar && sidebarOverlay) {
-      sidebar.classList.add('active');
-      sidebarOverlay.classList.add('active');
-    }
-  }
-
-  function cerrarSidebar() {
-    if (sidebar && sidebarOverlay) {
-      sidebar.classList.remove('active');
-      sidebarOverlay.classList.remove('active');
-    }
-  }
-
-  if (btnAbrirModal) btnAbrirModal.addEventListener('click', abrirModal);
-  if (btnCancelarModal) btnCancelarModal.addEventListener('click', cerrarModal);
-
-  if (btnToggleSidebar) btnToggleSidebar.addEventListener('click', abrirSidebar);
-  if (sidebarOverlay) sidebarOverlay.addEventListener('click', cerrarSidebar);
+new Chart(document.getElementById("chartEstadoCitas"), {
+  type: "doughnut",
+  data: {
+    labels: data.estados.etiquetas,
+    datasets: [{ data: data.estados.valores }],
+  },
+  options: { responsive: true, maintainAspectRatio: false },
 });

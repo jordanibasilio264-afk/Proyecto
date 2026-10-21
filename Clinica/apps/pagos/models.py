@@ -18,7 +18,6 @@ class Pago(NoEliminable):
         TARJETA = "TARJETA", "Tarjeta"
         TRANSFERENCIA = "TRANSFERENCIA", "Transferencia"
         CHEQUE = "CHEQUE", "Cheque"
-        SEGURO = "SEGURO", "Seguro médico"
 
     class Estado(models.TextChoices):
         PENDIENTE = "PENDIENTE", "Pendiente"
@@ -36,14 +35,6 @@ class Pago(NoEliminable):
     monto = models.DecimalField(
         "monto total", max_digits=10, decimal_places=2,
         validators=[MinValueValidator(Decimal("0.01"))],
-    )
-    seguro_paciente = models.ForeignKey(
-        "SegurosMedicos.SeguroPaciente", on_delete=models.SET_NULL, null=True, blank=True,
-        related_name="pagos",
-    )
-    monto_cubierto_seguro = models.DecimalField(
-        max_digits=10, decimal_places=2, default=Decimal("0.00"),
-        validators=[MinValueValidator(Decimal("0.00"))],
     )
     metodo = models.CharField(max_length=15, choices=Metodo.choices, default=Metodo.EFECTIVO)
     estado = models.CharField(
@@ -69,15 +60,11 @@ class Pago(NoEliminable):
     @property
     def monto_paciente(self):
         """Lo que realmente paga el paciente."""
-        return self.monto - self.monto_cubierto_seguro
+        return self.monto
 
     @property
     def monto_formateado(self):
         return f"RD${self.monto:,.2f}"
-
-    @property
-    def cubierto_formateado(self):
-        return f"RD${self.monto_cubierto_seguro:,.2f}"
 
     @property
     def tu_parte_formateada(self):
@@ -89,10 +76,6 @@ class Pago(NoEliminable):
         self.estado = self.Estado.PAGADO
         self.fecha_pago = timezone.now()   # quita esta línea si prefieres conservar la fecha original
         self.save()
-
-    def clean(self):
-        if self.monto_cubierto_seguro and self.monto_cubierto_seguro > self.monto:
-            raise ValidationError({"monto_cubierto_seguro": "No puede superar el monto total."})
 
     def anular(self, motivo):
         self.estado = self.Estado.ANULADO

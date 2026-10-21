@@ -417,6 +417,20 @@ button.cerrar {
     text-align: left;
 }
 
+.save-a{
+    background-color: #149d94;
+    color: white;
+    border: 1px solid #149d94;
+    font-weight: 500;
+    height: 40px;
+    padding: 0 20px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
 .form-logout {
     margin: 0;
 }

@@ -11,7 +11,6 @@ from .forms import FiltroPagoForm, PagoForm
 from .models import Pago
 from django.http import JsonResponse
 from apps.Citas.models import Cita
-from apps.SegurosMedicos.models import SeguroPaciente
 from apps.usuarios.forms_base import buscar_texto
 from apps.usuarios.models import Paciente
 from django.shortcuts import get_object_or_404
@@ -50,11 +49,8 @@ def buscar_pacientes(request):
 @rol_requerido(*ROLES_COBRO)
 def datos_paciente(request, pk):
     citas = Cita.objects.filter(paciente_id=pk).exclude(estado="CANCELADA")
-    seguros = SeguroPaciente.objects.filter(paciente_id=pk, activo=True).select_related("seguro")
     return JsonResponse({
-        "citas": [{"id": c.pk, "texto": str(c)} for c in citas],
-        "seguros": [{"id": s.pk, "texto": str(s)} for s in seguros],
-    })
+        "citas": [{"id": c.pk, "texto": str(c)} for c in citas],    })
 
 @rol_requerido(*ROLES_COBRO)
 @require_POST
@@ -83,7 +79,7 @@ def mis_pagos(request):
 
     def suma(estado):
         total = qs.filter(estado=estado).aggregate(
-            t=Sum(F("monto") - F("monto_cubierto_seguro")))["t"] or 0
+            t=Sum(F("monto")))["t"] or 0
         return f"RD${total:,.2f}"
 
     page_obj = Paginator(qs, 10).get_page(request.GET.get("page"))

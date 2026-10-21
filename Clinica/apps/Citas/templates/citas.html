@@ -68,7 +68,7 @@
                     {% endif %}
                 {% endfor %}    
                 <div><button type="submit" class="save-btn">Filtrar</button></div>
-                <div><a href="{% url 'citas' %}" class="save-btn">Limpiar</a></div>
+                <div><a href="{% url 'citas' %}" class="save-a">Limpiar</a></div>
             </form>
 
             <div class="table-wrapper">
@@ -202,17 +202,6 @@
     {% endif %}
 
     <script src="{% static 'js/base.js' %}"></script>
-
-    {# Si el formulario tuvo errores, vuelve a abrir el modal para mostrarlos #}
-    {% if abrir_modal %}
-    <!-- <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var boton = document.getElementById("openRegistro");
-            if (boton) { boton.click(); }
-        });
-    </script> -->
-    {% endif %}
-
 </body>
 
 </html>

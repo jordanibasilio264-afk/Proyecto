@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Panel - Clínica Médica</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
+  <link rel="stylesheet" href="{% static 'CSS/dashboard.css' %}">
+</head>
+<body class="app-container">
+  {% include 'includes/sidebar.html' %}
+
+  <main class="main-content">
+    <header class="main-header">
+      <div class="header-left">
+        <h2 class="header-title">Hola, {{ paciente.nombres }}</h2>
+      </div>
+      <div class="user-status-container">
+        <a href="{% url 'notificaciones' %}">🔔</a>
+        <div class="user-profile"><span>{{ request.user.email }}</span></div>
+      </div>
+    </header>
+
+    <div class="content-body">
+      <section class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-header"><div class="kpi-icon-wrapper icon-blue"><i class="fa-solid fa-calendar-days"></i></div>
+            <span class="kpi-tag tag-neutral">Próxima</span></div>
+          <div class="kpi-content">
+            <h3 class="kpi-value">{% if proxima_cita %}{{ proxima_cita.inicio|date:"d/m H:i" }}{% else %}—{% endif %}</h3>
+            <p class="kpi-label">{% if proxima_cita %}Dr(a). {{ proxima_cita.medico }}{% else %}Sin citas pendientes{% endif %}</p>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header"><div class="kpi-icon-wrapper icon-teal"><i class="fa-solid fa-clock"></i></div></div>
+          <div class="kpi-content"><h3 class="kpi-value">{{ citas_pendientes }}</h3><p class="kpi-label">Citas pendientes</p></div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header"><div class="kpi-icon-wrapper icon-purple"><i class="fa-solid fa-stethoscope"></i></div></div>
+          <div class="kpi-content"><h3 class="kpi-value">{{ total_consultas }}</h3><p class="kpi-label">Consultas realizadas</p></div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header"><div class="kpi-icon-wrapper icon-green"><i class="fa-solid fa-file-medical"></i></div></div>
+          <div class="kpi-content"><h3 class="kpi-value">{{ total_documentos }}</h3><p class="kpi-label">Documentos</p></div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header"><div class="kpi-icon-wrapper icon-amber"><i class="fa-solid fa-money-bill-wave"></i></div></div>
+          <div class="kpi-content"><h3 class="kpi-value">{{ total_pagado }}</h3><p class="kpi-label">Total pagado</p></div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header"><div class="kpi-icon-wrapper icon-red"><i class="fa-solid fa-file-invoice-dollar"></i></div></div>
+          <div class="kpi-content"><h3 class="kpi-value">{{ total_pendiente }}</h3><p class="kpi-label">Pagos pendientes</p></div>
+        </div>
+      </section>
+
+      <section class="charts-grid">
+        <div class="chart-card">
+          <div class="chart-header"><h3 class="chart-title">Mis próximas citas</h3></div>
+          <ul>
+            {% for c in lista_citas %}
+              <li>{{ c.inicio|date:"d/m/Y H:i" }} · {{ c.medico }} · {{ c.motivo }}</li>
+            {% empty %}<li>No tienes citas pendientes.</li>{% endfor %}
+          </ul>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-header"><h3 class="chart-title">Últimos pagos</h3></div>
+          <ul>
+            {% for p in lista_pagos %}
+              <li>{{ p.numero_recibo }} · {{ p.concepto }} · {{ p.monto_formateado }} · {{ p.get_estado_display }}</li>
+            {% empty %}<li>Sin pagos registrados.</li>{% endfor %}
+          </ul>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-header"><h3 class="chart-title">Mis documentos</h3></div>
+          <ul>
+            {% for d in lista_documentos %}
+              <li>{{ d.titulo }} · {{ d.get_tipo_display }} · {{ d.creado_en|date:"d/m/Y" }}</li>
+            {% empty %}<li>No hay documentos.</li>{% endfor %}
+          </ul>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-header"><h3 class="chart-title">Últimas consultas</h3></div>
+          <ul>
+            {% for c in lista_consultas %}
+              <li>{{ c.creado_en|date:"d/m/Y" }} · {{ c }}</li>
+            {% empty %}<li>Sin consultas registradas.</li>{% endfor %}
+          </ul>
+        </div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

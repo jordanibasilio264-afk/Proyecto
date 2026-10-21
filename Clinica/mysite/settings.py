@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'apps.pagos.apps.PagosConfig',
     'apps.Citas.apps.CitasConfig',
     'apps.Notificaciones.apps.NotificacionesConfig',
-    'apps.SegurosMedicos.apps.SegurosMedicosConfig',
     'apps.Medicamentos.apps.MedicamentosConfig',
     'apps.Expedientes.apps.ExpedientesConfig',
     "apps.Dashboard.apps.DashboardConfig",
@@ -166,7 +165,7 @@ MAILERS = {
 AUTH_USER_MODEL = "usuarios.Usuarios"
 
 LOGIN_URL = "login"
-LOGIN_REDIRECT_URL = "pagos"    # cámbialo a "dashboard" cuando lo tengas
+LOGIN_REDIRECT_URL = "dashboard"    # cámbialo a "dashboard" cuando lo tengas
 LOGOUT_REDIRECT_URL = "inicio"
 
 MEDIA_URL = "/media/"

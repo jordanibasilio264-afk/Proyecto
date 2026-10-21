@@ -3,18 +3,39 @@
     const buscar = document.getElementById('pago-paciente-buscar');
     const oculto = document.getElementById('id_paciente');
     const lista = document.getElementById('pago-paciente-resultados');
+    const selCita = document.getElementById('id_cita');
     if (!buscar || !oculto || !lista) return;
 
     let timer;
 
-    function elegir(p) {
+    function llenar(select, items) {
+        if (!select) return;
+        select.innerHTML = '<option value="">---------</option>';
+        items.forEach((i) => select.add(new Option(i.texto, i.id)));
+    }
+
+    async function cargarDatos(id) {
+        try {
+            const url = buscar.dataset.urlDatos.replace('/0/datos/', '/' + id + '/datos/');
+            const r = await fetch(url);
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            const d = await r.json();
+            llenar(selCita, d.citas);
+        } catch (e) {
+            console.error('Error cargando citas:', e);
+        }
+    }
+
+function elegir(p) {
         buscar.value = p.texto;
         oculto.value = p.id;
         lista.hidden = true;
+        cargarDatos(p.id);
     }
 
     buscar.addEventListener('input', () => {
-        oculto.value = '';                       // si cambia el texto, invalida la selección
+        oculto.value = '';
+        llenar(selCita, []);
         clearTimeout(timer);
         const q = buscar.value.trim();
         if (q.length < 2) { lista.hidden = true; return; }

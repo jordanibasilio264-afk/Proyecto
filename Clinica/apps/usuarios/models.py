@@ -97,6 +97,7 @@ PERMISOS_POR_ROL = {
         "citas.ver","pagos.ver","pagos.generar_recibo",
         "recetas.ver", "recetas.imprimir",
         "notificaciones.ver","configuracion.ver", 
+        "dashboard.ver",
     },
 }
 

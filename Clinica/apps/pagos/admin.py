@@ -10,8 +10,7 @@ from .models import Pago
 @admin.register(Pago)
 class PagoAdmin(SinEliminarAdmin, admin.ModelAdmin):
     list_display = (
-        "numero_recibo", "paciente", "concepto", "monto",
-        "monto_cubierto_seguro", "metodo", "estado", "fecha_pago",
+        "numero_recibo", "paciente", "concepto", "monto", "metodo", "estado", "fecha_pago",
     )
     list_filter = ("estado", "metodo", "fecha_pago")
     search_fields = (
@@ -19,7 +18,7 @@ class PagoAdmin(SinEliminarAdmin, admin.ModelAdmin):
         "concepto", "referencia",
     )
     date_hierarchy = "fecha_pago"
-    autocomplete_fields = ("paciente", "cita", "seguro_paciente")
+    autocomplete_fields = ("paciente", "cita")
     readonly_fields = ("numero_recibo", "recibido_por", "creado_en", "actualizado_en")
     list_select_related = ("paciente",)
     actions = ["anular_pagos"]

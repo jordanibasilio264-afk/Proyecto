@@ -9,6 +9,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
   <link rel="stylesheet" href="{% static 'CSS/dashboard.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body class="app-container">
@@ -37,12 +38,11 @@
         <div class="kpi-card">
           <div class="kpi-header">
             <div class="kpi-icon-wrapper icon-teal">
-              <i class=""></i>
+              <i class="fa-solid fa-users"></i>
             </div>
-            <span class="kpi-tag tag-positive">+12% este mes</span>
           </div>
           <div class="kpi-content">
-            <h3 class="kpi-value">{{ total_pacientes|default:"1,284" }}</h3>
+            <h3 class="kpi-value">{{ total_pacientes }}</h3>
             <p class="kpi-label">Pacientes Registrados</p>
           </div>
         </div>
@@ -50,12 +50,11 @@
         <div class="kpi-card">
           <div class="kpi-header">
             <div class="kpi-icon-wrapper icon-blue">
-              <i class=""></i>
+              <i class="fa-solid fa-calendar-days"></i>
             </div>
-            <span class="kpi-tag tag-neutral">Hoy</span>
           </div>
           <div class="kpi-content">
-            <h3 class="kpi-value">{{ citas_programadas|default:"42" }}</h3>
+            <h3 class="kpi-value">{{ citas_programadas }}</h3>
             <p class="kpi-label">Citas Programadas</p>
           </div>
         </div>
@@ -63,12 +62,11 @@
         <div class="kpi-card">
           <div class="kpi-header">
             <div class="kpi-icon-wrapper icon-green">
-              <i class=""></i>
+              <i class="fa-solid fa-circle-check"></i>
             </div>
-            <span class="kpi-tag tag-positive">88% tasa</span>
           </div>
           <div class="kpi-content">
-            <h3 class="kpi-value">{{ citas_atendidas|default:"156" }}</h3>
+            <h3 class="kpi-value">{{ citas_atendidas }}</h3>
             <p class="kpi-label">Citas Atendidas</p>
           </div>
         </div>
@@ -76,12 +74,11 @@
         <div class="kpi-card">
           <div class="kpi-header">
             <div class="kpi-icon-wrapper icon-red">
-              <i class=""></i>
+              <i class="fa-solid fa-calendar-xmark"></i>
             </div>
-            <span class="kpi-tag tag-negative">-4% esta semana</span>
           </div>
           <div class="kpi-content">
-            <h3 class="kpi-value">{{ citas_canceladas|default:"8" }}</h3>
+            <h3 class="kpi-value">{{ citas_canceladas }}</h3>
             <p class="kpi-label">Citas Canceladas</p>
           </div>
         </div>
@@ -89,12 +86,11 @@
         <div class="kpi-card">
           <div class="kpi-header">
             <div class="kpi-icon-wrapper icon-purple">
-              <i class=""></i>
+              <i class="fa-solid fa-stethoscope"></i>
             </div>
-            <span class="kpi-tag tag-neutral">Total acumulado</span>
           </div>
           <div class="kpi-content">
-            <h3 class="kpi-value">{{ consultas_realizadas|default:"310" }}</h3>
+            <h3 class="kpi-value">{{ consultas_realizadas }}</h3>
             <p class="kpi-label">Consultas Realizadas</p>
           </div>
         </div>
@@ -102,12 +98,11 @@
         <div class="kpi-card">
           <div class="kpi-header">
             <div class="kpi-icon-wrapper icon-amber">
-              <i class=""></i>
+              <i class="fa-solid fa-money-bill-wave"></i>
             </div>
-            <span class="kpi-tag tag-positive">+18% vs mes ant.</span>
           </div>
           <div class="kpi-content">
-            <h3 class="kpi-value">${{ ingresos_generados|default:"14,250.00" }}</h3>
+            <h3 class="kpi-value">RD${{ ingresos_generados }}</h3>
             <p class="kpi-label">Ingresos Generados</p>
           </div>
         </div>
@@ -140,7 +135,7 @@
 
     </div>
   </main>
-
+  {{ chart_data|json_script:"chart-data" }}
   <script src="{% static 'JS/dashboard.js' %}"></script>
 </body>
 

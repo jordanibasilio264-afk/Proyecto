@@ -51,13 +51,19 @@
                     <div style="position:relative">
                         <input type="text" id="pago-paciente-buscar" autocomplete="off"
                             placeholder="Escribe nombre o apellido…" value="{{ form.paciente_texto }}"
-                            data-url-buscar="{% url 'buscar_pacientes' %}">
+                            data-url-buscar="{% url 'buscar_pacientes' %}"
+                            data-url-datos="{% url 'datos_paciente' 0 %}">
                         {{ form.paciente }}
                         <ul id="pago-paciente-resultados" hidden
                             style="position:absolute;z-index:10;left:0;right:0;margin:0;padding:0;list-style:none;background:#fff;border:1px solid #ccc">
                         </ul>
                     </div>
                     {{ form.paciente.errors }}
+                </div>
+
+                <div class="pagos-campo">
+                    <label for="{{ form.cita.id_for_label }}">Cita (opcional)</label>
+                    {{ form.cita }}{{ form.cita.errors }}
                 </div>
 
                 <div class="pagos-campo">

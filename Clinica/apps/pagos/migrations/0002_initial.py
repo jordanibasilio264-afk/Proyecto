@@ -10,7 +10,6 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('SegurosMedicos', '0002_initial'),
         ('pagos', '0001_initial'),
         ('usuarios', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
@@ -26,10 +25,5 @@ class Migration(migrations.Migration):
             model_name='pago',
             name='recibido_por',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='pagos_recibidos', to=settings.AUTH_USER_MODEL),
-        ),
-        migrations.AddField(
-            model_name='pago',
-            name='seguro_paciente',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='pagos', to='SegurosMedicos.seguropaciente'),
         ),
     ]
