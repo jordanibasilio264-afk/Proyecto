@@ -1,811 +1,274 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Configuración</title>
     <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
     <link rel="stylesheet" href="{% static 'configuracion.css' %}">
-
 </head>
-
 <body>
-
-
 
 <div class="pagina">
 
-    {% include 'includes/sidebar.html' %}
-
-  
+{% include 'includes/sidebar.html' %}
 
     <main class="contenido">
 
         <header class="encabezado">
-
             <label for="menu-toggle" class="menu-btn" aria-label="Abrir menú">☰</label>
 
-            <img
-                class="logo-movil"
-                src="{% static 'images/logo-clinica.png' %}"
-                alt="Clínica Médica General y Familiar"
-                style="height:40px; width:auto;"
-            >
+            <img class="logo-movil" src="{% static 'images/logo-clinica.png' %}"
+                 alt="Clínica Médica General y Familiar" style="height:40px; width:auto;">
 
             <div class="encabezado-titulo">
-
                 <h1>Configuración</h1>
-
-                <p>
-                    Administra tu perfil, tu horario de atención, tus recetas y tus preferencias.
-                </p>
-
+                <p>Administra tu perfil, tu horario de atención y tus preferencias.</p>
             </div>
-
 
             <div class="usuario">
-
-                <div class="notificacion">
-                    🔔
-                </div>
-
-                <div class="usuario-icono">
-                    👤
-                </div>
-
+                <div class="notificacion">🔔</div>
+                <div class="usuario-icono">👤</div>
                 <div class="usuario-texto">
-
-                    <strong>
-                        Dra. Sánchez
-                    </strong>
-
-                    <small>
-                        Médico
-                    </small>
-
+                    <strong>{{ nombre_completo }}</strong>
+                    <small>{{ rol_texto }}</small>
                 </div>
-
             </div>
-
         </header>
 
+        {% if messages %}
+            {% for m in messages %}
+                <div class="alerta {{ m.tags }}">{{ m }}</div>
+            {% endfor %}
+        {% endif %}
 
-        <!-- TARJETAS EN CASCADA: cada <section class="bloque"> es una tarjeta -->
         <div class="config-lista">
-
 
             <!-- MI PERFIL -->
             <section class="bloque">
-
                 <div class="bloque-cab">
-
-                    <div class="bloque-icono">
-                        👤
-                    </div>
-
+                    <div class="bloque-icono">👤</div>
                     <div class="titulo">
-
-                        <h2>
-                            Mi perfil
-                        </h2>
-
-                        <p>
-                            Tu información profesional en el sistema.
-                        </p>
-
+                        <h2>Mi perfil</h2>
+                        <p>Tu información profesional en el sistema.</p>
                     </div>
-
                 </div>
 
                 <form method="post">
-
                     {% csrf_token %}
+                    <input type="hidden" name="accion" value="perfil">
 
                     <div class="perfil">
-
-                        <div class="avatar-grande">
-                            DS
-                        </div>
-
+                        <div class="avatar-grande">{{ iniciales }}</div>
                         <div>
-                            <strong>Dra. Sánchez</strong>
-                            <small>Médico · Medicina general</small>
+                            <strong>{{ nombre_completo }}</strong>
+                            <small>{{ rol_texto }}{% if especialidad_actual %} · {{ especialidad_actual.nombre }}{% endif %}</small>
                         </div>
-
                     </div>
 
                     <div class="campos c4">
-
                         <div class="campo">
-
-                            <label>
-                                Nombre completo
-                            </label>
-
-                            <input type="text" name="nombre" value="Dra. Sánchez">
-
+                            <label>Nombre completo</label>
+                            <input type="text" name="nombre" value="{{ nombre_completo }}" required>
                         </div>
 
                         <div class="campo">
-
-                            <label>
-                                Correo electrónico
-                            </label>
-
-                            <input type="email" name="email" value="sanchez@clinica.com">
-
+                            <label>Correo electrónico</label>
+                            <input type="email" name="email" value="{{ request.user.email }}" required>
                         </div>
 
                         <div class="campo">
-
-                            <label>
-                                Teléfono
-                            </label>
-
-                            <input type="text" name="telefono" value="809-555-0202">
-
+                            <label>Teléfono</label>
+                            <input type="text" name="telefono" value="{{ request.user.telefono }}">
                         </div>
 
                         <div class="campo">
-
-                            <label>
-                                Especialidad
-                            </label>
-
+                            <label>Especialidad</label>
                             <select name="especialidad">
-
-                            <option selected>
-                                Medicina general
-                            </option>
-
-                            <option>
-                                Pediatría
-                            </option>
-
-                            <option>
-                                Cardiología
-                            </option>
-
-                            <option>
-                                Ginecología
-                            </option>
-
+                                {% for e in especialidades %}
+                                    <option value="{{ e.pk }}" {% if e == especialidad_actual %}selected{% endif %}>{{ e.nombre }}</option>
+                                {% endfor %}
                             </select>
-
                         </div>
-
                     </div>
 
                     <div class="acciones-form">
-
-                        <button type="reset" class="boton-sec">
-                            Cancelar
-                        </button>
-
-                        <button type="submit" class="boton-guardar">
-                            💾 Guardar cambios
-                        </button>
-
+                        <button type="reset" class="boton-sec">Cancelar</button>
+                        <button type="submit" class="boton-guardar">💾 Guardar cambios</button>
                     </div>
-
                 </form>
-
             </section>
-
 
             <!-- SEGURIDAD -->
             <section class="bloque">
-
                 <div class="bloque-cab">
-
-                    <div class="bloque-icono">
-                        🔒
-                    </div>
-
+                    <div class="bloque-icono">🔒</div>
                     <div class="titulo">
-
-                        <h2>
-                            Seguridad
-                        </h2>
-
-                        <p>
-                            Cambia tu contraseña de acceso.
-                        </p>
-
+                        <h2>Seguridad</h2>
+                        <p>Cambia tu contraseña de acceso.</p>
                     </div>
-
                 </div>
 
-                <form method="post">
-
+                <form method="post" autocomplete="off">
                     {% csrf_token %}
+                    <input type="hidden" name="accion" value="password">
 
                     <div class="campos c3">
-
                         <div class="campo">
-
-                            <label>
-                                Contraseña actual
-                            </label>
-
-                            <input type="password" name="password_actual" placeholder="••••••••">
-
+                            <label>Contraseña actual</label>
+                            <input type="password" name="password_actual" placeholder="Tu contraseña actual"
+                                   autocomplete="current-password" required>
                         </div>
 
                         <div class="campo">
-
-                            <label>
-                                Nueva contraseña
-                            </label>
-
-                            <input type="password" name="password_nueva" placeholder="Mínimo 8 caracteres">
-
+                            <label>Nueva contraseña</label>
+                            <input type="password" name="password_nueva" placeholder="Mínimo 8 caracteres"
+                                   autocomplete="new-password" minlength="8" required>
                         </div>
 
                         <div class="campo">
-
-                            <label>
-                                Confirmar contraseña
-                            </label>
-
-                            <input type="password" name="password_confirmar" placeholder="Repite la contraseña">
-
+                            <label>Confirmar contraseña</label>
+                            <input type="password" name="password_confirmar" placeholder="Repite la contraseña"
+                                   autocomplete="new-password" minlength="8" required>
                         </div>
-
                     </div>
 
                     <div class="acciones-form">
-
-                        <button type="submit" class="boton-guardar">
-                            🔑 Cambiar contraseña
-                        </button>
-
+                        <button type="submit" class="boton-guardar">🔑 Cambiar contraseña</button>
                     </div>
-
                 </form>
-
             </section>
-
 
             <!-- MI HORARIO DE ATENCIÓN -->
             <section class="bloque">
-
                 <div class="bloque-cab">
-
-                    <div class="bloque-icono">
-                        🕒
-                    </div>
-
+                    <div class="bloque-icono">🕒</div>
                     <div class="titulo">
-
-                        <h2>
-                            Mi horario de atención
-                        </h2>
-
-                        <p>
-                            Define cuándo recibes pacientes.
-                        </p>
-
+                        <h2>Mi horario de atención</h2>
+                        <p>Define cuándo recibes pacientes.</p>
                     </div>
-
                 </div>
 
                 <form method="post">
-
                     {% csrf_token %}
+                    <input type="hidden" name="accion" value="horario">
 
                     <span class="etq">Días de atención</span>
 
                     <div class="dias">
-
-                        <label class="dia">
-                            <input type="checkbox" name="dias" value="L" checked>
-                            <span>L</span>
-                        </label>
-
-                        <label class="dia">
-                            <input type="checkbox" name="dias" value="M" checked>
-                            <span>M</span>
-                        </label>
-
-                        <label class="dia">
-                            <input type="checkbox" name="dias" value="X" checked>
-                            <span>X</span>
-                        </label>
-
-                        <label class="dia">
-                            <input type="checkbox" name="dias" value="J" checked>
-                            <span>J</span>
-                        </label>
-
-                        <label class="dia">
-                            <input type="checkbox" name="dias" value="V" checked>
-                            <span>V</span>
-                        </label>
-
-                        <label class="dia">
-                            <input type="checkbox" name="dias" value="S">
-                            <span>S</span>
-                        </label>
-
-                        <label class="dia">
-                            <input type="checkbox" name="dias" value="D">
-                            <span>D</span>
-                        </label>
-
+                        <label class="dia"><input type="checkbox" name="dias" value="L" {% if "L" in dias_activos %}checked{% endif %}><span>L</span></label>
+                        <label class="dia"><input type="checkbox" name="dias" value="M" {% if "M" in dias_activos %}checked{% endif %}><span>M</span></label>
+                        <label class="dia"><input type="checkbox" name="dias" value="X" {% if "X" in dias_activos %}checked{% endif %}><span>X</span></label>
+                        <label class="dia"><input type="checkbox" name="dias" value="J" {% if "J" in dias_activos %}checked{% endif %}><span>J</span></label>
+                        <label class="dia"><input type="checkbox" name="dias" value="V" {% if "V" in dias_activos %}checked{% endif %}><span>V</span></label>
+                        <label class="dia"><input type="checkbox" name="dias" value="S" {% if "S" in dias_activos %}checked{% endif %}><span>S</span></label>
+                        <label class="dia"><input type="checkbox" name="dias" value="D" {% if "D" in dias_activos %}checked{% endif %}><span>D</span></label>
                     </div>
 
                     <div class="campos c4">
-
                         <div class="campo">
-
-                            <label>
-                                Hora de inicio
-                            </label>
-
-                            <input type="time" name="hora_inicio" value="08:00">
-
+                            <label>Hora de inicio</label>
+                            <input type="time" name="hora_inicio" value="{{ hora_inicio }}" required>
                         </div>
 
                         <div class="campo">
-
-                            <label>
-                                Hora de fin
-                            </label>
-
-                            <input type="time" name="hora_fin" value="16:00">
-
+                            <label>Hora de fin</label>
+                            <input type="time" name="hora_fin" value="{{ hora_fin }}" required>
                         </div>
 
                         <div class="campo">
-
-                            <label>
-                                Duración de cada consulta
-                            </label>
-
+                            <label>Duración de cada consulta</label>
                             <select name="duracion_consulta">
-
-                            <option>
-                                15 minutos
-                            </option>
-
-                            <option selected>
-                                30 minutos
-                            </option>
-
-                            <option>
-                                45 minutos
-                            </option>
-
-                            <option>
-                                60 minutos
-                            </option>
-
+                                {% for m in duraciones %}
+                                    <option value="{{ m }}" {% if m == medico.duracion_cita_minutos %}selected{% endif %}>{{ m }} minutos</option>
+                                {% endfor %}
                             </select>
-
                         </div>
-
-                        <div class="campo">
-
-                            <label>
-                                Máximo de pacientes por día
-                            </label>
-
-                            <input type="number" name="max_pacientes" value="16">
-
-                        </div>
-
                     </div>
 
                     <div class="acciones-form">
-
-                        <button type="reset" class="boton-sec">
-                            Cancelar
-                        </button>
-
-                        <button type="submit" class="boton-guardar">
-                            💾 Guardar horario
-                        </button>
-
+                        <button type="reset" class="boton-sec">Cancelar</button>
+                        <button type="submit" class="boton-guardar">💾 Guardar horario</button>
                     </div>
-
                 </form>
-
             </section>
-
-
-            <!-- FIRMA Y DATOS PARA RECETAS -->
-            <section class="bloque">
-
-                <div class="bloque-cab">
-
-                    <div class="bloque-icono">
-                        💊
-                    </div>
-
-                    <div class="titulo">
-
-                        <h2>
-                            Firma y datos para recetas
-                        </h2>
-
-                        <p>
-                            Lo que aparece en tus recetas médicas.
-                        </p>
-
-                    </div>
-
-                </div>
-
-                <form method="post">
-
-                    {% csrf_token %}
-
-                    <div class="campos c2">
-
-                        <div class="campo">
-
-                            <label>
-                                No. de exequátur
-                            </label>
-
-                            <input type="text" name="exequatur" value="12345-26">
-
-                        </div>
-
-                        <div class="campo">
-
-                            <label>
-                                Especialidad en la receta
-                            </label>
-
-                            <input type="text" name="especialidad_receta" value="Medicina general">
-
-                        </div>
-
-                        <div class="campo">
-
-                            <label>
-                                Firma
-                            </label>
-
-                            <label class="subir">
-                                <input type="file" name="firma" accept="image/*">
-                                <b>✍</b>
-                                <span class="firma">Dra. Sánchez</span>
-                                <span>Firma actual · PNG o JPG</span>
-                            </label>
-
-                        </div>
-
-                        <div class="campo">
-
-                            <label>
-                                Sello
-                            </label>
-
-                            <label class="subir">
-                                <input type="file" name="sello" accept="image/*">
-                                <b>⬆</b>
-                                <strong>Subir sello</strong>
-                                <span>Haz clic para elegir una imagen</span>
-                            </label>
-
-                        </div>
-
-                    </div>
-
-                    <div class="acciones-form">
-
-                        <button type="submit" class="boton-guardar">
-                            💾 Guardar datos de recetas
-                        </button>
-
-                    </div>
-
-                </form>
-
-            </section>
-
 
             <!-- NOTIFICACIONES -->
             <section class="bloque">
-
                 <div class="bloque-cab">
-
-                    <div class="bloque-icono">
-                        🔔
-                    </div>
-
+                    <div class="bloque-icono">🔔</div>
                     <div class="titulo">
-
-                        <h2>
-                            Notificaciones
-                        </h2>
-
-                        <p>
-                            Elige qué avisos quieres recibir.
-                        </p>
-
+                        <h2>Notificaciones</h2>
+                        <p>Elige qué avisos quieres recibir.</p>
                     </div>
-
                 </div>
 
                 <form method="post">
-
                     {% csrf_token %}
+                    <input type="hidden" name="accion" value="notificaciones">
 
                     <div class="fila-switch">
-
                         <div>
                             <strong>Nueva cita asignada</strong>
                             <small>Cuando recepción te agenda un paciente.</small>
                         </div>
-
                         <label class="interruptor">
-                            <input type="checkbox" name="notif_nueva_cita" checked>
+                            <input type="checkbox" name="notif_nueva_cita" {% if notifs.nueva_cita %}checked{% endif %}>
                             <span class="barra"></span>
                         </label>
-
                     </div>
 
                     <div class="fila-switch">
-
                         <div>
                             <strong>Cancelaciones y cambios</strong>
                             <small>Cuando un paciente cancela o reprograma.</small>
                         </div>
-
                         <label class="interruptor">
-                            <input type="checkbox" name="notif_cambios" checked>
+                            <input type="checkbox" name="notif_cambios" {% if notifs.cambios %}checked{% endif %}>
                             <span class="barra"></span>
                         </label>
-
                     </div>
 
                     <div class="fila-switch">
-
                         <div>
                             <strong>Paciente en sala de espera</strong>
                             <small>Aviso cuando tu paciente ya llegó.</small>
                         </div>
-
                         <label class="interruptor">
-                            <input type="checkbox" name="notif_sala_espera" checked>
+                            <input type="checkbox" name="notif_sala_espera" {% if notifs.sala_espera %}checked{% endif %}>
                             <span class="barra"></span>
                         </label>
-
                     </div>
 
                     <div class="fila-switch">
-
                         <div>
                             <strong>Resumen diario de agenda</strong>
                             <small>Un correo cada mañana con tus citas del día.</small>
                         </div>
-
                         <label class="interruptor">
-                            <input type="checkbox" name="notif_resumen">
+                            <input type="checkbox" name="notif_resumen" {% if notifs.resumen %}checked{% endif %}>
                             <span class="barra"></span>
                         </label>
-
                     </div>
 
                     <div class="acciones-form">
-
-                        <button type="submit" class="boton-guardar">
-                            💾 Guardar notificaciones
-                        </button>
-
+                        <button type="submit" class="boton-guardar">💾 Guardar notificaciones</button>
                     </div>
-
                 </form>
-
             </section>
-
-
-            <!-- PREFERENCIAS -->
-            <section class="bloque">
-
-                <div class="bloque-cab">
-
-                    <div class="bloque-icono">
-                        🌐
-                    </div>
-
-                    <div class="titulo">
-
-                        <h2>
-                            Preferencias
-                        </h2>
-
-                        <p>
-                            Idioma, fecha y agenda.
-                        </p>
-
-                    </div>
-
-                </div>
-
-                <form method="post">
-
-                    {% csrf_token %}
-
-                    <div class="campos c4">
-
-                        <div class="campo">
-
-                            <label>
-                                Idioma
-                            </label>
-
-                            <select name="idioma">
-
-                            <option selected>
-                                Español
-                            </option>
-
-                            <option>
-                                English
-                            </option>
-
-                            </select>
-
-                        </div>
-
-                        <div class="campo">
-
-                            <label>
-                                Zona horaria
-                            </label>
-
-                            <select name="zona_horaria">
-
-                            <option selected>
-                                América/Santo Domingo (GMT-4)
-                            </option>
-
-                            <option>
-                                América/New York (GMT-5)
-                            </option>
-
-                            </select>
-
-                        </div>
-
-                        <div class="campo">
-
-                            <label>
-                                Formato de fecha
-                            </label>
-
-                            <select name="formato_fecha">
-
-                            <option selected>
-                                DD/MM/AAAA
-                            </option>
-
-                            <option>
-                                MM/DD/AAAA
-                            </option>
-
-                            <option>
-                                AAAA-MM-DD
-                            </option>
-
-                            </select>
-
-                        </div>
-
-                        <div class="campo">
-
-                            <label>
-                                Vista de agenda
-                            </label>
-
-                            <select name="vista_agenda">
-
-                            <option>
-                                Día
-                            </option>
-
-                            <option selected>
-                                Semana
-                            </option>
-
-                            <option>
-                                Mes
-                            </option>
-
-                            </select>
-
-                        </div>
-
-                    </div>
-
-                    <div class="acciones-form">
-
-                        <button type="submit" class="boton-guardar">
-                            💾 Guardar preferencias
-                        </button>
-
-                    </div>
-
-                </form>
-
-            </section>
-
-
-            <!-- ================================================
-                 AQUÍ SE AGREGARÁN MÁS SECCIONES
-                 (copia una <section class="bloque"> completa
-                  y pégala justo arriba de este comentario)
-            ================================================= -->
-
 
         </div>
 
-
         <footer>
-
-            <div>
-
-                <strong>
-                    Mi agenda
-                </strong>
-
-                <span>
-                    Horario y citas a tu medida
-                </span>
-
-            </div>
-
-            <div>
-
-                <strong>
-                    Mis recetas
-                </strong>
-
-                <span>
-                    Firma y datos listos
-                </span>
-
-            </div>
-
-            <div>
-
-                <strong>
-                    Avisos de pacientes
-                </strong>
-
-                <span>
-                    Citas nuevas y cambios
-                </span>
-
-            </div>
-
-            <div>
-
-                <strong>
-                    Cuenta segura
-                </strong>
-
-                <span>
-                    Cambia tu contraseña cuando quieras
-                </span>
-
-            </div>
-
+            <div><strong>Mi agenda</strong><span>Horario y citas a tu medida</span></div>
+            <div><strong>Mis recetas</strong><span>Firma y datos listos</span></div>
+            <div><strong>Avisos de pacientes</strong><span>Citas nuevas y cambios</span></div>
+            <div><strong>Cuenta segura</strong><span>Cambia tu contraseña cuando quieras</span></div>
         </footer>
 
     </main>
-
 </div>
 
 </body>
-
 </html>

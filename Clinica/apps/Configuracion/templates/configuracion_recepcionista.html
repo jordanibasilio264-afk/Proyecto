@@ -3,404 +3,290 @@
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Configuración</title>
     <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
     <link rel="stylesheet" href="{% static 'configuracion.css' %}">
-
 </head>
 
 <body>
 
+    <div class="pagina">
 
+        {% include 'includes/sidebar.html' %}
 
-<div class="pagina">
+        <main class="contenido">
 
-{% include 'includes/sidebar.html' %}
-
-    <main class="contenido">
-
-        <header class="encabezado">
-
-            <div class="encabezado-titulo">
-
-                <h1>Configuración</h1>
-
-                <p>
-                    Administra tu perfil, tu agenda de trabajo y tus notificaciones.
-                </p>
-
-            </div>
-
-
-            <div class="usuario">
-
-                <div class="notificacion">
-                    🔔
+            <header class="encabezado">
+                <div class="encabezado-titulo">
+                    <h1>Configuración</h1>
+                    <p>Administra tu perfil, tu agenda de trabajo y tus notificaciones.</p>
                 </div>
 
-                <div class="usuario-icono">
-                    👤
+                <div class="usuario">
+                    <div class="notificacion">🔔</div>
+                    <div class="usuario-icono">👤</div>
+                    <div class="usuario-texto">
+                        <strong>{{ nombre_completo }}</strong>
+                        <small>{{ rol_texto }}</small>
+                    </div>
                 </div>
+            </header>
 
-                <div class="usuario-texto">
+            {% if messages %}
+            {% for m in messages %}
+            <div class="alerta {{ m.tags }}">{{ m }}</div>
+            {% endfor %}
+            {% endif %}
 
-                    <strong>
-                        Laura Díaz
-                    </strong>
+            <div class="config-lista">
 
-                    <small>
-                        Recepcionista
-                    </small>
-
-                </div>
-
-            </div>
-
-        </header>
-
-
-        <!-- TARJETAS EN CASCADA: cada <section class="bloque"> es una tarjeta -->
-        <div class="config-lista">
-
-
-            <!-- MI PERFIL -->
-            <section class="bloque">
-
-                <div class="bloque-cab">
-
-                    <div class="bloque-icono">
-                        👤
+                <!-- MI PERFIL -->
+                <section class="bloque">
+                    <div class="bloque-cab">
+                        <div class="bloque-icono">👤</div>
+                        <div class="titulo">
+                            <h2>Mi perfil</h2>
+                            <p>Tu información personal en el sistema.</p>
+                        </div>
                     </div>
 
-                    <div class="titulo">
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="accion" value="perfil">
 
-                        <h2>
-                            Mi perfil
-                        </h2>
-
-                        <p>
-                            Tu información personal en el sistema.
-                        </p>
-
-                    </div>
-
-                </div>
-
-                <form method="post">
-
-                    {% csrf_token %}
-
-                    <div class="perfil">
-
-                        <div class="avatar-grande">
-                            LD
+                        <div class="perfil">
+                            <div class="avatar-grande">{{ iniciales }}</div>
+                            <div>
+                                <strong>{{ nombre_completo }}</strong>
+                                <small>{{ rol_texto }}</small>
+                            </div>
                         </div>
 
+                        <div class="campos c4">
+                            <div class="campo">
+                                <label>Nombre completo</label>
+                                <input type="text" name="nombre" value="{{ nombre_completo }}" required>
+                            </div>
+
+                            <div class="campo">
+                                <label>Correo electrónico</label>
+                                <input type="email" name="email" value="{{ request.user.email }}" required>
+                            </div>
+
+                            <div class="campo">
+                                <label>Teléfono</label>
+                                <input type="text" name="telefono" value="{{ request.user.telefono }}">
+                            </div>
+
+                            <div class="campo">
+                                <label>Cargo</label>
+                                <input type="text" value="{{ rol_texto }}" disabled>
+                            </div>
+                        </div>
+
+                        <div class="acciones-form">
+                            <button type="reset" class="boton-sec">Cancelar</button>
+                            <button type="submit" class="boton-guardar">💾 Guardar cambios</button>
+                        </div>
+                    </form>
+                </section>
+
+                <!-- SEGURIDAD -->
+                <section class="bloque">
+                    <div class="bloque-cab">
+                        <div class="bloque-icono">🔒</div>
+                        <div class="titulo">
+                            <h2>Seguridad</h2>
+                            <p>Cambia tu contraseña de acceso.</p>
+                        </div>
+                    </div>
+
+                    <form method="post" autocomplete="off">
+                        {% csrf_token %}
+                        <input type="hidden" name="accion" value="password">
+
+                        <div class="campos c3">
+                            <div class="campo">
+                                <label>Contraseña actual</label>
+                                <input type="password" name="password_actual" placeholder="Tu contraseña actual"
+                                    autocomplete="current-password" required>
+                            </div>
+
+                            <div class="campo">
+                                <label>Nueva contraseña</label>
+                                <input type="password" name="password_nueva" placeholder="Mínimo 8 caracteres"
+                                    autocomplete="new-password" minlength="8" required>
+                            </div>
+
+                            <div class="campo">
+                                <label>Confirmar contraseña</label>
+                                <input type="password" name="password_confirmar" placeholder="Repite la contraseña"
+                                    autocomplete="new-password" minlength="8" required>
+                            </div>
+                        </div>
+
+                        <div class="acciones-form">
+                            <button type="submit" class="boton-guardar">🔑 Cambiar contraseña</button>
+                        </div>
+                    </form>
+                </section>
+
+                <!-- NOTIFICACIONES -->
+                <section class="bloque">
+                    <div class="bloque-cab">
+                        <div class="bloque-icono">🔔</div>
+                        <div class="titulo">
+                            <h2>Notificaciones</h2>
+                            <p>Elige qué avisos quieres recibir.</p>
+                        </div>
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="accion" value="notificaciones">
+
+                        <div class="fila-switch">
+                            <div>
+                                <strong>Nuevas solicitudes de cita</strong>
+                                <small>Cuando un paciente pide una cita en línea.</small>
+                            </div>
+                            <label class="interruptor">
+                                <input type="checkbox" name="notif_solicitudes" {% if notifs.solicitudes %}checked{%endif %}>
+                                <span class="barra"></span>
+                            </label>
+                        </div>
+
+                        <div class="fila-switch">
+                            <div>
+                                <strong>Cancelaciones y cambios</strong>
+                                <small>Cuando una cita se cancela o se reprograma.</small>
+                            </div>
+                            <label class="interruptor">
+                                <input type="checkbox" name="notif_cambios" {% if notifs.cambios %}checked{% endif %}>
+                                <span class="barra"></span>
+                            </label>
+                        </div>
+
+                        <div class="fila-switch">
+                            <div>
+                                <strong>Pagos pendientes</strong>
+                                <small>Pacientes con un pago sin completar.</small>
+                            </div>
+                            <label class="interruptor">
+                                <input type="checkbox" name="notif_pagos" {% if notifs.pagos %}checked{% endif %}>
+                                <span class="barra"></span>
+                            </label>
+                        </div>
+
+                        <div class="fila-switch">
+                            <div>
+                                <strong>Resumen diario por correo</strong>
+                                <small>Un correo cada mañana con las citas del día.</small>
+                            </div>
+                            <label class="interruptor">
+                                <input type="checkbox" name="notif_resumen" {% if notifs.resumen %}checked{% endif %}>
+                                <span class="barra"></span>
+                            </label>
+                        </div>
+
+                        <div class="acciones-form">
+                            <button type="submit" class="boton-guardar">💾 Guardar notificaciones</button>
+                        </div>
+                    </form>
+                </section>
+
+                <section class="bloque" id="usuarios">
+                    <div class="bloque-cab">
+                        <div class="bloque-icono">👥</div>
+                        <div class="titulo">
+                            <h2>Pacientes</h2>
+                            <p>Registra nuevos pacientes para que puedan entrar al sistema.</p>
+                        </div>
+
+                        <div class="cab-der">
+                            <a href="{% url 'usuario_nuevo' %}" class="boton-guardar">+ Nuevo paciente</a>
+                        </div>
+                    </div>
+
+                    <div class="tabla-scroll">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Usuario</th>
+                                    <th>Correo</th>
+                                    <th>Rol</th>
+                                    <th>Estado</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for usr in usuarios %}
+                                <tr>
+                                    <td>
+                                        <div class="usuario-fila">
+                                            <div class="avatar">{{ usr.first_name|slice:":1"}}{{usr.last_name|slice:":1" }}</div>
+                                            <strong>{{ usr.get_full_name|default:usr.email }}</strong>
+                                        </div>
+                                    </td>
+                                    <td>{{ usr.email }}</td>
+                                    <td>
+                                        <span
+                                            class="etiqueta rol {% if usr.rol == 'ADMIN' %}admin{% elif usr.rol == 'MEDICO' %}medico{% elif usr.rol == 'RECEPCIONISTA' %}recep{% else %}cliente{% endif %}">
+                                            {{ usr.get_rol_display }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {% if usr.is_active %}
+                                        <span class="etiqueta on">Activo</span>
+                                        {% else %}
+                                        <span class="etiqueta off">Inactivo</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if usr.rol != "ADMIN" and not usr.is_superuser %}
+                                        <a href="{% url 'usuario_editar' usr.pk %}" class="mini-btn">Editar</a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="5">No hay usuarios registrados.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {% if usuarios.paginator.num_pages > 1 %}
+                    <nav class="paginacion">
+                        <span>{{ usuarios.paginator.count }} usuarios</span>
                         <div>
-                            <strong>Laura Díaz</strong>
-                            <small>Recepcionista</small>
+                            {% if usuarios.has_previous %}
+                            <a href="?page={{ usuarios.previous_page_number }}#usuarios">‹ Anterior</a>
+                            {% endif %}
+                            <strong>Página {{ usuarios.number }} de {{ usuarios.paginator.num_pages }}</strong>
+                            {% if usuarios.has_next %}
+                            <a href="?page={{ usuarios.next_page_number }}#usuarios">Siguiente ›</a>
+                            {% endif %}
                         </div>
-
-                    </div>
-
-                    <div class="campos c4">
-
-                        <div class="campo">
-
-                            <label>
-                                Nombre completo
-                            </label>
-
-                            <input type="text" name="nombre" value="Laura Díaz">
-
-                        </div>
-
-                        <div class="campo">
-
-                            <label>
-                                Correo electrónico
-                            </label>
-
-                            <input type="email" name="email" value="laura@clinica.com">
-
-                        </div>
-
-                        <div class="campo">
-
-                            <label>
-                                Teléfono
-                            </label>
-
-                            <input type="text" name="telefono" value="809-555-0303">
-
-                        </div>
-
-                        <div class="campo">
-
-                            <label>
-                                Cargo
-                            </label>
-
-                            <input type="text" name="cargo" value="Recepcionista">
-
-                        </div>
-
-                    </div>
-
-                    <div class="acciones-form">
-
-                        <button type="reset" class="boton-sec">
-                            Cancelar
-                        </button>
-
-                        <button type="submit" class="boton-guardar">
-                            💾 Guardar cambios
-                        </button>
-
-                    </div>
-
-                </form>
-
-            </section>
-
-
-            <!-- SEGURIDAD -->
-            <section class="bloque">
-
-                <div class="bloque-cab">
-
-                    <div class="bloque-icono">
-                        🔒
-                    </div>
-
-                    <div class="titulo">
-
-                        <h2>
-                            Seguridad
-                        </h2>
-
-                        <p>
-                            Cambia tu contraseña de acceso.
-                        </p>
-
-                    </div>
-
-                </div>
-
-                <form method="post">
-
-                    {% csrf_token %}
-
-                    <div class="campos c3">
-
-                        <div class="campo">
-
-                            <label>
-                                Contraseña actual
-                            </label>
-
-                            <input type="password" name="password_actual" placeholder="••••••••">
-
-                        </div>
-
-                        <div class="campo">
-
-                            <label>
-                                Nueva contraseña
-                            </label>
-
-                            <input type="password" name="password_nueva" placeholder="Mínimo 8 caracteres">
-
-                        </div>
-
-                        <div class="campo">
-
-                            <label>
-                                Confirmar contraseña
-                            </label>
-
-                            <input type="password" name="password_confirmar" placeholder="Repite la contraseña">
-
-                        </div>
-
-                    </div>
-
-                    <div class="acciones-form">
-
-                        <button type="submit" class="boton-guardar">
-                            🔑 Cambiar contraseña
-                        </button>
-
-                    </div>
-
-                </form>
-
-            </section>
-
-            <!-- NOTIFICACIONES -->
-            <section class="bloque">
-
-                <div class="bloque-cab">
-
-                    <div class="bloque-icono">
-                        🔔
-                    </div>
-
-                    <div class="titulo">
-
-                        <h2>
-                            Notificaciones
-                        </h2>
-
-                        <p>
-                            Elige qué avisos quieres recibir.
-                        </p>
-
-                    </div>
-
-                </div>
-
-                <form method="post">
-
-                    {% csrf_token %}
-
-                    <div class="fila-switch">
-
-                        <div>
-                            <strong>Nuevas solicitudes de cita</strong>
-                            <small>Cuando un paciente pide una cita en línea.</small>
-                        </div>
-
-                        <label class="interruptor">
-                            <input type="checkbox" name="notif_solicitudes" checked>
-                            <span class="barra"></span>
-                        </label>
-
-                    </div>
-
-                    <div class="fila-switch">
-
-                        <div>
-                            <strong>Cancelaciones y cambios</strong>
-                            <small>Cuando una cita se cancela o se reprograma.</small>
-                        </div>
-
-                        <label class="interruptor">
-                            <input type="checkbox" name="notif_cambios" checked>
-                            <span class="barra"></span>
-                        </label>
-
-                    </div>
-
-                    <div class="fila-switch">
-
-                        <div>
-                            <strong>Pagos pendientes</strong>
-                            <small>Pacientes con un pago sin completar.</small>
-                        </div>
-
-                        <label class="interruptor">
-                            <input type="checkbox" name="notif_pagos" checked>
-                            <span class="barra"></span>
-                        </label>
-
-                    </div>
-
-                    <div class="fila-switch">
-
-                        <div>
-                            <strong>Resumen diario por correo</strong>
-                            <small>Un correo cada mañana con las citas del día.</small>
-                        </div>
-
-                        <label class="interruptor">
-                            <input type="checkbox" name="notif_resumen">
-                            <span class="barra"></span>
-                        </label>
-
-                    </div>
-
-                    <div class="acciones-form">
-
-                        <button type="submit" class="boton-guardar">
-                            💾 Guardar notificaciones
-                        </button>
-
-                    </div>
-
-                </form>
-
-            </section>
-
-            <!-- ================================================
-                 AQUÍ SE AGREGARÁN MÁS SECCIONES
-                 (copia una <section class="bloque"> completa
-                  y pégala justo arriba de este comentario)
-            ================================================= -->
-
-
-        </div>
-
-
-        <footer>
-
-            <div>
-
-                <strong>
-                    Agenda al día
-                </strong>
-
-                <span>
-                    Citas siempre a la vista
-                </span>
+                    </nav>
+                    {% endif %}
+                </section>
 
             </div>
 
-            <div>
+            <footer>
+                <div><strong>Agenda al día</strong><span>Citas siempre a la vista</span></div>
+                <div><strong>Avisos de citas</strong><span>Solicitudes y cambios</span></div>
+                <div><strong>Cobros</strong><span>Pagos pendientes</span></div>
+                <div><strong>Cuenta segura</strong><span>Cambia tu contraseña cuando quieras</span></div>
+            </footer>
 
-                <strong>
-                    Avisos de citas
-                </strong>
-
-                <span>
-                    Solicitudes y cambios
-                </span>
-
-            </div>
-
-            <div>
-
-                <strong>
-                    Cobros
-                </strong>
-
-                <span>
-                    Pagos pendientes
-                </span>
-
-            </div>
-
-            <div>
-
-                <strong>
-                    Cuenta segura
-                </strong>
-
-                <span>
-                    Cambia tu contraseña cuando quieras
-                </span>
-
-            </div>
-
-        </footer>
-
-    </main>
-
-</div>
+        </main>
+    </div>
 
 </body>
 

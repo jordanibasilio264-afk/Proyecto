@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if usuario %}Editar usuario{% else %}Nuevo usuario{% endif %}</title>
+    <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
+    <link rel="stylesheet" href="{% static 'configuracion.css' %}">
+</head>
+
+<body>
+
+    <div class="pagina">
+
+        {% include 'includes/sidebar.html' %}
+
+        <main class="contenido">
+
+            <header class="encabezado">
+                <div class="encabezado-titulo">
+                    <h1>{% if usuario %}Editar usuario{% else %}Nuevo usuario{% endif %}</h1>
+                    <p>{% if usuario %}Modifica los datos, el rol o el estado de {{usuario.get_full_name|default:usuario.email }}.{% else %}Crea una cuenta para que alguien puedaentrar al sistema.{% endif %}</p>
+                </div>
+
+                <div class="usuario">
+                    <div class="notificacion">🔔</div>
+                    <div class="usuario-icono">👤</div>
+                    <div class="usuario-texto">
+                        <strong>{{ nombre_completo }}</strong>
+                        <small>{{ rol_texto }}</small>
+                    </div>
+                </div>
+            </header>
+
+            {% if form.non_field_errors %}
+            {% for e in form.non_field_errors %}
+            <div class="alerta error">{{ e }}</div>
+            {% endfor %}
+            {% endif %}
+
+            <div class="config-lista">
+                <section class="bloque">
+                    <div class="bloque-cab">
+                        <div class="bloque-icono">👥</div>
+                        <div class="titulo">
+                            <h2>{% if usuario %}Datos del usuario{% else %}Datos de la cuenta{% endif %}</h2>
+                            <p>Los campos con contraseña {% if usuario %}solo se llenan si quieres cambiarla.{%else%}son obligatorios.{% endif %}</p>
+                        </div>
+                    </div>
+
+                    <form method="post" autocomplete="off">
+                        {% csrf_token %}
+
+                        <div class="campos c3">
+                            {% for f in form %}
+                            {% if f.name != "is_active" and f.name != "medico_activo" and f.name != "paciente_activo" and f.name != "dias" %}
+                            <div class="campo">
+                                <label for="{{ f.id_for_label }}">{{ f.label }}</label>
+                                {{ f }}
+                                {% for e in f.errors %}
+                                <small class="error-campo">{{ e }}</small>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+
+                        <div id="bloque-dias" style="margin-top:16px;">
+                            <span class="etq">Días de atención del médico</span>
+                            <div class="dias">
+                                {% for d in form.dias %}
+                                <label class="dia">{{ d.tag }}<span>{{ d.choice_label }}</span></label>
+                                {% endfor %}
+                            </div>
+                            {% for e in form.dias.errors %}<small class="error-campo">{{ e }}</small>{% endfor %}
+                        </div>
+
+                        <div class="fila-switch">
+                            <div>
+                                <strong>Usuario activo</strong>
+                                <small>Si está inactivo, no puede iniciar sesión.</small>
+                            </div>
+                            <label class="interruptor">
+                                {{ form.is_active }}
+                                <span class="barra"></span>
+                            </label>
+                        </div>
+
+                        <div class="fila-switch" id="fila-medico-activo">
+                            <div>
+                                <strong>Médico activo</strong>
+                                <small>Si está inactivo, no aparece al agendar citas.</small>
+                            </div>
+                            <label class="interruptor">
+                                {{ form.medico_activo }}
+                                <span class="barra"></span>
+                            </label>
+                        </div>
+
+                        <div class="fila-switch" id="fila-paciente-activo">
+                            <div>
+                                <strong>Paciente activo</strong>
+                                <small>Si está inactivo, no aparece en las listas de pacientes.</small>
+                            </div>
+                            <label class="interruptor">
+                                {{ form.paciente_activo }}
+                                <span class="barra"></span>
+                            </label>
+                        </div>
+
+                        <div class="acciones-form">
+                            <a href="{{ volver }}" class="boton-sec">Cancelar</a>
+                            <button type="submit" class="boton-guardar">
+                                💾 {% if usuario %}Guardar cambios{% else %}Crear usuario{% endif %}
+                            </button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+
+        </main>
+    </div>
+    <script src="{% static 'js/configuracion.js' %}"></script>
+</body>
+
+</html>

@@ -2,6 +2,7 @@
 from django.core.exceptions import PermissionDenied
 from django.core.validators import FileExtensionValidator
 from django.db import models
+from django.conf import settings
 
 from apps.usuarios.base import ModeloBase
 
@@ -51,4 +52,32 @@ class ConfiguracionConsultorio(ModeloBase):
     @classmethod
     def obtener(cls):
         obj, _ = cls.objects.get_or_create(pk=1)
+        return obj
+
+    from django.conf import settings
+
+NOTIF_POR_ROL = {
+    "ADMIN": ["recordatorios", "alertas", "cambios", "resumen"],
+    "PACIENTE": ["recordatorios", "recetas", "cambios", "promociones"],
+    "MEDICO": ["nueva_cita", "cambios", "sala_espera", "resumen"],
+    "RECEPCIONISTA": ["solicitudes", "cambios", "pagos", "resumen"],
+}
+NOTIF_APAGADAS = {"resumen", "promociones"}
+
+
+class PreferenciasUsuario(ModeloBase):
+    usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+                                   related_name="preferencias")
+    notificaciones = models.JSONField(default=dict, blank=True)
+    medio_aviso = models.CharField(max_length=15, default="correo")  # notificacion/correo/sms
+    idioma = models.CharField(max_length=10, default="Español")
+    zona_horaria = models.CharField(max_length=50, default="America/Santo_Domingo")
+    formato_fecha = models.CharField(max_length=15, default="DD/MM/AAAA")
+    vista_agenda = models.CharField(max_length=10, default="Semana")
+
+    @classmethod
+    def obtener(cls, usuario):
+        obj, _ = cls.objects.get_or_create(usuario=usuario)
+        for k in NOTIF_POR_ROL.get(usuario.rol, []):
+            obj.notificaciones.setdefault(k, k not in NOTIF_APAGADAS)
         return obj

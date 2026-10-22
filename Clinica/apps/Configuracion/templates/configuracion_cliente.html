@@ -1,21 +1,14 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Configuración</title>
     <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
     <link rel="stylesheet" href="{% static 'configuracion.css' %}">
-
 </head>
-
 <body>
-
-
 
 <div class="pagina">
 
@@ -24,546 +17,261 @@
     <main class="contenido">
 
         <header class="encabezado">
-
-
             <div class="encabezado-titulo">
-
                 <h1>Configuración</h1>
-
-                <p>
-                    Administra tu información personal, tu seguro médico y tus avisos.
-                </p>
-
+                <p>Administra tu información personal, tu seguro médico y tus avisos.</p>
             </div>
-
 
             <div class="usuario">
-
-                <div class="notificacion">
-                    🔔
-                </div>
-
-                <div class="usuario-icono">
-                    👤
-                </div>
-
+                <div class="notificacion">🔔</div>
+                <div class="usuario-icono">👤</div>
                 <div class="usuario-texto">
-
-                    <strong>
-                        Juan Pérez
-                    </strong>
-
-                    <small>
-                        Cliente
-                    </small>
-
+                    <strong>{{ nombre_completo }}</strong>
+                    <small>{{ rol_texto }}</small>
                 </div>
-
             </div>
-
         </header>
 
+        {% if messages %}
+            {% for m in messages %}
+                <div class="alerta {{ m.tags }}">{{ m }}</div>
+            {% endfor %}
+        {% endif %}
 
-        <!-- TARJETAS EN CASCADA: cada <section class="bloque"> es una tarjeta -->
         <div class="config-lista">
-
 
             <!-- MI PERFIL -->
             <section class="bloque">
-
                 <div class="bloque-cab">
-
-                    <div class="bloque-icono">
-                        👤
-                    </div>
-
+                    <div class="bloque-icono">👤</div>
                     <div class="titulo">
-
-                        <h2>
-                            Mi perfil
-                        </h2>
-
-                        <p>
-                            Tu información personal.
-                        </p>
-
+                        <h2>Mi perfil</h2>
+                        <p>Tu información personal.</p>
                     </div>
-
                 </div>
 
                 <form method="post">
-
                     {% csrf_token %}
+                    <input type="hidden" name="accion" value="perfil">
 
                     <div class="perfil">
-
-                        <div class="avatar-grande">
-                            JP
-                        </div>
-
+                        <div class="avatar-grande">{{ iniciales }}</div>
                         <div>
-                            <strong>Juan Pérez</strong>
-                            <small>Cliente · Paciente #0001</small>
+                            <strong>{{ nombre_completo }}</strong>
+                            <small>{{ rol_texto }}{% if ficha %} · Paciente #{{ ficha.pk|stringformat:"04d" }}{% endif %}</small>
                         </div>
-
                     </div>
 
                     <div class="campos c4">
-
                         <div class="campo">
-
-                            <label>
-                                Nombre completo
-                            </label>
-
-                            <input type="text" name="nombre" value="Juan Pérez">
-
+                            <label>Nombre completo</label>
+                            <input type="text" name="nombre" value="{{ nombre_completo }}" required>
                         </div>
 
                         <div class="campo">
-
-                            <label>
-                                Correo electrónico
-                            </label>
-
-                            <input type="email" name="email" value="juan@correo.com">
-
+                            <label>Correo electrónico</label>
+                            <input type="email" name="email" value="{{ request.user.email }}" required>
                         </div>
 
                         <div class="campo">
-
-                            <label>
-                                Teléfono
-                            </label>
-
-                            <input type="text" name="telefono" value="809-555-0101">
-
+                            <label>Teléfono</label>
+                            <input type="text" name="telefono" value="{{ request.user.telefono }}">
                         </div>
 
                         <div class="campo">
-
-                            <label>
-                                Cédula
-                            </label>
-
-                            <input type="text" name="cedula" value="001-1234567-8">
-
+                            <label>Cédula</label>
+                            <input type="text" value="{{ ficha.cedula|default:request.user.cedula|default:'' }}" disabled>
                         </div>
 
                         <div class="campo">
-
-                            <label>
-                                Fecha de nacimiento
-                            </label>
-
-                            <input type="date" name="fecha_nacimiento" value="1990-05-14">
-
+                            <label>Fecha de nacimiento</label>
+                            <input type="date" name="fecha_nacimiento" value="{{ ficha.fecha_nacimiento|date:'Y-m-d' }}">
                         </div>
 
                         <div class="campo">
-
-                            <label>
-                                Sexo
-                            </label>
-
-                            <select name="sexo">
-
-                            <option selected>
-                                Masculino
-                            </option>
-
-                            <option>
-                                Femenino
-                            </option>
-
-                            <option>
-                                Prefiero no decirlo
-                            </option>
-
-                            </select>
-
+                            <label>Sexo</label>
+                            <input type="text" value="{{ ficha.get_sexo_display|default:'No indicado' }}" disabled>
                         </div>
 
                         <div class="campo ancho">
-
-                            <label>
-                                Dirección
-                            </label>
-
-                            <input type="text" name="direccion" value="Calle Principal #45, Tu ciudad">
-
+                            <label>Dirección</label>
+                            <input type="text" name="direccion" value="{{ ficha.direccion|default:'' }}">
                         </div>
-
                     </div>
 
                     <div class="acciones-form">
-
-                        <button type="reset" class="boton-sec">
-                            Cancelar
-                        </button>
-
-                        <button type="submit" class="boton-guardar">
-                            💾 Guardar cambios
-                        </button>
-
+                        <button type="reset" class="boton-sec">Cancelar</button>
+                        <button type="submit" class="boton-guardar">💾 Guardar cambios</button>
                     </div>
-
                 </form>
-
             </section>
-
 
             <!-- SEGURIDAD -->
             <section class="bloque">
-
                 <div class="bloque-cab">
-
-                    <div class="bloque-icono">
-                        🔒
-                    </div>
-
+                    <div class="bloque-icono">🔒</div>
                     <div class="titulo">
-
-                        <h2>
-                            Seguridad
-                        </h2>
-
-                        <p>
-                            Cambia tu contraseña de acceso.
-                        </p>
-
+                        <h2>Seguridad</h2>
+                        <p>Cambia tu contraseña de acceso.</p>
                     </div>
-
                 </div>
 
-                <form method="post">
-
+                <form method="post" autocomplete="off">
                     {% csrf_token %}
+                    <input type="hidden" name="accion" value="password">
 
                     <div class="campos c3">
-
                         <div class="campo">
-
-                            <label>
-                                Contraseña actual
-                            </label>
-
-                            <input type="password" name="password_actual" placeholder="••••••••">
-
+                            <label>Contraseña actual</label>
+                            <input type="password" name="password_actual" placeholder="Tu contraseña actual"
+                                   autocomplete="current-password" required>
                         </div>
 
                         <div class="campo">
-
-                            <label>
-                                Nueva contraseña
-                            </label>
-
-                            <input type="password" name="password_nueva" placeholder="Mínimo 8 caracteres">
-
+                            <label>Nueva contraseña</label>
+                            <input type="password" name="password_nueva" placeholder="Mínimo 8 caracteres"
+                                   autocomplete="new-password" minlength="8" required>
                         </div>
 
                         <div class="campo">
-
-                            <label>
-                                Confirmar contraseña
-                            </label>
-
-                            <input type="password" name="password_confirmar" placeholder="Repite la contraseña">
-
+                            <label>Confirmar contraseña</label>
+                            <input type="password" name="password_confirmar" placeholder="Repite la contraseña"
+                                   autocomplete="new-password" minlength="8" required>
                         </div>
-
                     </div>
 
                     <div class="acciones-form">
-
-                        <button type="submit" class="boton-guardar">
-                            🔑 Cambiar contraseña
-                        </button>
-
+                        <button type="submit" class="boton-guardar">🔑 Cambiar contraseña</button>
                     </div>
-
                 </form>
-
             </section>
 
             <!-- CONTACTO DE EMERGENCIA -->
+            {% if ficha %}
             <section class="bloque">
-
                 <div class="bloque-cab">
-
-                    <div class="bloque-icono">
-                        🚑
-                    </div>
-
+                    <div class="bloque-icono">🚑</div>
                     <div class="titulo">
-
-                        <h2>
-                            Contacto de emergencia
-                        </h2>
-
-                        <p>
-                            A quién llamamos si hay una urgencia.
-                        </p>
-
+                        <h2>Contacto de emergencia</h2>
+                        <p>A quién llamamos si hay una urgencia.</p>
                     </div>
-
                 </div>
 
                 <form method="post">
-
                     {% csrf_token %}
+                    <input type="hidden" name="accion" value="emergencia">
 
                     <div class="campos c3">
-
                         <div class="campo">
-
-                            <label>
-                                Nombre
-                            </label>
-
-                            <input type="text" name="emergencia_nombre" value="María Pérez">
-
+                            <label>Nombre</label>
+                            <input type="text" name="emergencia_nombre" value="{{ ficha.contacto_emergencia_nombre }}">
                         </div>
 
                         <div class="campo">
-
-                            <label>
-                                Parentesco
-                            </label>
-
-                            <select name="emergencia_parentesco">
-
-                            <option selected>
-                                Madre
-                            </option>
-
-                            <option>
-                                Padre
-                            </option>
-
-                            <option>
-                                Esposo/a
-                            </option>
-
-                            <option>
-                                Hermano/a
-                            </option>
-
-                            <option>
-                                Otro
-                            </option>
-
-                            </select>
-
+                            <label>Teléfono</label>
+                            <input type="text" name="emergencia_telefono" value="{{ ficha.contacto_emergencia_telefono }}">
                         </div>
-
-                        <div class="campo">
-
-                            <label>
-                                Teléfono
-                            </label>
-
-                            <input type="text" name="emergencia_telefono" value="809-555-0404">
-
-                        </div>
-
                     </div>
 
                     <div class="acciones-form">
-
-                        <button type="submit" class="boton-guardar">
-                            💾 Guardar contacto
-                        </button>
-
+                        <button type="submit" class="boton-guardar">💾 Guardar contacto</button>
                     </div>
-
                 </form>
-
             </section>
-
+            {% endif %}
 
             <!-- NOTIFICACIONES -->
             <section class="bloque">
-
                 <div class="bloque-cab">
-
-                    <div class="bloque-icono">
-                        🔔
-                    </div>
-
+                    <div class="bloque-icono">🔔</div>
                     <div class="titulo">
-
-                        <h2>
-                            Notificaciones
-                        </h2>
-
-                        <p>
-                            Elige qué avisos quieres recibir.
-                        </p>
-
+                        <h2>Notificaciones</h2>
+                        <p>Elige qué avisos quieres recibir.</p>
                     </div>
-
                 </div>
 
                 <form method="post">
-
                     {% csrf_token %}
+                    <input type="hidden" name="accion" value="notificaciones">
 
                     <div class="fila-switch">
-
                         <div>
                             <strong>Recordatorios de mis citas</strong>
                             <small>Un aviso el día antes de cada cita.</small>
                         </div>
-
                         <label class="interruptor">
-                            <input type="checkbox" name="notif_recordatorios" checked>
+                            <input type="checkbox" name="notif_recordatorios" {% if notifs.recordatorios %}checked{% endif %}>
                             <span class="barra"></span>
                         </label>
-
                     </div>
 
                     <div class="fila-switch">
-
                         <div>
                             <strong>Recetas nuevas</strong>
                             <small>Cuando tu médico te emite una receta.</small>
                         </div>
-
                         <label class="interruptor">
-                            <input type="checkbox" name="notif_recetas" checked>
+                            <input type="checkbox" name="notif_recetas" {% if notifs.recetas %}checked{% endif %}>
                             <span class="barra"></span>
                         </label>
-
                     </div>
 
                     <div class="fila-switch">
-
                         <div>
                             <strong>Cambios en mis citas</strong>
                             <small>Si una cita se cancela o se reprograma.</small>
                         </div>
-
                         <label class="interruptor">
-                            <input type="checkbox" name="notif_cambios" checked>
+                            <input type="checkbox" name="notif_cambios" {% if notifs.cambios %}checked{% endif %}>
                             <span class="barra"></span>
                         </label>
-
                     </div>
 
                     <div class="fila-switch">
-
                         <div>
                             <strong>Promociones y avisos de la clínica</strong>
                             <small>Jornadas médicas y noticias.</small>
                         </div>
-
                         <label class="interruptor">
-                            <input type="checkbox" name="notif_promociones">
+                            <input type="checkbox" name="notif_promociones" {% if notifs.promociones %}checked{% endif %}>
                             <span class="barra"></span>
                         </label>
-
                     </div>
 
                     <div class="subtitulo">¿Cómo quieres recibir los avisos?</div>
 
                     <div class="segmentado">
-
                         <label class="seg-op">
-                            <input type="radio" name="medio" value="notificacion">
+                            <input type="radio" name="medio" value="notificacion" {% if medio == "notificacion" %}checked{% endif %}>
                             <span>Notificación</span>
                         </label>
-
                         <label class="seg-op">
-                            <input type="radio" name="medio" value="correo" checked>
+                            <input type="radio" name="medio" value="correo" {% if medio == "correo" %}checked{% endif %}>
                             <span>Correo</span>
                         </label>
-
                         <label class="seg-op">
-                            <input type="radio" name="medio" value="sms">
+                            <input type="radio" name="medio" value="sms" {% if medio == "sms" %}checked{% endif %}>
                             <span>SMS</span>
                         </label>
-
                     </div>
 
                     <div class="acciones-form">
-
-                        <button type="submit" class="boton-guardar">
-                            💾 Guardar notificaciones
-                        </button>
-
+                        <button type="submit" class="boton-guardar">💾 Guardar notificaciones</button>
                     </div>
-
                 </form>
-
             </section>
-
-            <!-- ================================================
-                 AQUÍ SE AGREGARÁN MÁS SECCIONES
-                 (copia una <section class="bloque"> completa
-                  y pégala justo arriba de este comentario)
-            ================================================= -->
-
 
         </div>
 
-
         <footer>
-
-            <div>
-
-                <strong>
-                    Mis datos
-                </strong>
-
-                <span>
-                    Siempre actualizados
-                </span>
-
-            </div>
-
-            <div>
-
-                <strong>
-                    Mi seguro
-                </strong>
-
-                <span>
-                    Listo para tus citas
-                </span>
-
-            </div>
-
-            <div>
-
-                <strong>
-                    Mis avisos
-                </strong>
-
-                <span>
-                    Recibe lo que necesitas
-                </span>
-
-            </div>
-
-            <div>
-
-                <strong>
-                    Cuenta segura
-                </strong>
-
-                <span>
-                    Cambia tu contraseña cuando quieras
-                </span>
-
-            </div>
-
+            <div><strong>Mis datos</strong><span>Siempre actualizados</span></div>
+            <div><strong>Mi seguro</strong><span>Listo para tus citas</span></div>
+            <div><strong>Mis avisos</strong><span>Recibe lo que necesitas</span></div>
+            <div><strong>Cuenta segura</strong><span>Cambia tu contraseña cuando quieras</span></div>
         </footer>
 
     </main>
-
 </div>
 
 </body>
-
 </html>

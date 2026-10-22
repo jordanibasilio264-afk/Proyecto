@@ -85,14 +85,15 @@ PERMISOS_POR_ROL = {
     },
     "RECEPCIONISTA": {
         "pacientes.ver", "pacientes.crear", "pacientes.editar",
-        "medicos.ver","especialidades.ver",
+        "medicos.ver","especialidades.ver","configuracion.ver",
         "citas.ver", "citas.crear", "citas.editar", "citas.confirmar",
         "citas.cancelar", "citas.reprogramar","citas.atender",
         "seguros.ver", "seguros.crear", "seguros.editar",
-        "documentos.ver", "documentos.subir",
+        "documentos.ver", "documentos.subir","configuracion.editar",
         "pagos.ver", "pagos.crear", "pagos.generar_recibo",
         "notificaciones.ver", "notificaciones.enviar",
         "dashboard.ver","reportes.ver", "reportes.exportar",
+        "usuarios.crear","usuarios.ver",
     },
     # Solo ve lo suyo: filtra por paciente=request.user en las vistas.
     "PACIENTE": {
