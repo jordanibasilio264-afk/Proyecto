@@ -43,6 +43,11 @@
                     {{ campo.errors }}
                 </div>
                 {% endfor %}
+
+                <p class="olvido">
+                    <a href="{% url 'password_reset' %}">¿Olvidaste tu contraseña?</a>
+                </p>
+
                 <input type="hidden" name="next" value="{{ next }}">
                 <button type="submit" class="btn-login">Entrar</button>
             </form>

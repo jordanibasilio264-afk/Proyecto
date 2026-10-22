@@ -88,6 +88,43 @@ h1 {
     box-shadow: 0 0 0 3px rgba(7, 131, 138, 0.15);
 }
 
+/* Texto de ayuda (requisitos de la contraseña) */
+
+.ayuda {
+    margin-top: 8px;
+    font-size: 11.5px;
+    line-height: 1.5;
+    color: #71858c;
+    text-align: left;
+}
+
+.ayuda ul {
+    list-style: disc;
+    margin-top: 2px;
+    padding: 10px 12px 10px 28px;
+    background: #f4f8f8;
+    border: 1px solid #e3eef0;
+    border-radius: 9px;
+}
+
+.ayuda li {
+    margin-bottom: 5px;
+}
+
+.ayuda li:last-child {
+    margin-bottom: 0;
+}
+
+/* Errores de formulario */
+
+.errorlist {
+    list-style: none;
+    color: #c0392b;
+    font-size: 12px;
+    margin-top: 5px;
+    text-align: left;
+}
+
 /* Botón */
 
 .btn-registro {

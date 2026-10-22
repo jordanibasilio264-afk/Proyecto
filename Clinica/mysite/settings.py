@@ -163,6 +163,8 @@ MAILERS = {
     },
 }
 
+DEFAULT_FROM_EMAIL = "Clínica Médica <no-reply@clinica.com>"   # ← agregar esta línea
+
 AUTH_USER_MODEL = "usuarios.Usuarios"
 
 LOGIN_URL = "login"

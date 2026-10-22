@@ -88,6 +88,16 @@ h1 {
     box-shadow: 0 0 0 3px rgba(7, 131, 138, 0.15);
 }
 
+/* Errores de formulario */
+
+.errorlist {
+    list-style: none;
+    color: #c0392b;
+    font-size: 12px;
+    margin-top: 4px;
+    text-align: left;
+}
+
 /* Botón */
 
 .btn-login {
@@ -134,7 +144,7 @@ a:hover {
     font-size: 12px;
 }
 
-/* ¿Olvidaste tu contraseña? (opcional) */
+/* ¿Olvidaste tu contraseña? */
 
 .olvido {
     text-align: right;
