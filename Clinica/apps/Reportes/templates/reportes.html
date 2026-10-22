@@ -40,10 +40,10 @@
                     </div>
                     <div class="usuario-texto">
                         <strong>
-                            Dr. Alejandro
+                            {{ request.user.email|default:request.user.email }}
                         </strong>
                         <small>
-                            Administrador
+                            {{ request.user.rol|default:request.user.rol }}
                         </small>
                     </div>
                 </div>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ titulo }}</title>
+  <style>
+    /* CSS dentro del HTML a propósito: xhtml2pdf no carga archivos estáticos
+       sin un link_callback, y así no depende de ningún archivo externo. */
+    @page {
+      size: letter portrait;
+      margin: 1.8cm 1.5cm 2.2cm 1.5cm;
+
+      @frame pie_frame {
+        -pdf-frame-content: pie;
+        left: 1.5cm;
+        width: 18.59cm;
+        top: 26.2cm;
+        height: 1cm;
+      }
+    }
+
+    body {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 9.5pt;
+      color: #1f2937;
+    }
+
+    /* ---------- Encabezado ---------- */
+    table.encabezado {
+      width: 100%;
+      border-bottom: 2pt solid #075875;
+      padding-bottom: 6pt;
+    }
+    table.encabezado td { vertical-align: middle; }
+    .clinica {
+      font-size: 15pt;
+      font-weight: bold;
+      color: #075875;
+    }
+    .clinica-sub {
+      font-size: 8.5pt;
+      color: #6b7280;
+    }
+    .meta {
+      text-align: right;
+      font-size: 8.5pt;
+      color: #4b5563;
+    }
+
+    /* ---------- Título ---------- */
+    h1.titulo {
+      font-size: 18pt;
+      color: #111827;
+      margin: 14pt 0 2pt 0;
+    }
+    .periodo {
+      font-size: 9.5pt;
+      color: #6b7280;
+      margin-bottom: 10pt;
+    }
+
+    /* ---------- Resumen ---------- */
+    table.resumen {
+      width: 100%;
+      background-color: #e3f5f4;
+      border: 0.5pt solid #b7dedb;
+      margin-bottom: 10pt;
+    }
+    table.resumen td {
+      padding: 6pt 8pt;
+      font-size: 9pt;
+    }
+    .resumen-valor {
+      font-size: 12pt;
+      font-weight: bold;
+      color: #075875;
+    }
+
+    /* ---------- Tabla de datos ---------- */
+    table.datos {
+      width: 100%;
+      border: 0.5pt solid #cbd5d9;
+    }
+    table.datos th {
+      background-color: #075875;
+      color: #ffffff;
+      font-size: 8.5pt;
+      text-align: left;
+      padding: 5pt 5pt;
+      border: 0.5pt solid #075875;
+    }
+    table.datos td {
+      font-size: 8.5pt;
+      padding: 4pt 5pt;
+      border: 0.5pt solid #d6e3e6;
+      vertical-align: top;
+    }
+    tr.par   td { background-color: #ffffff; }
+    tr.impar td { background-color: #f1f7f8; }
+
+    .vacio {
+      text-align: center;
+      color: #6b7280;
+      padding: 14pt;
+    }
+
+    /* ---------- Firmas ---------- */
+    table.firmas {
+      width: 100%;
+      margin-top: 36pt;
+    }
+    table.firmas td {
+      width: 50%;
+      text-align: center;
+      font-size: 9pt;
+      padding: 0 24pt;
+    }
+    .linea-firma {
+      border-top: 0.5pt solid #1f2937;
+      padding-top: 3pt;
+    }
+
+    /* ---------- Pie de página (se repite en cada hoja) ---------- */
+    #pie {
+      font-size: 8pt;
+      color: #6b7280;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Pie: aparece en todas las páginas -->
+  <div id="pie">
+    Documento generado automáticamente &nbsp;·&nbsp;
+    Página <pdf:pagenumber> de <pdf:pagecount>
+  </div>
+
+  <!-- Encabezado -->
+  <table class="encabezado">
+    <tr>
+      <td>
+        <div class="clinica">Clínica Médica General y Familiar</div>
+        <div class="clinica-sub">Reporte del sistema</div>
+      </td>
+      <td class="meta">
+        <b>Fecha:</b> {{ fecha|date:"d/m/Y H:i" }}<br>
+        <b>Generado por:</b> {{ generado_por.get_full_name|default:generado_por.email }}
+      </td>
+    </tr>
+  </table>
+
+  <!-- Título -->
+  <h1 class="titulo">{{ titulo }}</h1>
+  <div class="periodo">
+    Período: {{ desde|default:"inicio" }} &nbsp;al&nbsp; {{ hasta|default:"hoy" }}
+  </div>
+
+  <!-- Resumen -->
+  <table class="resumen">
+    <tr>
+      <td>
+        <span class="resumen-valor">{{ filas|length }}</span><br>
+        Total de registros
+      </td>
+      <td>
+        <span class="resumen-valor">{{ encabezados|length }}</span><br>
+        Columnas
+      </td>
+    </tr>
+  </table>
+
+  <!-- Detalle -->
+  <table class="datos" repeat="1">
+    <thead>
+      <tr>
+        {% for h in encabezados %}
+          <th>{{ h }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for fila in filas %}
+        <tr class="{% cycle 'par' 'impar' %}">
+          {% for celda in fila %}
+            <td>{{ celda }}</td>
+          {% endfor %}
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="{{ encabezados|length }}" class="vacio">
+            No hay registros para el período seleccionado.
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Firmas -->
+  <table class="firmas">
+    <tr>
+      <td><div class="linea-firma">Elaborado por</div></td>
+      <td><div class="linea-firma">Revisado / Aprobado por</div></td>
+    </tr>
+  </table>
+
+</body>
+</html>
