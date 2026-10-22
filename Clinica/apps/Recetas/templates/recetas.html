@@ -311,11 +311,7 @@
 
             <!-- Pie de tabla -->
             <footer class="recetas-table-footer">
-                <span>
-                    Mostrando {{ total_recetas|default:"0" }}
-                    receta(s)
-                </span>
-
+                
                 <div class="recetas-pagination">
                     {% if recetas.has_previous %}
                     <a href="?pagina={{ recetas.previous_page_number }}"

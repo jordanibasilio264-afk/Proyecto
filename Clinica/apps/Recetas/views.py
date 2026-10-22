@@ -131,7 +131,10 @@ def recetas(request):
         return HttpResponseForbidden(
             "Tu rol no tiene acceso a esta sección."
         )
-
+# Total de recetas creadas hoy, sin depender de los filtros de la tabla.
+    recetas_hoy = recetas_lista.filter(
+    fecha__date=hoy
+).count()
     # Filtros de la página administrativa.
     busqueda = request.GET.get("buscar", "").strip()
     estado_filtro = request.GET.get("estado", "").strip()
@@ -181,10 +184,7 @@ def recetas(request):
     contexto = {
         "recetas": recetas_administrativas,
         "total_recetas": len(recetas_administrativas),
-        "recetas_hoy": sum(
-            receta.fecha.date() == hoy
-            for receta in recetas_administrativas
-        ),
+        "recetas_hoy": recetas_hoy,
         "recetas_vigentes": sum(
             receta.estado_codigo == "vigente"
             for receta in recetas_administrativas
@@ -241,8 +241,8 @@ def crear_receta(request):
 
 
     medicamentos = Medicamento.objects.filter(
-        activo=True
-    ).order_by("nombre_comercial")
+    activo=True
+).order_by("id")
 
     errores = []
 
@@ -623,7 +623,7 @@ def editar_receta(request, receta_id):
             | Q(usos_en_recetas__receta=receta)
         )
         .distinct()
-        .order_by("nombre_comercial")
+        .order_by("id")
     )
 
     errores = []

@@ -1,0 +1,221 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if modo == "editar" %}Editar medicamento{% else %}Nuevo medicamento{% endif %} - Clínica Médica</title>
+
+    <link rel="stylesheet" href="{% static 'css/siderbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/medicamentos.css' %}">
+
+    <style>
+        .medicine-form-page {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 24px 40px;
+        }
+
+        .medicine-form-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .medicine-form-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+        }
+
+        .medicine-form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .medicine-form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .medicine-form-field.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .medicine-form-field label {
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .medicine-form-field input,
+        .medicine-form-field select,
+        .medicine-form-field textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 11px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font: inherit;
+            background: #fff;
+        }
+
+        .medicine-form-field input:focus,
+        .medicine-form-field select:focus,
+        .medicine-form-field textarea:focus {
+            outline: 2px solid #149d94;
+            outline-offset: 1px;
+        }
+
+        .medicine-form-error {
+            color: #b91c1c;
+            font-size: 0.9rem;
+        }
+
+        .medicine-form-help {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        .medicine-form-actions {
+            display: flex;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 28px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .medicine-form-button {
+            display: inline-block;
+            padding: 11px 18px;
+            border: 0;
+            border-radius: 8px;
+            text-decoration: none;
+            font: inherit;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .medicine-form-button.primary {
+            background: #149d94;
+            color: #ffffff;
+        }
+
+        .medicine-form-button.secondary {
+            background: #f1f5f9;
+            color: #334155;
+        }
+
+        .medicine-form-button:hover {
+            opacity: 0.9;
+        }
+
+        .medicine-form-error-list {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        @media (max-width: 650px) {
+            .medicine-form-page {
+                padding: 0 14px 28px;
+            }
+
+            .medicine-form-card {
+                padding: 18px;
+            }
+
+            .medicine-form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .medicine-form-field.full-width {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    {% include "includes/sidebar.html" %}
+
+    <main class="content medicine-form-page">
+        <header class="medicine-form-header">
+            <div>
+                <p>GESTIÓN CLÍNICA / MEDICAMENTOS</p>
+                <h1>
+                    {% if modo == "editar" %}
+                        Editar medicamento
+                    {% else %}
+                        Registrar medicamento
+                    {% endif %}
+                </h1>
+                <p>Completa la información del medicamento en el catálogo clínico.</p>
+            </div>
+
+            <a href="{% url 'medicamentos' %}"
+               class="medicine-form-button secondary">
+                Volver al catálogo
+            </a>
+        </header>
+
+        <section class="medicine-form-card">
+            <form method="post">
+                {% csrf_token %}
+
+                {% if formulario.non_field_errors %}
+                    <div class="medicine-form-error">
+                        {{ formulario.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <div class="medicine-form-grid">
+                    {% for field in formulario %}
+                        <div class="medicine-form-field {% if field.name == 'indicaciones' or field.name == 'contraindicaciones' %}full-width{% endif %}">
+                            <label for="{{ field.id_for_label }}">
+                                {{ field.label }}
+                                {% if field.field.required %}<span aria-hidden="true">*</span>{% endif %}
+                            </label>
+
+                            {{ field }}
+
+                            {% if field.help_text %}
+                                <span class="medicine-form-help">{{ field.help_text }}</span>
+                            {% endif %}
+
+                            {% for error in field.errors %}
+                                <span class="medicine-form-error">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="medicine-form-actions">
+                    <a href="{% url 'medicamentos' %}"
+                       class="medicine-form-button secondary">
+                        Cancelar
+                    </a>
+
+                    <button type="submit"
+                            class="medicine-form-button primary">
+                        {% if modo == "editar" %}
+                            Guardar cambios
+                        {% else %}
+                            Registrar medicamento
+                        {% endif %}
+                    </button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+</body>
+</html>

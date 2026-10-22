@@ -224,7 +224,7 @@
                     {% for medicamento in medicamentos %}
                         {% if medicamento.activo %}
                             <option value="{{ medicamento.pk }}">
-                                {{ medicamento.nombre_comercial }} — {{ medicamento.nombre_generico }}{% if medicamento.concentracion %} ({{ medicamento.concentracion }}){% endif %}
+                            {{ medicamento.nombre_comercial }} — {{ medicamento.nombre_generico }}{% if medicamento.concentracion %} ({{ medicamento.concentracion }}){% endif %} ({{ medicamento.get_forma_display }})
                             </option>
                         {% endif %}
                     {% endfor %}
