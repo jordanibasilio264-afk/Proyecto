@@ -789,7 +789,7 @@ footer span {
 .alerta.success { background: #e6f6ee; color: #146c43; border: 1px solid #b7e4cc; }
 .alerta.error   { background: #fdecec; color: #9b1c1c; border: 1px solid #f5c2c2; }
 
-a.boton-guardar, a.boton-sec { text-decoration: none; display: inline-block; }
+a.boton-guardar, a.boton-sec { text-decoration: none; display: flex; justify-content: center; align-items: center; }
 
 .error-campo { color: #9b1c1c; font-size: 12px; margin-top: 4px; display: block; }
 

@@ -17,9 +17,9 @@
   <main class="main-content">
     <header class="barra">
       <div class="barra-interna">
-        
         {% if user.is_authenticated %}
-        <span class="barra-usuario">{{ user.get_full_name|default:user.email }}</span>
+        <a href="{% url 'notificaciones' %}">🔔</a>
+        <span class="barra-usuario">{{ user.email|default:user.email }}</span>
         {% endif %}
       </div>
     </header>

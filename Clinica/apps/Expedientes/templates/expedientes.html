@@ -16,13 +16,10 @@
 
   <main class="main-content">
     <header class="main-header">
-      <div>
-        <h2 class="header-title">Expediente Clínico Digital</h2>
-      </div>
       <div class="user-status-container">
         <a href="{% url 'notificaciones' %}">🔔</a>
         <div class="user-profile">
-          <span>{{ request.user.email|default:request.user.email }}</span>
+          <p>{{ request.user.email|default:request.user.email }}</p>
           <i class="user-avatar"></i>
         </div>
       </div>

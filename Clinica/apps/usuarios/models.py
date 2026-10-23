@@ -76,7 +76,7 @@ PERMISOS_POR_ROL = {
         "citas.ver", "citas.editar", "citas.confirmar","citas.atender",
         "consultas.ver", "citas.crear", "consultas.crear", "consultas.editar",
         "expedientes.ver", "expedientes.crear", "expedientes.editar",
-        "expedientes.descargar_pdf",
+        "expedientes.descargar_pdf","configuracion.editar",
         "recetas.ver", "recetas.crear", "recetas.editar", "recetas.imprimir",
         "medicamentos.ver","configuracion.ver",
         "documentos.ver", "documentos.subir",

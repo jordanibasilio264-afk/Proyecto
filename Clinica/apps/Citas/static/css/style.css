@@ -40,7 +40,7 @@ body.page-body {
 
 .main-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: end;
     align-items: center;
     margin-bottom: 2rem;
 }
@@ -549,3 +549,9 @@ a.shortcut-card {
 .acciones-menu button:hover {
     background: #f1f5f9;
 }
+
+.alerta { padding: 12px 16px; border-radius: 8px; margin: 12px 0; font-size: 14px; }
+.alerta.success { background: #e6f4ea; color: #1e6b34; border: 1px solid #b7dfc2; }
+.alerta.error   { background: #fdecea; color: #a12622; border: 1px solid #f5c2be; }
+.alerta ul { margin: 6px 0 0 18px; padding: 0; }
+.field-error { color: #a12622; display: block; margin-top: 4px; }

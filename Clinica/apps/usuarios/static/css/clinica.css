@@ -42,16 +42,14 @@ h1 { font-size: 1.6rem; margin: 0 0 .25rem; }
   color: #000;
 }
 .barra-interna {
-  margin: 0 auto;
-  padding: .75rem 1rem;
+  padding: 1.5rem 1.5rem 0.5rem;
   display: flex;
   justify-content: end;
-  gap: 1.5rem;
 }
 .barra-marca { font-weight: 700; font-size: 1.1rem; }
 .barra a { color: #fff; text-decoration: none; opacity: .9; }
 .barra a:hover { opacity: 1; text-decoration: underline; }
-.barra-usuario { margin-left: auto; font-size: .9rem; opacity: .9; }
+.barra-usuario { display: flex; margin-left: 0.75rem; opacity: .9; }
 
 /* ---------- Mensajes ---------- */
 .mensaje {

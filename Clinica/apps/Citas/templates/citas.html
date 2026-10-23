@@ -63,10 +63,10 @@
             {# Búsqueda y filtros (GET: no lleva csrf_token) #}
             <form method="get" class="filter-bar">
                 {% for campo in filtro %}
-                    {% if not request.user.es_paciente or campo.name != "medico" %}
-                    <div>{{ campo.label_tag }} {{ campo }}</div>
-                    {% endif %}
-                {% endfor %}    
+                {% if not request.user.es_paciente or campo.name != "medico" %}
+                <div>{{ campo.label_tag }} {{ campo }}</div>
+                {% endif %}
+                {% endfor %}
                 <div><button type="submit" class="save-btn">Filtrar</button></div>
                 <div><a href="{% url 'citas' %}" class="save-a">Limpiar</a></div>
             </form>
@@ -93,7 +93,7 @@
                             <td class="table-td td-highlight">{{ c.paciente }}</td>
                             <td class="table-td td-muted">{{ c.medico }}</td>
                             <td class="table-td td-muted">
-                                {% for e in c.medico.especialidades.all %}{{ e.nombre }}{% if not forloop.last %}, 
+                                {% for e in c.medico.especialidades.all %}{{ e.nombre }}{% if not forloop.last %},
                                 {%endif %}{% empty %}-{% endfor %}
                             </td>
                             <td class="table-td td-muted">{{ c.inicio|date:"d/m/Y" }}</td>
@@ -168,13 +168,23 @@
             </div>
 
             {# action vacío = envía a esta misma página (/citas/) #}
-            <form id="createCitaForm" method="POST" action="{% url 'citas' %}" novalidate>
+            <form id="createCitaForm" method="POST" action="{% url 'citas' %}">
 
                 {% csrf_token %}
 
                 <div class="form-section">
 
-                    {{ form.non_field_errors }}
+                    {% if form.errors %}
+                    <div class="alerta error" role="alert">
+                        <strong>No se pudo guardar la cita:</strong>
+                        <ul>
+                            {% for error in form.non_field_errors %}<li>{{ error }}</li>{% endfor %}
+                            {% for campo in form %}
+                            {% for error in campo.errors %}<li>{{ campo.label }}: {{ error }}</li>{% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
 
                     <div class="form-grid">
                         {% for campo in form.visible_fields %}
@@ -200,6 +210,17 @@
         </div>
     </div>
     {% endif %}
+
+    {% if abrir_modal %}
+    <script>
+        // Reabre el modal simulando el clic del botón "Registrar Citas"
+        document.addEventListener("DOMContentLoaded", function () {
+            var btn = document.getElementById("openRegistro");
+            if (btn) btn.click();
+        });
+    </script>
+    {% endif %}
+
 
     <script src="{% static 'js/base.js' %}"></script>
 </body>

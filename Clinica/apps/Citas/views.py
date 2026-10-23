@@ -15,6 +15,18 @@ from apps.usuarios.decorators import requiere_permiso
 from .forms import CancelarCitaForm, CitaForm, FiltroCitaForm, ReprogramarCitaForm
 from .models import Cita
 
+def _errores_legibles(form):
+    """Convierte form.errors en una lista de textos: 'Campo: motivo'."""
+    mensajes = []
+    for campo, errores in form.errors.items():
+        if campo == "__all__":
+            prefijo = ""
+        else:
+            etiqueta = form.fields[campo].label if campo in form.fields else campo
+            prefijo = f"{etiqueta}: "
+        for e in errores:
+            mensajes.append(f"{prefijo}{e}")
+    return mensajes
 
 def _citas_visibles(usuario):
     """Cada rol ve solo lo que le corresponde."""
@@ -40,7 +52,6 @@ def _pagina_formulario(request, form, titulo, boton="Guardar"):
 def citas(request):
     usuario = request.user
     form = CitaForm(usuario=usuario)
-    abrir_modal = False
 
     if request.method == "POST":
         if not usuario.tiene_permiso("citas.crear"):
@@ -49,8 +60,10 @@ def citas(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Cita registrada correctamente.")
-            return redirect("citas")
-        abrir_modal = True  # vuelve a abrir el modal mostrando los errores
+        else:
+            for m in _errores_legibles(form):
+                messages.error(request, m)
+        return redirect("citas")  # siempre redirige: F5 ya no reenvía el POST
 
     lista = _citas_visibles(usuario)
     filtro = FiltroCitaForm(request.GET or None, usuario=usuario)
@@ -64,7 +77,6 @@ def citas(request):
 
     return render(request, "citas.html", {
         "citas": lista, "filtro": filtro, "form": form,
-        "abrir_modal": abrir_modal, "hoy": timezone.localdate(),
         "mostrando_todas": filtrando or bool(request.GET.get("todas")),
     })
 
