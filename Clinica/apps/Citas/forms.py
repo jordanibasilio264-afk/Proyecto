@@ -5,10 +5,10 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.utils import timezone
-
 from apps.usuarios.forms_base import EstiloFormMixin, FiltroFechasForm, buscar_texto
 from apps.usuarios.models import Medico, Paciente
-
+from django.db.models import Value
+from django.db.models.functions import Concat
 from .models import Cita
 
 
@@ -32,17 +32,28 @@ class CitaForm(EstiloFormMixin, forms.ModelForm):
     - Si el usuario es Paciente, la cita se asigna a él automáticamente.
     - Si es Médico, la cita se asigna a su propia agenda."""
 
+    paciente_nombre = forms.CharField(
+        label="Paciente",
+        max_length=150,
+        widget=forms.TextInput(attrs={
+            "placeholder": "Nombre y apellido del paciente",
+            "list": "lista-pacientes",
+            "autocomplete": "off",
+        }),
+    )
+
     class Meta:
         model = Cita
-        fields = ["paciente", "medico", "inicio", "duracion_minutos", "motivo", "notas"]
+        fields = ["medico", "inicio", "duracion_minutos", "motivo", "notas"]
         widgets = {"notas": forms.Textarea(attrs={"rows": 3})}
         labels = {"inicio": "Fecha y hora", "duracion_minutos": "Duración (min)"}
+
+    field_order = ["paciente_nombre", "medico", "inicio", "duracion_minutos", "motivo", "notas"]
 
     def __init__(self, *args, usuario=None, **kwargs):
         super().__init__(*args, **kwargs)
         self.usuario = usuario
         self._error_perfil = None
-        self.fields["paciente"].queryset = Paciente.objects.filter(activo=True)
         self.fields["medico"].queryset = (
             Medico.objects.filter(activo=True)
             .select_related("usuario").prefetch_related("especialidades")
@@ -50,9 +61,15 @@ class CitaForm(EstiloFormMixin, forms.ModelForm):
         self.fields["medico"].label_from_instance = self._etiqueta_medico
         self.fields["duracion_minutos"].widget.attrs.update({"min": 5, "max": 240, "step": 5})
 
+        self.pacientes_sugeridos = Paciente.objects.filter(activo=True).order_by("nombres", "apellidos")
+
+        if self.instance.pk and self.instance.paciente_id:
+            p = self.instance.paciente
+            self.fields["paciente_nombre"].initial = f"{p.nombres} {p.apellidos}"
+        
         if usuario is not None and usuario.es_paciente:
             perfil = getattr(usuario, "perfil_paciente", None)
-            del self.fields["paciente"]
+            del self.fields["paciente_nombre"]
             if perfil is None:
                 self._error_perfil = "Tu cuenta no tiene un perfil de paciente asociado."
             else:
@@ -81,6 +98,8 @@ class CitaForm(EstiloFormMixin, forms.ModelForm):
         datos = super().clean()
         if self._error_perfil:
             raise ValidationError(self._error_perfil)
+        if isinstance(datos.get("paciente_nombre"), Paciente):
+            self.instance.paciente = datos["paciente_nombre"]
         inicio, duracion = datos.get("inicio"), datos.get("duracion_minutos")
         medico = datos.get("medico") or getattr(self.instance, "medico", None)
         if inicio and duracion and medico:
@@ -93,8 +112,24 @@ class CitaForm(EstiloFormMixin, forms.ModelForm):
                     self.add_error("inicio", e)
         return datos
 
+    def clean_paciente_nombre(self):
+        nombre = " ".join(self.cleaned_data["paciente_nombre"].split())
+        coincidencias = (
+            Paciente.objects.filter(activo=True)
+            .annotate(nombre_busqueda=Concat("nombres", Value(" "), "apellidos"))
+            .filter(nombre_busqueda__iexact=nombre)
+        )
+        total = coincidencias.count()
+        if total == 0:
+            raise ValidationError("No existe un paciente activo con ese nombre y apellido.")
+        if total > 1:
+            raise ValidationError("Hay varios pacientes con ese nombre. Escribe el nombre completo exacto.")
+        return coincidencias.first()
+
     def save(self, commit=True):
         cita = super().save(commit=False)
+        if "paciente_nombre" in self.cleaned_data:
+            cita.paciente = self.cleaned_data["paciente_nombre"]
         if cita._state.adding and self.usuario is not None:
             cita.creada_por = self.usuario
         if commit:
@@ -194,8 +229,8 @@ class FiltroCitaForm(FiltroFechasForm):
 
     def __init__(self, *args, usuario=None, **kwargs):
         super().__init__(*args, **kwargs)
+        self.usuario = usuario
         if usuario is not None and usuario.es_paciente:
-            # El paciente no busca por paciente/cédula ni elige entre todos los médicos.
             self.fields["q"].widget.attrs["placeholder"] = "Motivo de la cita"
             self.fields["medico"].queryset = Medico.objects.filter(
                 citas__paciente__usuario=usuario
@@ -203,13 +238,13 @@ class FiltroCitaForm(FiltroFechasForm):
 
     def filtrar(self, qs):
         datos = self.cleaned_data
-        qs = buscar_texto(qs, datos.get("q"),
-                          ["paciente__nombres", "paciente__apellidos", "paciente__cedula", "motivo"])
+        if self.usuario is not None and self.usuario.es_paciente:
+            campos = ["motivo"]
+        else:
+            campos = ["paciente__nombres", "paciente__apellidos", "paciente__cedula", "motivo"]
+        qs = buscar_texto(qs, datos.get("q"), campos)
         if datos.get("medico"):
             qs = qs.filter(medico=datos["medico"])
         if datos.get("estado"):
             qs = qs.filter(estado=datos["estado"])
-        campos = ["motivo"] if getattr(self, "usuario", None) and self.usuario.es_paciente else \
-         ["paciente__nombres", "paciente__apellidos", "paciente__cedula", "motivo"]
-        qs = buscar_texto(qs, datos.get("q"), campos)
         return self.filtrar_fechas(qs, "inicio")

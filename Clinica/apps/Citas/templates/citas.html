@@ -196,6 +196,14 @@
                         {% endfor %}
                     </div>
 
+                    {% if "paciente_nombre" in form.fields %}
+                    <datalist id="lista-pacientes">
+                        {% for p in form.pacientes_sugeridos %}
+                        <option value="{{ p.nombres }} {{ p.apellidos }}"></option>
+                        {% endfor %}
+                    </datalist>
+                    {% endif %}
+
                     <div class="modal-actions">
                         <button type="button" class="cancel-btn" id="cancelRegistModal">
                             Cancelar
