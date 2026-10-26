@@ -1,0 +1,28 @@
+{% if page.paginator.num_pages > 1 %}
+<nav class="paginacion" aria-label="Paginación">
+  <span class="pag-info">Mostrando {{ page.start_index }}–{{ page.end_index }} de {{ page.paginator.count }}</span>
+  <div class="pag-botones">
+    {% if page.has_previous %}
+      <a href="?{{ qs }}{% if qs %}&{% endif %}{{ param }}={{ page.previous_page_number }}#{{ ancla }}">‹ Anterior</a>
+    {% else %}
+      <span class="off">‹ Anterior</span>
+    {% endif %}
+
+    {% for p in page.rango %}
+      {% if p == page.number %}
+        <span class="activa" aria-current="page">{{ p }}</span>
+      {% elif p == "…" %}
+        <span class="puntos">…</span>
+      {% else %}
+        <a href="?{{ qs }}{% if qs %}&{% endif %}{{ param }}={{ p }}#{{ ancla }}">{{ p }}</a>
+      {% endif %}
+    {% endfor %}
+
+    {% if page.has_next %}
+      <a href="?{{ qs }}{% if qs %}&{% endif %}{{ param }}={{ page.next_page_number }}#{{ ancla }}">Siguiente ›</a>
+    {% else %}
+      <span class="off">Siguiente ›</span>
+    {% endif %}
+  </div>
+</nav>
+{% endif %}

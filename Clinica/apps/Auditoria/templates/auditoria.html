@@ -36,7 +36,7 @@
   </section>
 
   <!-- HISTORIAL DE ACTIVIDADES -->
-  <section class="bloque">
+  <section class="bloque" id="historial">
     <div class="bloque-titulo">
       <div class="titulo">
         <h2>Historial de actividades</h2>
@@ -101,10 +101,11 @@
         </tbody>
       </table>
     </div>
+    {% include 'includes/paginacion.html' with page=registros param='pag_act' qs=qs_act ancla='historial' %}
   </section>
 
   <!-- ACCESOS AL SISTEMA -->
-  <section class="bloque">
+  <section class="bloque" id="accesos">
     <div class="bloque-titulo">
       <div class="titulo">
         <h2>Accesos al sistema</h2>
@@ -138,6 +139,7 @@
         </tbody>
       </table>
     </div>
+    {% include 'includes/paginacion.html' with page=accesos param='pag_acc' qs=qs_acc ancla='accesos' %}
   </section>
 
   <footer>

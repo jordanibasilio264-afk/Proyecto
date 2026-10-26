@@ -73,6 +73,21 @@ td.vacio { text-align: center; color: var(--gris); padding: 28px; }
 .etiqueta.editar { background: #e3f0fb; color: #2b6cb0; }
 .etiqueta.eliminar, .etiqueta.cancelar, .etiqueta.login_fallido { background: #fbe7e7; color: #a54c4c; }
 
+/* Paginación */
+.paginacion { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 14px; }
+.pag-info { font-size: 11px; color: var(--gris); }
+.pag-botones { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+.pag-botones a, .pag-botones span {
+    min-width: 32px; height: 32px; padding: 0 10px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 8px; font-size: 11px; font-weight: bold;
+}
+.pag-botones a { color: var(--teal); background: #fff; border: 1px solid #d6e3e6; }
+.pag-botones a:hover { background: var(--suave); }
+.pag-botones .activa { color: #fff; background: #07838a; border: 1px solid #07838a; }
+.pag-botones .off { color: #a9b8bd; border: 1px solid #edf2f3; }
+.pag-botones .puntos { color: var(--gris); min-width: auto; padding: 0 2px; }
+
 /* Pie */
 footer { padding: 15px 20px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
 footer div { display: flex; flex-direction: column; gap: 3px; }
@@ -93,4 +108,7 @@ footer span { font-size: 9px; color: var(--gris); }
     .bloque { padding: 15px; }
     .bloque-titulo { align-items: flex-start; }
     .boton-consultar { width: 100%; }
+}
+@media (max-width: 768px) {
+    .paginacion { justify-content: center; }
 }
